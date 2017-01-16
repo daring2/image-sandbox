@@ -3,11 +3,12 @@ package com.gitlab.daring.sandbox.javacv;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter;
+import java.util.function.Consumer;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import static org.bytedeco.javacpp.opencv_core.LUT;
 import static org.bytedeco.javacpp.opencv_imgcodecs.IMREAD_COLOR;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
+import static org.bytedeco.javacpp.opencv_imgproc.equalizeHist;
 
 class JavaCvUtils {
 
@@ -27,9 +28,13 @@ class JavaCvUtils {
 		frame.showImage(new OpenCVFrameConverter.ToMat().convert(m));
 	}
 
-	static Mat applyLookUp(Mat m, Mat l) {
+	static Mat equalizeHistogram(Mat m) {
+		return buildImage(r -> equalizeHist(m, r));
+	}
+
+	static Mat buildImage(Consumer<Mat> func) {
 		Mat r = new Mat();
-		LUT(m, l, r);
+		func.accept(r);
 		return r;
 	}
 
