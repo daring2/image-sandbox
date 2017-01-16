@@ -29,18 +29,18 @@ class JavaCvUtils {
 		frame.showImage(new OpenCVFrameConverter.ToMat().convert(m));
 	}
 
-	static Mat equalizeHistogram(Mat m) {
-		return buildImage(r -> equalizeHist(m, r));
-	}
-
-	static Mat buildImage(Consumer<Mat> func) {
+	static Mat buildMat(Consumer<Mat> func) {
 		Mat r = new Mat();
 		func.accept(r);
 		return r;
 	}
 
+	static Mat equalizeHistogram(Mat m) {
+		return buildMat(r -> equalizeHist(m, r));
+	}
+
 	static Mat normalizeImage(Mat m) {
-		return buildImage(r -> normalize(m, r));
+		return buildMat(r -> normalize(m, r));
 	}
 
 	static Mat buildHistogram(Mat m) {
