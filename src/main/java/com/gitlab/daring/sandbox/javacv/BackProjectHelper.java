@@ -4,19 +4,31 @@ import org.bytedeco.javacpp.FloatPointer;
 import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.PointerPointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.buildMat;
-import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.normalizeImage;
+
+import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.*;
 import static org.bytedeco.javacpp.opencv_imgproc.calcBackProject;
 
 class BackProjectHelper {
 
+	private int[] channels = new int[] {0, 1, 2};
+	private float[] range = new float[] {0, 255};
+
 	Mat calculate(Mat m, Mat h) {
 		return buildMat(r -> {
-			IntPointer chs = new IntPointer(0, 1, 2);
-			float[] hr = {0, 255};
-			PointerPointer<FloatPointer> hrs = new PointerPointer<>(hr, hr, hr);
-			calcBackProject(m, 1, chs, normalizeImage(h), r, hrs, 255, true);
+			IntPointer chs = intPointer(channels);
+			PointerPointer<FloatPointer> rs = new PointerPointer<>(range, range, range);
+			calcBackProject(m, 1, chs, normalizeImage(h), r, rs, 255, true);
 		});
+	}
+
+	BackProjectHelper setChannels(int... channels) {
+		this.channels = channels;
+		return this;
+	}
+
+	BackProjectHelper setRange(float... range) {
+		this.range = range;
+		return this;
 	}
 
 }
