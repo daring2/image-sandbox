@@ -5,6 +5,7 @@ import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import static org.bytedeco.javacpp.opencv_core.LUT;
 import static org.bytedeco.javacpp.opencv_imgcodecs.IMREAD_COLOR;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 
@@ -24,6 +25,12 @@ class JavaCvUtils {
 		CanvasFrame frame = new CanvasFrame(title, 1);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.showImage(new OpenCVFrameConverter.ToMat().convert(m));
+	}
+
+	static Mat applyLookUp(Mat m, Mat l) {
+		Mat r = new Mat();
+		LUT(m, l, r);
+		return r;
 	}
 
 	private JavaCvUtils() {
