@@ -1,9 +1,12 @@
 package com.gitlab.daring.sandbox.javacv;
 
+import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter;
+
 import java.util.function.Consumer;
+
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_core.normalize;
@@ -45,6 +48,10 @@ class JavaCvUtils {
 
 	static Mat buildHistogram(Mat m) {
 		return new HistogramBuilder().build(m);
+	}
+
+	static IntPointer intPointer(int... vs) {
+		return new IntPointer(vs);
 	}
 
 	private JavaCvUtils() {
