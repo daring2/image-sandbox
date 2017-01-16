@@ -6,6 +6,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter;
 import java.util.function.Consumer;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import static org.bytedeco.javacpp.opencv_core.normalize;
 import static org.bytedeco.javacpp.opencv_imgcodecs.IMREAD_COLOR;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgproc.equalizeHist;
@@ -36,6 +37,14 @@ class JavaCvUtils {
 		Mat r = new Mat();
 		func.accept(r);
 		return r;
+	}
+
+	static Mat normalizeImage(Mat m) {
+		return buildImage(r -> normalize(m, r));
+	}
+
+	static Mat buildHistogram(Mat m) {
+		return new HistogramBuilder().build(m);
 	}
 
 	private JavaCvUtils() {
