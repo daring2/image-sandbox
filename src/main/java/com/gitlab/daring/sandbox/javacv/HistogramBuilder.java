@@ -28,7 +28,8 @@ class HistogramBuilder {
 		});
 	}
 
-	Mat buildImage(Mat m) {
+	Mat buildGrayImage(Mat m) {
+		if (colored) throw new IllegalArgumentException("colored=true");
 		Mat h = build(m);
 		float[] hvs = imageToFloatArray(h);
 		double scale = 0.9 * size / Floats.max(hvs);
@@ -40,12 +41,12 @@ class HistogramBuilder {
 		return r;
 	}
 
-	public HistogramBuilder setSize(int size) {
+	HistogramBuilder setSize(int size) {
 		this.size = size;
 		return this;
 	}
 
-	public HistogramBuilder setColored(boolean colored) {
+	HistogramBuilder setColored(boolean colored) {
 		this.colored = colored;
 		return this;
 	}
