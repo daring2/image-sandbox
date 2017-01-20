@@ -1,37 +1,38 @@
 package com.gitlab.daring.sandbox.javacv;
 
+import org.bytedeco.javacpp.opencv_core.DMatchVector;
+import org.bytedeco.javacpp.opencv_core.KeyPointVector;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Rect;
-import org.bytedeco.javacpp.opencv_core.TermCriteria;
+import org.bytedeco.javacpp.opencv_features2d.BFMatcher;
+import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
 import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.buildMat;
 import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.show;
-import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.RED;
-import static org.bytedeco.javacpp.opencv_core.TermCriteria.MAX_ITER;
+import static com.gitlab.daring.sandbox.javacv.MatchUtils.selectBest;
+import static org.bytedeco.javacpp.opencv_features2d.drawMatches;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
-import static org.bytedeco.javacpp.opencv_video.meanShift;
 
 public class JavaCvSandbox {
 
 	public static void main(String[] args) {
-		Mat m1 = imread("data/baboon1.jpg");
-		Rect roi = new Rect(110, 260, 35, 40);
-		rectangle(m1, roi, RED);
-		show(m1, "input");
-		Mat m2 = m1.apply(roi);
+		MatchResult r1 = calcSurf(imread("data/church01.jpg"));
+		MatchResult r2 = calcSurf(imread("data/church02.jpg"));
+		BFMatcher m = new BFMatcher();
+		DMatchVector ms = new DMatchVector();
+		m.match(r1.features, r2.features, ms);
+		show(buildMat(r -> drawMatches(
+			r1.image, r1.keyPoints,
+			r2.image, r2.keyPoints,
+			selectBest(ms, 25), r
+		)), "SURF Feature Matches");
+	}
 
-		Mat h2 = new HistogramBuilder().buildHue(m2, 65);
-		Mat m3 = imread("data/baboon3.jpg");
-		Mat cm3 = buildMat(r -> cvtColor(m3, r, COLOR_BGR2HSV));
-
-		BackProjectHelper bph = new BackProjectHelper().setChannels(0).setRange(0, 180);
-		Mat r1 = bph.calculate(cm3, h2);
-
-		int mr1 = meanShift(r1, roi, new TermCriteria(MAX_ITER, 10, 0.01));
-		System.out.println("meanShift = " + mr1);
-		rectangle(m3, roi, RED);
-		show(m3, "result2");
+	static MatchResult calcSurf(Mat m) {
+		SURF d = SURF.create(2500, 4, 2, false, false);
+		KeyPointVector kps = new KeyPointVector();
+		d.detect(m, kps);
+		Mat fs = buildMat(r -> d.compute(m, kps, r));
+		return new MatchResult(m, kps, fs);
 	}
 
 }
