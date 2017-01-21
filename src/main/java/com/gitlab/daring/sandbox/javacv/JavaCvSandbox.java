@@ -27,7 +27,7 @@ public class JavaCvSandbox {
 		)), "SURF Feature Matches");
 	}
 
-	static MatchResult calcSurf(Mat m) {
+	private static MatchResult calcSurf(Mat m) {
 		SURF d = SURF.create(2500, 4, 2, false, false);
 		KeyPointVector kps = new KeyPointVector();
 		d.detect(m, kps);
