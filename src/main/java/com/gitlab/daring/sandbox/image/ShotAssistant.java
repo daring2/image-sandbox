@@ -1,8 +1,8 @@
 package com.gitlab.daring.sandbox.image;
 
 import com.typesafe.config.Config;
-import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
@@ -10,10 +10,12 @@ import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 import static com.gitlab.daring.sandbox.image.util.ConfigUtils.defaultConfig;
 import static com.gitlab.daring.sandbox.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
-import static com.gitlab.daring.sandbox.image.util.VideoUtils.getFrameDelay;
-import static com.gitlab.daring.sandbox.image.util.VideoUtils.newFrame;
+import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
 import static java.awt.BorderLayout.SOUTH;
 import static java.lang.Integer.parseInt;
+import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLACK;
+import static org.bytedeco.javacpp.opencv_core.CV_8UC3;
+import static org.bytedeco.javacpp.opencv_core.bitwise_or;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 @SuppressWarnings("WeakerAccess")
@@ -22,12 +24,14 @@ class ShotAssistant implements AutoCloseable {
 	final Config config = defaultConfig().getConfig("gmv.ShotAssistant");
 
 	final VideoCapture capture = createVideoCapture();
+	final Size frameSize = getFrameSize(capture);
 	final long delay = getFrameDelay(capture, 50);
 	final CanvasFrame frame = createFrame();
 
 	final ToMat converter = new ToMat();
-	final Mat mat = new Mat();
-	Mat sample;
+	final Mat inputMat = new Mat();
+	final Mat sampleMat = new Mat(frameSize, CV_8UC3, BLACK);
+	final Mat displayMat = new Mat();
 
 	private VideoCapture createVideoCapture() {
 		String in = config.getString("input");
@@ -42,21 +46,17 @@ class ShotAssistant implements AutoCloseable {
 	}
 
 	void saveSample() {
-		Mat m = buildMat(r -> cvtColor(mat, r, COLOR_BGR2GRAY));
+		Mat m = buildMat(r -> cvtColor(inputMat, r, COLOR_BGR2GRAY));
 		Canny(m, m, 30, 60);
-		sample = buildMat(r -> cvtColor(m, r, COLOR_GRAY2BGR));
+		cvtColor(m, sampleMat, COLOR_GRAY2BGR);
 	}
 
 	void start() throws Exception {
-		while (capture.read(mat) && frame.isVisible()) {
-			Mat m = buildFrame();
-			frame.showImage(converter.convert(m));
+		while (capture.read(inputMat) && frame.isVisible()) {
+			bitwise_or(inputMat, sampleMat, displayMat);
+			frame.showImage(converter.convert(displayMat));
 			Thread.sleep(delay);
 		}
-	}
-
-	private Mat buildFrame() {
-		return sample != null ? buildMat(r -> opencv_core.add(mat, sample, r)) : mat;
 	}
 
 	public void close() throws Exception {
