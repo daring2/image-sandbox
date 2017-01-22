@@ -13,7 +13,6 @@ import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
 import static java.awt.BorderLayout.SOUTH;
 import static java.lang.Integer.parseInt;
-import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLACK;
 import static org.bytedeco.javacpp.opencv_core.CV_8UC3;
 import static org.bytedeco.javacpp.opencv_core.bitwise_or;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
@@ -30,7 +29,7 @@ class ShotAssistant implements AutoCloseable {
 
 	final ToMat converter = new ToMat();
 	final Mat inputMat = new Mat();
-	final Mat sampleMat = new Mat(frameSize, CV_8UC3, BLACK);
+	final Mat sampleMat = new Mat(frameSize, CV_8UC3);
 	final Mat displayMat = new Mat();
 
 	private VideoCapture createVideoCapture() {
