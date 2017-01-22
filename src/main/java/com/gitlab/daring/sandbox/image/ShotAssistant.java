@@ -2,6 +2,8 @@ package com.gitlab.daring.sandbox.image;
 
 import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.Rect;
+import org.bytedeco.javacpp.opencv_core.Scalar;
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacv.CanvasFrame;
@@ -23,13 +25,14 @@ class ShotAssistant implements AutoCloseable {
 	final Config config = defaultConfig().getConfig("gmv.ShotAssistant");
 
 	final VideoCapture capture = createVideoCapture();
-	final Size frameSize = getFrameSize(capture);
+	final Size size = getFrameSize(capture);
 	final long delay = getFrameDelay(capture, 50);
 	final CanvasFrame frame = createFrame();
 
 	final ToMat converter = new ToMat();
 	final Mat inputMat = new Mat();
-	final Mat sampleMat = new Mat(frameSize, CV_8UC3);
+	final Mat sampleMat = new Mat(size, CV_8UC3);
+	final Rect centerRect = new Rect(213, 160, 213, 160);
 	final Mat displayMat = new Mat();
 
 	private VideoCapture createVideoCapture() {
@@ -46,13 +49,16 @@ class ShotAssistant implements AutoCloseable {
 
 	void saveSample() {
 		Mat m = buildMat(r -> cvtColor(inputMat, r, COLOR_BGR2GRAY));
-		Canny(m, m, 30, 60);
+//		Canny(m, m, 30, 60);
+		morphologyEx(m, m, MORPH_GRADIENT, new Mat());
+		threshold(m, m, 20, 255, THRESH_BINARY);
 		cvtColor(m, sampleMat, COLOR_GRAY2BGR);
 	}
 
 	void start() throws Exception {
 		while (capture.read(inputMat) && frame.isVisible()) {
 			bitwise_or(inputMat, sampleMat, displayMat);
+			rectangle(displayMat, centerRect, Scalar.BLUE);
 			frame.showImage(converter.convert(displayMat));
 			Thread.sleep(delay);
 		}
