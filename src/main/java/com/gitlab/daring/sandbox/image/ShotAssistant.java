@@ -7,8 +7,10 @@ import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import static com.gitlab.daring.sandbox.image.util.ConfigUtils.defaultConfig;
+import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.getFrameDelay;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.newFrame;
+import static java.awt.BorderLayout.SOUTH;
 import static java.lang.Integer.parseInt;
 
 @SuppressWarnings("WeakerAccess")
@@ -29,7 +31,14 @@ class ShotAssistant implements AutoCloseable {
 	}
 
 	private CanvasFrame createFrame() {
-		return newFrame(capture, "Video");
+		CanvasFrame f = newFrame(capture, "Video");
+		f.add(newButton("Снимок", this::saveSample), SOUTH);
+		f.validate();
+		return f;
+	}
+
+	void saveSample() {
+		//TODO implement
 	}
 
 	void start() throws Exception {
