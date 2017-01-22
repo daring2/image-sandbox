@@ -1,5 +1,6 @@
 package com.gitlab.daring.sandbox.javacv;
 
+import com.gitlab.daring.sandbox.image.util.ImageUtils;
 import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -37,9 +38,7 @@ class JavaCvUtils {
 	}
 
 	static Mat buildMat(Consumer<Mat> func) {
-		Mat r = new Mat();
-		func.accept(r);
-		return r;
+		return ImageUtils.buildMat(func);
 	}
 
 	static Mat equalizeHistogram(Mat m) {
