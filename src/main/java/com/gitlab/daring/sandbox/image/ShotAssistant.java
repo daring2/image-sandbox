@@ -15,7 +15,6 @@ import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
 import static java.awt.BorderLayout.SOUTH;
 import static java.lang.Integer.parseInt;
-import static org.bytedeco.javacpp.opencv_core.CV_8UC3;
 import static org.bytedeco.javacpp.opencv_core.bitwise_or;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -31,8 +30,8 @@ class ShotAssistant implements AutoCloseable {
 
 	final ToMat converter = new ToMat();
 	final Mat inputMat = new Mat();
-	final Mat sampleMat = new Mat(size, CV_8UC3);
-	final Rect centerRect = new Rect(213, 160, 213, 160);
+	final Mat sampleMat = new Mat();// new Mat(size, CV_8UC3);
+	final Rect roi = new Rect(213, 160, 213, 160);
 	final Mat displayMat = new Mat();
 
 	private VideoCapture createVideoCapture() {
@@ -47,21 +46,33 @@ class ShotAssistant implements AutoCloseable {
 		return f;
 	}
 
-	void saveSample() {
+	void start() throws Exception {
+		while (capture.read(inputMat) && frame.isVisible()) {
+			boolean sm = !sampleMat.empty();
+			bitwise_or(inputMat, sm ? sampleMat : inputMat, displayMat);
+			if (sm) checkSample();
+			rectangle(displayMat, roi, Scalar.BLUE);
+			frame.showImage(converter.convert(displayMat));
+			Thread.sleep(delay);
+		}
+	}
+
+	private Mat buildSample() {
 		Mat m = buildMat(r -> cvtColor(inputMat, r, COLOR_BGR2GRAY));
 //		Canny(m, m, 30, 60);
 		morphologyEx(m, m, MORPH_GRADIENT, new Mat());
 		threshold(m, m, 20, 255, THRESH_BINARY);
-		cvtColor(m, sampleMat, COLOR_GRAY2BGR);
+		return m;
 	}
 
-	void start() throws Exception {
-		while (capture.read(inputMat) && frame.isVisible()) {
-			bitwise_or(inputMat, sampleMat, displayMat);
-			rectangle(displayMat, centerRect, Scalar.BLUE);
-			frame.showImage(converter.convert(displayMat));
-			Thread.sleep(delay);
-		}
+	void saveSample() {
+		cvtColor(buildSample(), sampleMat, COLOR_GRAY2BGR);
+	}
+
+	private void checkSample() {
+		Mat sm = buildMat(r -> cvtColor(sampleMat, r, COLOR_BGR2GRAY));
+		Mat cm = buildSample();
+		//TODO implement
 	}
 
 	public void close() throws Exception {
