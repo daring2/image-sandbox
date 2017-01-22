@@ -1,27 +1,31 @@
 package com.gitlab.daring.sandbox.image;
 
+import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
+import static com.gitlab.daring.sandbox.image.util.ConfigUtils.defaultConfig;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.getFrameDelay;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.newFrame;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static java.lang.Integer.parseInt;
 
 @SuppressWarnings("WeakerAccess")
 class ShotAssistant implements AutoCloseable {
 
-	final VideoCapture capture;
+	final Config config = defaultConfig().getConfig("gmv.ShotAssistant");
+
+	final VideoCapture capture = createVideoCapture();
+	final long delay = getFrameDelay(capture, 50);
+	final CanvasFrame frame = newFrame(capture, "Video");
+
 	final Mat mat = new Mat();
 	final ToMat converter = new ToMat();
-	final long delay;
-	final CanvasFrame frame;
 
-	private ShotAssistant(String file) {
-		capture = isBlank(file) ? new VideoCapture(0) : new VideoCapture(file);
-		delay = getFrameDelay(capture, 50);
-		frame = newFrame(capture, "Video");
+	private VideoCapture createVideoCapture() {
+		String f = config.getString("videoFile");
+		return f.contains(".") ? new VideoCapture(f) : new VideoCapture(parseInt(f));
 	}
 
 	void start() throws Exception {
@@ -37,8 +41,7 @@ class ShotAssistant implements AutoCloseable {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String file = args.length > 0 ? args[0] : "";
-		try (ShotAssistant app = new ShotAssistant(file)) {
+		try (ShotAssistant app = new ShotAssistant()) {
 			app.start();
 		}
 	}
