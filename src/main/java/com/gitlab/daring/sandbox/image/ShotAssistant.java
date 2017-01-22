@@ -18,7 +18,7 @@ class ShotAssistant implements AutoCloseable {
 
 	final VideoCapture capture = createVideoCapture();
 	final long delay = getFrameDelay(capture, 50);
-	final CanvasFrame frame = newFrame(capture, "Video");
+	final CanvasFrame frame = createFrame();
 
 	final Mat mat = new Mat();
 	final ToMat converter = new ToMat();
@@ -26,6 +26,10 @@ class ShotAssistant implements AutoCloseable {
 	private VideoCapture createVideoCapture() {
 		String in = config.getString("input");
 		return in.contains(".") ? new VideoCapture(in) : new VideoCapture(parseInt(in));
+	}
+
+	private CanvasFrame createFrame() {
+		return newFrame(capture, "Video");
 	}
 
 	void start() throws Exception {
