@@ -6,8 +6,8 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_features2d.BFMatcher;
 import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
+import static com.gitlab.daring.sandbox.image.util.ImageUtils.showMat;
 import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.buildMat;
-import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.show;
 import static com.gitlab.daring.sandbox.javacv.MatchUtils.selectBest;
 import static org.bytedeco.javacpp.opencv_features2d.drawMatches;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
@@ -20,7 +20,7 @@ public class JavaCvSandbox {
 		BFMatcher m = new BFMatcher();
 		DMatchVector ms = new DMatchVector();
 		m.match(r1.features, r2.features, ms);
-		show(buildMat(r -> drawMatches(
+		showMat(buildMat(r -> drawMatches(
 			r1.image, r1.keyPoints,
 			r2.image, r2.keyPoints,
 			selectBest(ms, 25), r
