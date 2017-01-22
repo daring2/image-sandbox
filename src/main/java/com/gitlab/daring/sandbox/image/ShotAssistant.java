@@ -24,8 +24,8 @@ class ShotAssistant implements AutoCloseable {
 	final ToMat converter = new ToMat();
 
 	private VideoCapture createVideoCapture() {
-		String f = config.getString("videoFile");
-		return f.contains(".") ? new VideoCapture(f) : new VideoCapture(parseInt(f));
+		String in = config.getString("input");
+		return in.contains(".") ? new VideoCapture(in) : new VideoCapture(parseInt(in));
 	}
 
 	void start() throws Exception {
