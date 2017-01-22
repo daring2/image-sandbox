@@ -1,21 +1,24 @@
 package com.gitlab.daring.sandbox.image;
 
 import com.typesafe.config.Config;
-import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Rect;
-import org.bytedeco.javacpp.opencv_core.Scalar;
-import org.bytedeco.javacpp.opencv_core.Size;
+import org.bytedeco.javacpp.DoublePointer;
+import org.bytedeco.javacpp.opencv_core.*;
+import org.bytedeco.javacpp.opencv_core.Point;
 import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
+
+import javax.swing.*;
+import java.awt.BorderLayout;
 
 import static com.gitlab.daring.sandbox.image.util.ConfigUtils.defaultConfig;
 import static com.gitlab.daring.sandbox.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
-import static java.awt.BorderLayout.SOUTH;
+import static java.awt.BorderLayout.*;
 import static java.lang.Integer.parseInt;
-import static org.bytedeco.javacpp.opencv_core.bitwise_or;
+import static java.lang.Math.abs;
+import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 @SuppressWarnings("WeakerAccess")
@@ -26,6 +29,7 @@ class ShotAssistant implements AutoCloseable {
 	final VideoCapture capture = createVideoCapture();
 	final Size size = getFrameSize(capture);
 	final long delay = getFrameDelay(capture, 50);
+	final JLabel statusField = new JLabel();
 	final CanvasFrame frame = createFrame();
 
 	final ToMat converter = new ToMat();
@@ -41,7 +45,10 @@ class ShotAssistant implements AutoCloseable {
 
 	private CanvasFrame createFrame() {
 		CanvasFrame f = newFrame(capture, "Video");
-		f.add(newButton("Снимок", this::saveSample), SOUTH);
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(statusField, CENTER);
+		p.add(newButton("Снимок", this::saveSample), EAST);
+		f.add(p, SOUTH);
 		f.validate();
 		return f;
 	}
@@ -50,8 +57,8 @@ class ShotAssistant implements AutoCloseable {
 		while (capture.read(inputMat) && frame.isVisible()) {
 			boolean sm = !sampleMat.empty();
 			bitwise_or(inputMat, sm ? sampleMat : inputMat, displayMat);
-			if (sm) checkSample();
-			rectangle(displayMat, roi, Scalar.BLUE);
+			boolean cr = sm && checkSample();
+			rectangle(displayMat, roi, cr ? Scalar.GREEN : Scalar.BLUE);
 			frame.showImage(converter.convert(displayMat));
 			Thread.sleep(delay);
 		}
@@ -69,10 +76,15 @@ class ShotAssistant implements AutoCloseable {
 		cvtColor(buildSample(), sampleMat, COLOR_GRAY2BGR);
 	}
 
-	private void checkSample() {
+	private boolean checkSample() {
 		Mat sm = buildMat(r -> cvtColor(sampleMat, r, COLOR_BGR2GRAY));
 		Mat cm = buildSample();
-		//TODO implement
+		Mat mr = buildMat(r -> matchTemplate(cm, new Mat(sm, roi), r, CV_TM_CCORR));
+		DoublePointer mv = new DoublePointer(1);
+		Point mp = new Point();
+		minMaxLoc(mr, null, mv, null, mp, new Mat());
+		statusField.setText("result: " + mv.get());
+		return mv.get() > 7 && abs(roi.x() - mp.x()) < 10 && abs(roi.y() - mp.y()) < 10;
 	}
 
 	public void close() throws Exception {
