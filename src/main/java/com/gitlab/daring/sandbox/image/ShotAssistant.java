@@ -5,6 +5,7 @@ import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_core.Point;
 import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
+import org.bytedeco.javacpp.opencv_videoio.VideoWriter;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
@@ -27,8 +28,8 @@ class ShotAssistant implements AutoCloseable {
 	final Config config = defaultConfig().getConfig("gmv.ShotAssistant");
 
 	final VideoCapture capture = createVideoCapture();
-	final Size size = getFrameSize(capture);
 	final long delay = getFrameDelay(capture, 50);
+	final VideoWriter writer = newWriter(capture, config.getString("output"), delay);
 	final JLabel statusField = new JLabel();
 	final CanvasFrame frame = createFrame();
 
@@ -59,6 +60,7 @@ class ShotAssistant implements AutoCloseable {
 			bitwise_or(inputMat, sm ? sampleMat : inputMat, displayMat);
 			boolean cr = sm && checkSample();
 			rectangle(displayMat, roi, cr ? Scalar.GREEN : Scalar.BLUE);
+			if (writer.isOpened()) writer.write(displayMat);
 			frame.showImage(converter.convert(displayMat));
 			Thread.sleep(delay);
 		}
@@ -68,7 +70,7 @@ class ShotAssistant implements AutoCloseable {
 		Mat m = buildMat(r -> cvtColor(inputMat, r, COLOR_BGR2GRAY));
 //		Canny(m, m, 30, 60);
 		morphologyEx(m, m, MORPH_GRADIENT, new Mat());
-		threshold(m, m, 20, 255, THRESH_BINARY);
+		threshold(m, m, 40, 255, THRESH_BINARY);
 		return m;
 	}
 
@@ -89,6 +91,7 @@ class ShotAssistant implements AutoCloseable {
 
 	public void close() throws Exception {
 		capture.release();
+		writer.release();
 		frame.dispose();
 	}
 
