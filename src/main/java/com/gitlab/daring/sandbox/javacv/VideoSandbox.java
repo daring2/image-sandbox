@@ -21,9 +21,7 @@ public class VideoSandbox {
 		long delay = getFrameDelay(cap, 100);
 		Mat in = new Mat();
 		Mat out = new Mat();
-		VideoWriter writer = new VideoWriter();
-		int codec = XVID; // (int) cap.get(CV_CAP_PROP_FOURCC);
-		writer.open("data/result.avi", codec, 1000.0 / delay, getFrameSize(cap), true);
+		VideoWriter writer = newWriter(cap, "data/result.avi", delay);
 		while (cap.read(in)) {
 			frame1.showImage(conv.convert(in));
 			calcCanny(in, out);

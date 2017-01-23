@@ -7,6 +7,7 @@ import org.bytedeco.javacv.CanvasFrame;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_videoio.*;
 
+@SuppressWarnings("WeakerAccess")
 public class VideoUtils {
 
 	public static final int XVID = 1145656920;
@@ -28,6 +29,15 @@ public class VideoUtils {
 		return frame;
 	}
 
+	public static VideoWriter newWriter(VideoCapture c, String file, long delay) {
+		VideoWriter w = new VideoWriter();
+		if (file.isEmpty()) return w;
+		if (!w.open(file, XVID, 1000.0 / delay, getFrameSize(c), true))
+			throw new RuntimeException("Cannot create VideoWriter");
+		return w;
+	}
+
 	private VideoUtils() {
 	}
+
 }
