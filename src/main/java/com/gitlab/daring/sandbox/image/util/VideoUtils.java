@@ -3,7 +3,9 @@ package com.gitlab.daring.sandbox.image.util;
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_videoio.*;
 import org.bytedeco.javacv.CanvasFrame;
-
+import java.nio.ByteBuffer;
+import static java.nio.ByteOrder.LITTLE_ENDIAN;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_videoio.*;
 
@@ -29,12 +31,9 @@ public class VideoUtils {
 		return frame;
 	}
 
-	public static VideoWriter newWriter(VideoCapture c, String file, long delay) {
-		VideoWriter w = new VideoWriter();
-		if (file.isEmpty()) return w;
-		if (!w.open(file, XVID, 1000.0 / delay, getFrameSize(c), true))
-			throw new RuntimeException("Cannot create VideoWriter");
-		return w;
+	public static int getCodec(String codec) {
+		byte[] bs = codec.getBytes(US_ASCII);
+		return ByteBuffer.wrap(bs).order(LITTLE_ENDIAN).getInt();
 	}
 
 	private VideoUtils() {
