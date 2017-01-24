@@ -71,11 +71,6 @@ class ShotAssistant extends BaseVideoProcessor {
 		return mv.get() > 7 && abs(roi.x() - mp.x()) < 10 && abs(roi.y() - mp.y()) < 10;
 	}
 
-	public void close() throws Exception {
-		super.close();
-		frame.dispose();
-	}
-
 	public static void main(String[] args) throws Exception {
 		try (ShotAssistant app = new ShotAssistant()) {
 			app.start();

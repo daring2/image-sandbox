@@ -68,7 +68,8 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	@Override
 	public void close() throws Exception {
 		capture.release();
-		writer.release();
+		if (writer != null) writer.release();
+		if (frame != null) frame.dispose();
 	}
 
 }
