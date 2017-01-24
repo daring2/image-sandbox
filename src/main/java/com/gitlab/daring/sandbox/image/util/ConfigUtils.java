@@ -9,6 +9,10 @@ public class ConfigUtils {
 		return ConfigFactory.load();
 	}
 
+	public static int getIntOpt(Config c, String path, int defValue) {
+		return c.hasPath(path) ? c.getInt(path) : defValue;
+	}
+
 	private ConfigUtils() {
 	}
 

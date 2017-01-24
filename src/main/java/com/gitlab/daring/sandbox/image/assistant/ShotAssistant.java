@@ -2,28 +2,24 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.DoublePointer;
-import org.bytedeco.javacpp.opencv_core.*;
+import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point;
-import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
-
+import org.bytedeco.javacpp.opencv_core.Rect;
+import org.bytedeco.javacpp.opencv_core.Scalar;
 import javax.swing.*;
 import java.awt.BorderLayout;
-
 import static com.gitlab.daring.sandbox.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
-import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
 import static java.awt.BorderLayout.*;
-import static java.lang.Integer.parseInt;
 import static java.lang.Math.abs;
-import static org.bytedeco.javacpp.opencv_core.*;
+import static org.bytedeco.javacpp.opencv_core.bitwise_or;
+import static org.bytedeco.javacpp.opencv_core.minMaxLoc;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 @SuppressWarnings("WeakerAccess")
 class ShotAssistant extends BaseVideoProcessor {
 
 	final JLabel statusField = new JLabel();
-	final CanvasFrame frame = createFrame();
 
 	final Mat sampleMat = new Mat();// new Mat(size, CV_8UC3);
 	final Rect roi = new Rect(213, 160, 213, 160);
@@ -31,21 +27,15 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	public ShotAssistant() {
 		super("gmv.ShotAssistant");
+		initFrame();
 	}
 
-	private CanvasFrame createFrame() {
-		CanvasFrame f = newFrame(capture, "Video");
+	protected void initFrame() {
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(statusField, CENTER);
 		p.add(newButton("Снимок", this::saveSample), EAST);
-		f.add(p, SOUTH);
-		f.validate();
-		return f;
-	}
-
-	@Override
-	protected boolean isStarted() {
-		return frame.isVisible();
+		frame.add(p, SOUTH);
+		frame.validate();
 	}
 
 	@Override

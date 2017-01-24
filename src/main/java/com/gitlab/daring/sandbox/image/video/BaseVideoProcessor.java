@@ -1,16 +1,16 @@
 package com.gitlab.daring.sandbox.image.video;
 
 import com.gitlab.daring.sandbox.image.common.BaseComponent;
-import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacpp.opencv_videoio.VideoWriter;
 import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
+import static com.gitlab.daring.sandbox.image.util.ConfigUtils.getIntOpt;
 import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
 import static java.lang.Integer.parseInt;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class BaseVideoProcessor extends BaseComponent implements AutoCloseable {
@@ -19,6 +19,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	protected final long delay = getFrameDelay(capture, config.getInt("defaultDelay"));
 	protected final Size size = getFrameSize(capture);
 	protected final VideoWriter writer = createWriter();
+	protected final CanvasFrame frame =  createFrame();
 
 	protected final ToMat matConverter = new ToMat();
 	protected final Mat inputMat = new Mat();
@@ -42,6 +43,15 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 		return w;
 	}
 
+	protected CanvasFrame createFrame() {
+		String title = config.getString("title");
+		int gamma = getIntOpt(config, "gamma", 1);
+		CanvasFrame f = new CanvasFrame(title, gamma);
+		f.setCanvasSize(size.width(), size.height());
+		f.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		return f;
+	}
+
 	public void start() throws Exception {
 		while (capture.read(inputMat) && isStarted()) {
 			processFrame();
@@ -49,11 +59,11 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 		}
 	}
 
-	protected abstract void processFrame();
-
 	protected boolean isStarted() {
-		return true;
+		return frame != null && frame.isVisible();
 	}
+
+	protected abstract void processFrame();
 
 	@Override
 	public void close() throws Exception {
