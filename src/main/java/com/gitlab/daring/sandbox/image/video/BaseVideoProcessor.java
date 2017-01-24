@@ -18,7 +18,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	protected final VideoCapture capture = createCapture();
 	protected final long delay = getFrameDelay(capture, config.getInt("defaultDelay"));
 	protected final Size size = getFrameSize(capture);
-	protected final VideoWriter writer = createWriter();
+	protected final VideoWriter writer = new VideoWriter();
 	protected final CanvasFrame frame =  createFrame();
 
 	protected final ToMat matConverter = new ToMat();
@@ -33,16 +33,6 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 		return in.contains(".") ? new VideoCapture(in) : new VideoCapture(parseInt(in));
 	}
 
-	protected VideoWriter createWriter() {
-		String file = config.getString("output");
-		if (file.isEmpty()) return null;
-		int codec = getCodec(config.getString("outputCodec"));
-		VideoWriter w = new VideoWriter();
-		if (!w.open(file, codec, 1000.0 / delay, size, true))
-			throw new RuntimeException("Cannot create VideoWriter");
-		return w;
-	}
-
 	protected CanvasFrame createFrame() {
 		String title = config.getString("title");
 		int gamma = getIntOpt(config, "gamma", 1);
@@ -53,10 +43,19 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	}
 
 	public void start() throws Exception {
+		openWriter();
 		while (capture.read(inputMat) && isStarted()) {
 			processFrame();
 			Thread.sleep(delay);
 		}
+	}
+
+	protected void openWriter() {
+		String file = config.getString("output");
+		if (file.isEmpty()) return;
+		int codec = getCodec(config.getString("outputCodec"));
+		if (!writer.open(file, codec, 1000.0 / delay, size, true))
+			throw new RuntimeException("Cannot create VideoWriter");
 	}
 
 	protected boolean isStarted() {
@@ -68,7 +67,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	@Override
 	public void close() throws Exception {
 		capture.release();
-		if (writer != null) writer.release();
+		writer.release();
 		if (frame != null) frame.dispose();
 	}
 

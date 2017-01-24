@@ -63,12 +63,12 @@ class ShotAssistant extends BaseVideoProcessor {
 	private boolean checkSample() {
 		Mat sm = buildMat(r -> cvtColor(sampleMat, r, COLOR_BGR2GRAY));
 		Mat cm = buildSample();
-		Mat mr = buildMat(r -> matchTemplate(cm, new Mat(sm, roi), r, CV_TM_CCORR));
+		Mat mr = buildMat(r -> matchTemplate(cm, new Mat(sm, roi), r, CV_TM_CCORR_NORMED));
 		DoublePointer mv = new DoublePointer(1);
 		Point mp = new Point();
 		minMaxLoc(mr, null, mv, null, mp, new Mat());
 		statusField.setText("result: " + mv.get());
-		return mv.get() > 7 && abs(roi.x() - mp.x()) < 10 && abs(roi.y() - mp.y()) < 10;
+		return mv.get() > 0.6 && abs(roi.x() - mp.x()) < 10 && abs(roi.y() - mp.y()) < 10;
 	}
 
 	public static void main(String[] args) throws Exception {
