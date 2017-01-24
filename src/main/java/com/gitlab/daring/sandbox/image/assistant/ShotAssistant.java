@@ -19,6 +19,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 @SuppressWarnings("WeakerAccess")
 class ShotAssistant extends BaseVideoProcessor {
 
+	final SampleBuilder sampleBuilder = new SampleBuilder(getConfig("SampleBuilder"));
 	final JLabel statusField = new JLabel();
 
 	final Mat sampleMat = new Mat();// new Mat(size, CV_8UC3);
@@ -48,21 +49,14 @@ class ShotAssistant extends BaseVideoProcessor {
 		frame.showImage(matConverter.convert(displayMat));
 	}
 
-	private Mat buildSample() {
-		Mat m = buildMat(r -> cvtColor(inputMat, r, COLOR_BGR2GRAY));
-//		Canny(m, m, 30, 60);
-		morphologyEx(m, m, MORPH_GRADIENT, new Mat());
-		threshold(m, m, 40, 255, THRESH_BINARY);
-		return m;
-	}
-
 	void saveSample() {
-		cvtColor(buildSample(), sampleMat, COLOR_GRAY2BGR);
+		Mat m = sampleBuilder.build(inputMat);
+		cvtColor(m, sampleMat, COLOR_GRAY2BGR);
 	}
 
 	private boolean checkSample() {
 		Mat sm = buildMat(r -> cvtColor(sampleMat, r, COLOR_BGR2GRAY));
-		Mat cm = buildSample();
+		Mat cm = sampleBuilder.build(inputMat);
 		Mat mr = buildMat(r -> matchTemplate(cm, new Mat(sm, roi), r, CV_TM_CCORR_NORMED));
 		DoublePointer mv = new DoublePointer(1);
 		Point mp = new Point();
