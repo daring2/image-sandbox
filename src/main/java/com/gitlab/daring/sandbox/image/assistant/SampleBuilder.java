@@ -1,7 +1,6 @@
 package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.common.BaseComponent;
-import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -12,8 +11,8 @@ class SampleBuilder extends BaseComponent {
 
 	final Mat m = new Mat();
 
-	SampleBuilder(Config config) {
-		super(config);
+	SampleBuilder(ShotAssistant a) {
+		super(a.config.getConfig("SampleBuilder"));
 	}
 
 	Mat build(Mat inputMat) {

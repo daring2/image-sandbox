@@ -19,7 +19,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 @SuppressWarnings("WeakerAccess")
 class ShotAssistant extends BaseVideoProcessor {
 
-	final SampleBuilder sampleBuilder = new SampleBuilder(getConfig("SampleBuilder"));
+	final SampleBuilder sampleBuilder = new SampleBuilder(this);
 	final JLabel statusField = new JLabel();
 
 	final Mat sampleMat = new Mat();// new Mat(size, CV_8UC3);
