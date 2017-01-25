@@ -4,10 +4,9 @@ import com.gitlab.daring.sandbox.image.common.BaseComponent;
 import com.gitlab.daring.sandbox.image.template.MatchResult;
 import com.gitlab.daring.sandbox.image.template.TemplateMatcher;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.Rect;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
-import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toJava;
-import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toOpencv;
 import static com.gitlab.daring.sandbox.image.util.GeometryUtils.getCenterRect;
 
 @NotThreadSafe
@@ -19,17 +18,18 @@ class PositionControl extends BaseComponent {
 	final PositionLimits limits = new PositionLimits(getConfig("limits"));
 
 	final Mat template = new Mat();
-	Rectangle pos;
+	final Rect roi;
+	final Rectangle pos;
 
 	PositionControl(ShotAssistant a) {
 		super(a.config.getConfig("position"));
-		this.assistant = a;
+		assistant = a;
+		roi = getCenterRect(a.getSize(), rectSize);
+		pos = limits.buildRect(roi.x(), roi.y());
 	}
 
 	void setSimple(Mat m) {
-		Rectangle rect = getCenterRect(toJava(m.size()), rectSize);
-		pos = limits.buildRect(rect.getLocation());
-		new Mat(m, toOpencv(rect)).copyTo(template);
+		new Mat(m, roi).copyTo(template);
 	}
 
 	boolean check(Mat mat) {
