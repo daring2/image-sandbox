@@ -15,8 +15,8 @@ class PositionLimits extends BaseComponent {
 		super(config);
 	}
 
-	Rectangle buildRect(Point p) {
-		return new Rectangle(p.x - offset, p.y - offset, p.x + offset, p.y + offset);
+	Rectangle buildRect(int x, int y) {
+		return new Rectangle(x - offset, y - offset, x + offset, y + offset);
 	}
 
 }

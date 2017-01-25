@@ -1,15 +1,21 @@
 package com.gitlab.daring.sandbox.image.util;
 
+import org.bytedeco.javacpp.opencv_core.Rect;
+import org.bytedeco.javacpp.opencv_core.Size;
 import java.awt.*;
+import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toJava;
+import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toOpencv;
 
 public class GeometryUtils {
 
 	public static Rectangle getCenterRect(Dimension d, double rectSize) {
-		return newCenterRect(getCenter(d), scale(d, rectSize));
+		Point p = getCenter(d);
+		Dimension sd = scale(d, rectSize);
+		return new Rectangle(p.x - sd.width / 2, p.y - sd.height / 2, sd.width, sd.height);
 	}
 
-	public static Rectangle newCenterRect(Point p, Dimension d) {
-		return new Rectangle(p.x - d.width, p.y - d.height, p.x + d.width, p.y + d.height);
+	public static Rect getCenterRect(Size size, double rectSize) {
+		return toOpencv(getCenterRect(toJava(size), rectSize));
 	}
 
 	public static Point getCenter(Dimension d) {
