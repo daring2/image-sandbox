@@ -17,10 +17,14 @@ public class TemplateMatcher extends BaseComponent {
 		super(config);
 	}
 
-	public MatchResult findMax(Mat mat, Mat templ) {
+	public MatchResult findBest(Mat mat, Mat templ) {
 		matchTemplate(mat, templ, resultMat, method.ordinal());
 		MatchResult r = new MatchResult();
-		minMaxLoc(resultMat, null, r.valueRef, null, r.point, new Mat());
+		if (method.isMinBest()) {
+			minMaxLoc(resultMat, r.valueRef, null, r.point, null, new Mat());
+		} else {
+			minMaxLoc(resultMat, null, r.valueRef, null, r.point, new Mat());
+		}
 		return r;
 	}
 
