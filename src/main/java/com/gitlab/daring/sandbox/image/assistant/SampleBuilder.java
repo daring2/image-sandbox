@@ -6,7 +6,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 @NotThreadSafe
-@SuppressWarnings("WeakerAccess")
 class SampleBuilder extends BaseComponent {
 
 	final double binThreshold = config.getDouble("binThreshold");

@@ -7,7 +7,6 @@ import static java.nio.ByteOrder.LITTLE_ENDIAN;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.bytedeco.javacpp.opencv_videoio.*;
 
-@SuppressWarnings("WeakerAccess")
 public class VideoUtils {
 
 	public static final int XVID = getCodec("XVID");

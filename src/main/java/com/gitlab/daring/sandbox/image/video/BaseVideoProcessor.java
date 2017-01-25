@@ -12,7 +12,6 @@ import static com.gitlab.daring.sandbox.image.util.VideoUtils.*;
 import static java.lang.Integer.parseInt;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-@SuppressWarnings("WeakerAccess")
 public abstract class BaseVideoProcessor extends BaseComponent implements AutoCloseable {
 
 	protected final VideoCapture capture = createCapture();
