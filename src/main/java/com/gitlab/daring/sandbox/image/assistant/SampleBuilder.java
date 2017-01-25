@@ -2,9 +2,10 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
-
+import javax.annotation.concurrent.NotThreadSafe;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
+@NotThreadSafe
 @SuppressWarnings("WeakerAccess")
 class SampleBuilder extends BaseComponent {
 
