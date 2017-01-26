@@ -16,7 +16,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	final SampleBuilder sampleBuilder = new SampleBuilder(this);
 	final PositionControl control = new PositionControl(this);
 
-	final Mat sampleMat = new Mat();
+	final Mat templateMat = new Mat();
 	final Mat displayMat = new Mat();
 
 	final JLabel statusField = new JLabel();
@@ -36,9 +36,9 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	@Override
 	protected void processFrame() {
-		boolean sm = !sampleMat.empty();
-		bitwise_or(inputMat, sm ? sampleMat : inputMat, displayMat);
-		boolean cr = sm && control.check(inputMat);;
+		boolean tm = !templateMat.empty();
+		bitwise_or(inputMat, tm ? templateMat : inputMat, displayMat);
+		boolean cr = tm && control.check(inputMat);;
 		rectangle(displayMat, control.roi, cr ? Scalar.GREEN : Scalar.BLUE);
 		if (writer.isOpened()) writer.write(displayMat);
 		frame.showImage(matConverter.convert(displayMat));
@@ -47,7 +47,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	void saveSample() {
 		Mat m = sampleBuilder.build(inputMat);
 		control.setSimple(m);
-		cvtColor(m, sampleMat, COLOR_GRAY2BGR);
+		cvtColor(m, templateMat, COLOR_GRAY2BGR);
 	}
 
 	Size getSize() {
