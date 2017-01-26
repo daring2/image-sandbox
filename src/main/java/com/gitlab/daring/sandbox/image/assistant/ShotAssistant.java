@@ -15,7 +15,6 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 class ShotAssistant extends BaseVideoProcessor {
 
-	final double sampleOpacity = config.getDouble("sampleOpacity");
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
 
@@ -24,6 +23,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	final Mat displayMat = new Mat();
 
 	final JLabel statusField = new JLabel();
+	int sampleOpacity = config.getInt("sampleOpacity");
 	boolean checkResult;
 
 	public ShotAssistant() {
@@ -31,12 +31,19 @@ class ShotAssistant extends BaseVideoProcessor {
 		initFrame();
 	}
 
-	protected void initFrame() {
+	private void initFrame() {
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(statusField, CENTER);
 		p.add(newButton("Снимок", this::saveSample), EAST);
+		p.add(createSampleOpacitySlider(), SOUTH);
 		frame.add(p, SOUTH);
 		frame.validate();
+	}
+
+	private JSlider createSampleOpacitySlider() {
+		JSlider sl = new JSlider(0, 50, sampleOpacity);
+		sl.addChangeListener(e -> sampleOpacity = sl.getValue());
+		return sl;
 	}
 
 	@Override
@@ -51,8 +58,8 @@ class ShotAssistant extends BaseVideoProcessor {
 		Mat dm = displayMat;
 		inputMat.copyTo(dm);
 		if (!templateMat.empty()) {
-			addWeightedMat(dm, sampleMat, dm, sampleOpacity);
 			bitwise_or(dm, templateMat, dm);
+			addWeightedMat(dm, sampleMat, dm, sampleOpacity / 100.0);
 		} else {
 			inputMat.copyTo(dm);
 		}
