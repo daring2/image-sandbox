@@ -4,7 +4,7 @@ import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import java.awt.*;
 
-public class ConvertUtils {
+public class OpencvConverters {
 
 	public static Point toJava(opencv_core.Point p) {
 		return new Point(p.x(), p.y());
@@ -18,7 +18,7 @@ public class ConvertUtils {
 		return new Rect(r.x, r.y, r.width, r.height);
 	}
 
-	private ConvertUtils() {
+	private OpencvConverters() {
 	}
 
 }

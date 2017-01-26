@@ -4,12 +4,11 @@ import com.google.common.primitives.Floats;
 import org.bytedeco.javacpp.FloatPointer;
 import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.PointerPointer;
+import org.bytedeco.javacpp.indexer.FloatRawIndexer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Point;
 import org.bytedeco.javacpp.opencv_core.Scalar;
-
-import static com.gitlab.daring.sandbox.javacv.ConvertUtils.imageToFloatArray;
 import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.buildMat;
 import static com.gitlab.daring.sandbox.javacv.JavaCvUtils.intPointer;
 import static org.bytedeco.javacpp.opencv_core.CV_8U;
@@ -44,6 +43,13 @@ class HistogramBuilder {
 		return r;
 	}
 
+	float[] imageToFloatArray(Mat m) {
+		FloatRawIndexer ind = m.createIndexer();
+		float[] r = new float[m.rows()];
+		for (int i = 0; i < m.rows(); i++) r[i] = ind.get(i);
+		return r;
+	}
+
 	Mat buildHue(Mat m, int minSat) {
 		Mat cm = buildMat(r -> cvtColor(m, r, COLOR_BGR2HSV));
 		Mat sm = new Mat();
@@ -65,4 +71,5 @@ class HistogramBuilder {
 		this.colored = colored;
 		return this;
 	}
+
 }

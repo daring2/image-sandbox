@@ -6,7 +6,7 @@ import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point;
 import javax.annotation.concurrent.NotThreadSafe;
-import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toJava;
+import static com.gitlab.daring.sandbox.image.util.OpencvConverters.toJava;
 import static org.bytedeco.javacpp.opencv_core.minMaxLoc;
 import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 
