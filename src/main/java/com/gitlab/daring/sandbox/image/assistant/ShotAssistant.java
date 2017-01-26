@@ -5,11 +5,11 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
 import javax.swing.*;
 import java.awt.BorderLayout;
+import static com.gitlab.daring.sandbox.image.util.ImageUtils.addWeightedMat;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static java.awt.BorderLayout.*;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
-import static org.bytedeco.javacpp.opencv_core.addWeighted;
 import static org.bytedeco.javacpp.opencv_core.bitwise_or;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -49,8 +49,9 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	void buildDisplayMat() {
 		Mat dm = displayMat;
+		inputMat.copyTo(dm);
 		if (!templateMat.empty()) {
-			addWeighted(inputMat, 1 - sampleOpacity, sampleMat, sampleOpacity, 0, dm);
+			addWeightedMat(dm, sampleMat, dm, sampleOpacity);
 			bitwise_or(dm, templateMat, dm);
 		} else {
 			inputMat.copyTo(dm);

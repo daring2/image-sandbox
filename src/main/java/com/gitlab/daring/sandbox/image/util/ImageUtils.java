@@ -7,6 +7,7 @@ import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 import java.util.function.Consumer;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static org.bytedeco.javacpp.opencv_core.addWeighted;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ImageUtils {
@@ -39,6 +40,10 @@ public class ImageUtils {
 		Point2f cp = new Point2f(m.cols() / 2.0f, m.rows() / 2.0f);
 		Mat rm = getRotationMatrix2D(cp, angle, 1);
 		return buildMat(r -> warpAffine(m, r, rm, m.size()));
+	}
+
+	public static void addWeightedMat(Mat m1, Mat m2, Mat dm, double f) {
+		if (f > 0) addWeighted(m1, 1 - f, m2, f, 0, dm);
 	}
 
 	private ImageUtils() {
