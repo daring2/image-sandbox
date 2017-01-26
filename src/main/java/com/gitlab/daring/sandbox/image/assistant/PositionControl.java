@@ -36,7 +36,7 @@ class PositionControl extends BaseComponent {
 		new Mat(mat, roi).copyTo(template);
 		MatchResult r1 = findMatch(resizeMat(mat, limits.scale));
 		MatchResult r2 = findMatch(rotateMat(mat, limits.angle));
-		minValue = Doubles.max(limits.minValue, r1.value, r2.value);
+		minValue = Doubles.min(limits.minValue, r1.value, r2.value);
 	}
 
 	MatchResult findMatch(Mat mat) {
