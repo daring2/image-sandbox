@@ -28,12 +28,12 @@ class PositionControl extends BaseComponent {
 		pos = limits.buildRect(roi.x(), roi.y());
 	}
 
-	void setSimple(Mat m) {
+	void setTemplate(Mat m) {
 		new Mat(m, roi).copyTo(template);
 	}
 
 	boolean check(Mat mat) {
-		Mat sm = assistant.sampleBuilder.build(mat);
+		Mat sm = assistant.templateBuilder.build(mat);
 		MatchResult mr = matcher.findBest(sm, template);
 		assistant.statusField.setText("result: " + mr.value); //TODO refactor
 		return mr.value > limits.minValue && pos.contains(mr.point);

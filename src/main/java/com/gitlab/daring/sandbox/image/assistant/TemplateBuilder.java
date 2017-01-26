@@ -6,14 +6,14 @@ import javax.annotation.concurrent.NotThreadSafe;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 @NotThreadSafe
-class SampleBuilder extends BaseComponent {
+class TemplateBuilder extends BaseComponent {
 
 	final double binThreshold = config.getDouble("binThreshold");
 
 	final Mat m = new Mat();
 
-	SampleBuilder(ShotAssistant a) {
-		super(a.config.getConfig("sample"));
+	TemplateBuilder(ShotAssistant a) {
+		super(a.config.getConfig("template"));
 	}
 
 	Mat build(Mat inputMat) {

@@ -13,7 +13,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 class ShotAssistant extends BaseVideoProcessor {
 
-	final SampleBuilder sampleBuilder = new SampleBuilder(this);
+	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
 
 	final Mat templateMat = new Mat();
@@ -45,8 +45,8 @@ class ShotAssistant extends BaseVideoProcessor {
 	}
 
 	void saveSample() {
-		Mat m = sampleBuilder.build(inputMat);
-		control.setSimple(m);
+		Mat m = templateBuilder.build(inputMat);
+		control.setTemplate(m);
 		cvtColor(m, templateMat, COLOR_GRAY2BGR);
 	}
 
