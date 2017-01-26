@@ -17,9 +17,9 @@ class PositionControl extends BaseComponent {
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 	final PositionLimits limits = new PositionLimits(getConfig("limits"));
 
-	final Mat template = new Mat();
 	final Rect roi;
 	final Rectangle pos;
+	final Mat template = new Mat();
 
 	PositionControl(ShotAssistant a) {
 		super(a.config.getConfig("position"));
