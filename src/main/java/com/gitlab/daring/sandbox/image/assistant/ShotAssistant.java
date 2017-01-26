@@ -8,11 +8,13 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static java.awt.BorderLayout.*;
+import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
 import static org.bytedeco.javacpp.opencv_core.bitwise_or;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 class ShotAssistant extends BaseVideoProcessor {
 
+	final double sampleOpacity = config.getDouble("sampleOpacity");
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
 
@@ -21,6 +23,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	final Mat displayMat = new Mat();
 
 	final JLabel statusField = new JLabel();
+	boolean checkResult;
 
 	public ShotAssistant() {
 		super("gmv.ShotAssistant");
@@ -37,12 +40,16 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	@Override
 	protected void processFrame() {
-		boolean tm = !templateMat.empty();
-		bitwise_or(inputMat, tm ? templateMat : inputMat, displayMat);
-		boolean cr = tm && control.check(inputMat);
-		rectangle(displayMat, control.roi, cr ? Scalar.GREEN : Scalar.BLUE);
+		checkResult = control.check(inputMat);
+		buildDisplayMat();
 		if (writer.isOpened()) writer.write(displayMat);
 		frame.showImage(matConverter.convert(displayMat));
+	}
+
+	void buildDisplayMat() {
+		boolean tm = !templateMat.empty();
+		bitwise_or(inputMat, tm ? templateMat : inputMat, displayMat);
+		rectangle(displayMat, control.roi, checkResult ? Scalar.GREEN : BLUE);
 	}
 
 	void saveSample() {

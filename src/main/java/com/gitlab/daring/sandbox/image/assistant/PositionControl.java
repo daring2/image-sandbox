@@ -45,6 +45,7 @@ class PositionControl extends BaseComponent {
 	}
 
 	boolean check(Mat mat) {
+		if (template.empty()) return false;
 		MatchResult mr = findMatch(mat);
 		assistant.statusField.setText("result: " + mr.value); //TODO refactor
 		return mr.value > minValue && pos.contains(mr.point);
