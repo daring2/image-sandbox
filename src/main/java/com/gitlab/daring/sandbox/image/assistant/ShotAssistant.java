@@ -2,13 +2,13 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Scalar;
 import org.bytedeco.javacpp.opencv_core.Size;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static java.awt.BorderLayout.*;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
+import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
 import static org.bytedeco.javacpp.opencv_core.bitwise_or;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -47,9 +47,13 @@ class ShotAssistant extends BaseVideoProcessor {
 	}
 
 	void buildDisplayMat() {
-		boolean tm = !templateMat.empty();
-		bitwise_or(inputMat, tm ? templateMat : inputMat, displayMat);
-		rectangle(displayMat, control.roi, checkResult ? Scalar.GREEN : BLUE);
+		Mat dm = displayMat;
+		if (!templateMat.empty()) {
+			bitwise_or(inputMat, templateMat, dm);
+		} else {
+			inputMat.copyTo(dm);
+		}
+		rectangle(dm, control.roi, checkResult ? GREEN : BLUE);
 	}
 
 	void saveSample() {
