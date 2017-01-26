@@ -3,8 +3,8 @@ package com.gitlab.daring.sandbox.image.util;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Size;
 import java.awt.*;
-import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toJava;
-import static com.gitlab.daring.sandbox.image.util.ConvertUtils.toOpencv;
+import static com.gitlab.daring.sandbox.image.util.OpencvConverters.toJava;
+import static com.gitlab.daring.sandbox.image.util.OpencvConverters.toOpencv;
 
 public class GeometryUtils {
 
