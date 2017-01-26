@@ -16,6 +16,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
 
+	final Mat sampleMat = new Mat();
 	final Mat templateMat = new Mat();
 	final Mat displayMat = new Mat();
 
@@ -38,14 +39,15 @@ class ShotAssistant extends BaseVideoProcessor {
 	protected void processFrame() {
 		boolean tm = !templateMat.empty();
 		bitwise_or(inputMat, tm ? templateMat : inputMat, displayMat);
-		boolean cr = tm && control.check(inputMat);;
+		boolean cr = tm && control.check(inputMat);
 		rectangle(displayMat, control.roi, cr ? Scalar.GREEN : Scalar.BLUE);
 		if (writer.isOpened()) writer.write(displayMat);
 		frame.showImage(matConverter.convert(displayMat));
 	}
 
 	void saveSample() {
-		Mat m = templateBuilder.build(inputMat);
+		inputMat.copyTo(sampleMat);
+		Mat m = templateBuilder.build(sampleMat);
 		control.setTemplate(m);
 		cvtColor(m, templateMat, COLOR_GRAY2BGR);
 	}
