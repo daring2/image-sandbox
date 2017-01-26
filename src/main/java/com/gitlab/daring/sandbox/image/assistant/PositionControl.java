@@ -3,11 +3,14 @@ package com.gitlab.daring.sandbox.image.assistant;
 import com.gitlab.daring.sandbox.image.common.BaseComponent;
 import com.gitlab.daring.sandbox.image.template.MatchResult;
 import com.gitlab.daring.sandbox.image.template.TemplateMatcher;
+import com.google.common.primitives.Doubles;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
 import static com.gitlab.daring.sandbox.image.util.GeometryUtils.getCenterRect;
+import static com.gitlab.daring.sandbox.image.util.ImageUtils.resizeMat;
+import static com.gitlab.daring.sandbox.image.util.ImageUtils.rotateMat;
 
 @NotThreadSafe
 class PositionControl extends BaseComponent {
@@ -20,23 +23,31 @@ class PositionControl extends BaseComponent {
 	final Rect roi;
 	final Rectangle pos;
 	final Mat template = new Mat();
+	double minValue = limits.minValue;
 
 	PositionControl(ShotAssistant a) {
 		super(a.config.getConfig("position"));
 		assistant = a;
 		roi = getCenterRect(a.getSize(), rectSize);
-		pos = limits.buildRect(roi.x(), roi.y());
+		pos = limits.buildPositionRect(roi.x(), roi.y());
 	}
 
-	void setTemplate(Mat m) {
-		new Mat(m, roi).copyTo(template);
+	void setTemplate(Mat mat) {
+		new Mat(mat, roi).copyTo(template);
+		MatchResult r1 = findMatch(resizeMat(mat, limits.scale));
+		MatchResult r2 = findMatch(rotateMat(mat, limits.angle));
+		minValue = Doubles.max(limits.minValue, r1.value, r2.value);
+	}
+
+	MatchResult findMatch(Mat mat) {
+		Mat sm = assistant.templateBuilder.build(mat);
+		return matcher.findBest(sm, template);
 	}
 
 	boolean check(Mat mat) {
-		Mat sm = assistant.templateBuilder.build(mat);
-		MatchResult mr = matcher.findBest(sm, template);
+		MatchResult mr = findMatch(mat);
 		assistant.statusField.setText("result: " + mr.value); //TODO refactor
-		return mr.value > limits.minValue && pos.contains(mr.point);
+		return mr.value > minValue && pos.contains(mr.point);
 	}
 
 }

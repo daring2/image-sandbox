@@ -26,10 +26,6 @@ public class GeometryUtils {
 		return new Dimension(roundInt(d.width * f), roundInt(d.height * f));
 	}
 
-	public static Size scale(Size size, double f) {
-		return toOpencv(scale(toJava(size), f));
-	}
-
 	public static int roundInt(double v) {
 		return (int) Math.round(v);
 	}

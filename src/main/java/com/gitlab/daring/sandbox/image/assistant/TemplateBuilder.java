@@ -11,13 +11,12 @@ class TemplateBuilder extends BaseComponent {
 
 	final double binThreshold = config.getDouble("binThreshold");
 
-	final Mat m = new Mat();
-
 	TemplateBuilder(ShotAssistant a) {
 		super(a.config.getConfig("template"));
 	}
 
 	Mat build(Mat inputMat) {
+		Mat m = new Mat();
 		convertToGrey(inputMat, m);
 		morphologyEx(m, m, MORPH_GRADIENT, new Mat());
 		threshold(m, m, binThreshold, 255, THRESH_BINARY);

@@ -2,10 +2,10 @@ package com.gitlab.daring.sandbox.image.util;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point2f;
+import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 import java.util.function.Consumer;
-import static com.gitlab.daring.sandbox.image.util.GeometryUtils.scale;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -32,12 +32,12 @@ public class ImageUtils {
 	}
 
 	public static Mat resizeMat(Mat m, double scale) {
-		return buildMat(r -> resize(m, r, scale(m.size(), scale)));
+		return buildMat(r -> resize(m, r, new Size(), scale, scale, INTER_LINEAR));
 	}
 
-	public static Mat rotateMat(Mat m, double angle, double scale) {
+	public static Mat rotateMat(Mat m, double angle) {
 		Point2f cp = new Point2f(m.cols() / 2.0f, m.rows() / 2.0f);
-		Mat rm = getRotationMatrix2D(cp, angle, scale);
+		Mat rm = getRotationMatrix2D(cp, angle, 1);
 		return buildMat(r -> warpAffine(m, r, rm, m.size()));
 	}
 
