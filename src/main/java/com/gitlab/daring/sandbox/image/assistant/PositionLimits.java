@@ -8,14 +8,14 @@ class PositionLimits extends BaseComponent {
 
 	final int offset = config.getInt("offset");
 	final double scale = config.getDouble("scale");
-	final double rotation = config.getDouble("rotation");
+	final double angle = config.getDouble("angle");
 	final double minValue = config.getDouble("minValue");
 
 	PositionLimits(Config config) {
 		super(config);
 	}
 
-	Rectangle buildRect(int x, int y) {
+	Rectangle buildPositionRect(int x, int y) {
 		return new Rectangle(x - offset, y - offset, offset* 2, offset * 2);
 	}
 
