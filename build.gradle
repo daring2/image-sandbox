@@ -31,6 +31,7 @@ allprojects {
 		compile 'org.bytedeco:javacv:' + javacvVersion
 		compile 'org.bytedeco.javacpp-presets:opencv:' + javacvVersion + ':windows-x86_64'
 		compile 'org.bytedeco.javacpp-presets:opencv:' + javacvVersion + ':linux-x86_64'
+		compile 'com.miglayout:miglayout-swing:5.0'
 		testCompile 'junit:junit:4.12'
 		testCompile 'org.mockito:mockito-core:2.1.0'
 	}
