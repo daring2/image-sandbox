@@ -11,9 +11,14 @@ public class TransformProcessors {
 
 	public static void register(ImageProcessorRegistry r) {
 		TransformProcessors p = new TransformProcessors();
+		r.register("equalizeHist", p::newEqualizeHistProc);
 		r.register("threshold", p::newThresholdProc);
 		r.register("morphology", p::newMorphologyProc);
 		r.register("canny", p::newCannyProc);
+	}
+
+	public ImageProcessor newEqualizeHistProc(String[] args) {
+		return newProc(m -> equalizeHist(m, m));
 	}
 
 	public ImageProcessor newThresholdProc(String[] args) {

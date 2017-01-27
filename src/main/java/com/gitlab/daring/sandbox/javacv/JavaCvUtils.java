@@ -15,7 +15,6 @@ import static org.bytedeco.javacpp.opencv_core.minMaxLoc;
 import static org.bytedeco.javacpp.opencv_core.normalize;
 import static org.bytedeco.javacpp.opencv_imgcodecs.IMREAD_COLOR;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
-import static org.bytedeco.javacpp.opencv_imgproc.equalizeHist;
 
 class JavaCvUtils {
 
@@ -31,10 +30,6 @@ class JavaCvUtils {
 
 	static Mat buildMat(Consumer<Mat> func) {
 		return ImageUtils.buildMat(func);
-	}
-
-	static Mat equalizeHistogram(Mat m) {
-		return buildMat(r -> equalizeHist(m, r));
 	}
 
 	static Mat normalizeImage(Mat m) {
