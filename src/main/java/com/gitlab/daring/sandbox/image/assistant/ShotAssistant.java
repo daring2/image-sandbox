@@ -17,33 +17,28 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
+	final ConfigPanel configPanel = new ConfigPanel(this);
 
 	final Mat sampleMat = new Mat();
 	final Mat templateMat = new Mat();
 	final Mat displayMat = new Mat();
 
 	final JLabel statusField = new JLabel();
-	int sampleOpacity = config.getInt("sampleOpacity");
+	double sampleOpacity;
 	boolean checkResult;
 
 	public ShotAssistant() {
 		super("gmv.ShotAssistant");
 		initFrame();
+		configPanel.showFrame();
 	}
 
 	private void initFrame() {
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(statusField, CENTER);
 		p.add(newButton("Снимок", this::saveSample), EAST);
-		p.add(createSampleOpacitySlider(), SOUTH);
 		frame.add(p, SOUTH);
 		frame.validate();
-	}
-
-	private JSlider createSampleOpacitySlider() {
-		JSlider sl = new JSlider(0, 50, sampleOpacity);
-		sl.addChangeListener(e -> sampleOpacity = sl.getValue());
-		return sl;
 	}
 
 	@Override
@@ -59,7 +54,7 @@ class ShotAssistant extends BaseVideoProcessor {
 		inputMat.copyTo(dm);
 		if (!templateMat.empty()) {
 			bitwise_or(dm, templateMat, dm);
-			addWeightedMat(dm, sampleMat, dm, sampleOpacity / 100.0);
+			addWeightedMat(dm, sampleMat, dm, sampleOpacity);
 		} else {
 			inputMat.copyTo(dm);
 		}
