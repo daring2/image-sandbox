@@ -1,12 +1,10 @@
 package com.gitlab.daring.sandbox.image.processor;
 
-import com.gitlab.daring.sandbox.image.processor.impl.CannyProcessor;
-import com.gitlab.daring.sandbox.image.processor.impl.MorphologyProcessor;
-import com.gitlab.daring.sandbox.image.processor.impl.ThresholdProcessor;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.split;
 
@@ -21,9 +19,11 @@ public class ImageProcessorRegistry {
 	final Map<String, ImageProcessor.Factory> registry = new HashMap<>();
 
 	public ImageProcessorRegistry() {
-		registry.put("morphology", MorphologyProcessor::new);
-		registry.put("threshold", ThresholdProcessor::new);
-		registry.put("canny", CannyProcessor::new);
+		TransformProcessors.register(this);
+	}
+
+	public void register(String name, ImageProcessor.Factory f) {
+		registry.put(name, f);
 	}
 
 	public ImageProcessor parse(String conf) {
