@@ -1,15 +1,17 @@
 package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.common.BaseComponent;
+import com.gitlab.daring.sandbox.image.processor.ImageProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import javax.annotation.concurrent.NotThreadSafe;
+import static com.gitlab.daring.sandbox.image.processor.ImageProcessorRegistry.parseProcList;
 import static com.gitlab.daring.sandbox.image.util.ImageUtils.convertToGrey;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
 
-	final double binThreshold = config.getDouble("binThreshold");
+	final String buildConf = config.getString("buildConf");
+	final ImageProcessor proc = parseProcList(buildConf);
 
 	TemplateBuilder(ShotAssistant a) {
 		super(a.config.getConfig("template"));
@@ -18,9 +20,7 @@ class TemplateBuilder extends BaseComponent {
 	Mat build(Mat inputMat) {
 		Mat m = new Mat();
 		convertToGrey(inputMat, m);
-		morphologyEx(m, m, MORPH_GRADIENT, new Mat());
-		threshold(m, m, binThreshold, 255, THRESH_BINARY);
-		return m;
+		return proc.process(m);
 	}
 
 }

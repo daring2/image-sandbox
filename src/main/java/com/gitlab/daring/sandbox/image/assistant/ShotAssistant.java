@@ -53,8 +53,8 @@ class ShotAssistant extends BaseVideoProcessor {
 		Mat dm = displayMat;
 		inputMat.copyTo(dm);
 		if (!templateMat.empty()) {
-			bitwise_or(dm, templateMat, dm);
 			addWeightedMat(dm, sampleMat, dm, sampleOpacity);
+			bitwise_or(dm, templateMat, dm);
 		} else {
 			inputMat.copyTo(dm);
 		}
