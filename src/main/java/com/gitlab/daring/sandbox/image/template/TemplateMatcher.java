@@ -5,7 +5,10 @@ import com.typesafe.config.Config;
 import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point;
+
 import javax.annotation.concurrent.NotThreadSafe;
+
+import static com.gitlab.daring.sandbox.image.util.EnumUtils.findEnum;
 import static com.gitlab.daring.sandbox.image.util.OpencvConverters.toJava;
 import static org.bytedeco.javacpp.opencv_core.minMaxLoc;
 import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
@@ -14,7 +17,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 public class TemplateMatcher extends BaseComponent {
 
 	final Mat resultMat = new Mat();
-	final MatchMethod method = config.getEnum(MatchMethod.class, "method");
+	final MatchMethod method = findEnum(MatchMethod.values(), config.getString("method"));
 	final DoublePointer valueRef = new DoublePointer(1);
 	final Point pointRef = new Point();
 
