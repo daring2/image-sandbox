@@ -1,5 +1,7 @@
-package com.gitlab.daring.sandbox.image.commands;
+package com.gitlab.daring.sandbox.image.transform;
 
+import com.gitlab.daring.sandbox.image.commands.Command;
+import com.gitlab.daring.sandbox.image.commands.CommandRegistry;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import static com.gitlab.daring.sandbox.image.commands.CommandUtils.newCommand;

@@ -1,5 +1,6 @@
 package com.gitlab.daring.sandbox.image.commands;
 
+import com.gitlab.daring.sandbox.image.transform.TransformCommands;
 import com.typesafe.config.Config;
 
 import java.util.Arrays;
