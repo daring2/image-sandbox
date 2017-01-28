@@ -10,7 +10,7 @@ public class ShowCommand extends BaseCommand {
 	final CanvasFrame frame = new CanvasFrame(args[0], 1);
 	final ToMat converter = new ToMat();
 
-	public ShowCommand(String[] args) {
+	public ShowCommand(String... args) {
 		super(args);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

@@ -2,6 +2,7 @@ package com.gitlab.daring.sandbox.image.command;
 
 import com.gitlab.daring.sandbox.image.transform.TransformCommands;
 import com.typesafe.config.Config;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,12 +37,15 @@ public class CommandRegistry {
 
 	public Command parse(String script) {
 		String[] ss = split(script, ";\n");
-		List<Command> cmds = Arrays.stream(ss).map(this::parseCommand).collect(toList());
+		List<Command> cmds = Arrays.stream(ss)
+			.filter(StringUtils::isNoneBlank)
+			.map(this::parseCommand)
+			.collect(toList());
 		return new CompositeCommand(cmds);
 	}
 
 	private Command parseCommand(String conf) {
-		String[] ss = split(conf, "()");
+		String[] ss = split(conf.trim(), "()");
 		String name = ss[0].trim();
 		String[] args = parseArgs(ss[1], getDefArgs(name));
 		return registry.get(name).create(args);

@@ -13,7 +13,7 @@ public class ConvertCommand extends BaseCommand {
 
 	final Target target = findEnum(Target.values(), args[0]);
 
-	public ConvertCommand(String[] args) {
+	public ConvertCommand(String... args) {
 		super(args);
 	}
 
@@ -25,6 +25,6 @@ public class ConvertCommand extends BaseCommand {
 		}
 	}
 
-	enum Target { Grey, Color }
+	enum Target {Grey, Color}
 
 }
