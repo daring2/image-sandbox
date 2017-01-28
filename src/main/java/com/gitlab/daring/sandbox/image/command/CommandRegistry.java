@@ -27,6 +27,7 @@ public class CommandRegistry {
 
 	public CommandRegistry() {
 		TransformCommands.register(this);
+		register("show", ShowCommand::new);
 	}
 
 	public void register(String name, Command.Factory f) {

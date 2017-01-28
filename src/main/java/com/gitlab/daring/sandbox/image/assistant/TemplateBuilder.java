@@ -8,7 +8,6 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.gitlab.daring.sandbox.image.command.CommandRegistry.parseScript;
-import static com.gitlab.daring.sandbox.image.util.ImageUtils.convertToGrey;
 
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
@@ -26,7 +25,7 @@ class TemplateBuilder extends BaseComponent {
 
 	Mat build(Mat inputMat) {
 		CommandEnv env = new CommandEnv();
-		convertToGrey(inputMat, env.mat);
+		inputMat.copyTo(env.mat);
 		buildCmd.execute(env);
 		return env.mat;
 	}
