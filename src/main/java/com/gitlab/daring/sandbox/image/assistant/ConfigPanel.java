@@ -1,5 +1,6 @@
 package com.gitlab.daring.sandbox.image.assistant;
 
+import com.gitlab.daring.sandbox.image.util.ValueEvent;
 import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 
@@ -13,6 +14,7 @@ class ConfigPanel extends JPanel {
 
 	final ShotAssistant a;
 	final Config config;
+	final ValueEvent<String> applyEvent = new ValueEvent<>();
 
 	ConfigPanel(ShotAssistant a) {
 		this.a = a;
@@ -22,7 +24,7 @@ class ConfigPanel extends JPanel {
 		createTemplateOpacitySlider();
 		add(new JSeparator(), "sx 2, width 100%");
 		createScriptField();
-
+		createApplyButton();
 	}
 
 	void createSampleOpacitySlider() {
@@ -44,6 +46,13 @@ class ConfigPanel extends JPanel {
 		JTextArea field = new JTextArea(script, 5, 10);
 		add(new JLabel("Скрипт"), "left, span 2");
 		add(new JScrollPane(field), "h 1000, grow, span 2");
+		applyEvent.addListener(v -> a.templateBuilder.setScript(field.getText()));
+	}
+
+	void createApplyButton() {
+		JButton b = new JButton("Применить");
+		b.addActionListener(e -> applyEvent.fire(""));
+		add(b, "span 2");
 	}
 
 	void addComponent(String label, JComponent comp) {
