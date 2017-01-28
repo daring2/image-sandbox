@@ -4,6 +4,7 @@ import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.awt.*;
 
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newPercentSlider;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -16,23 +17,33 @@ class ConfigPanel extends JPanel {
 	ConfigPanel(ShotAssistant a) {
 		this.a = a;
 		this.config = a.config;
-		setLayout(new MigLayout("fillx, wrap 2", "[right][grow,fill]", "[center]"));
+		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 		createSampleOpacitySlider();
 		createTemplateOpacitySlider();
+		add(new JSeparator(), "sx 2, width 100%");
+		createScriptField();
+
 	}
 
 	void createSampleOpacitySlider() {
 		JSlider sl = newPercentSlider();
 		sl.addChangeListener(e -> a.sampleOpacity = sl.getValue() / 100.0);
 		sl.setValue(config.getInt("sampleOpacity"));
-		addComponent("Sample opacity", sl);
+		addComponent("Образец", sl);
 	}
 
 	void createTemplateOpacitySlider() {
 		JSlider sl = newPercentSlider();
 		sl.addChangeListener(e -> a.templateOpacity = sl.getValue() / 100.0);
 		sl.setValue(config.getInt("templateOpacity"));
-		addComponent("Template opacity", sl);
+		addComponent("Контур", sl);
+	}
+
+	void createScriptField() {
+		String script = config.getString("template.script");
+		JTextArea field = new JTextArea(script, 5, 10);
+		add(new JLabel("Скрипт"), "left, span 2");
+		add(new JScrollPane(field), "h 1000, grow, span 2");
 	}
 
 	void addComponent(String label, JComponent comp) {
@@ -44,7 +55,8 @@ class ConfigPanel extends JPanel {
 		JFrame frame = new JFrame("Configuration");
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.setContentPane(this);
-		frame.setSize(640, 480);
+		Rectangle b = a.getFrame().getBounds();
+		frame.setBounds(b.x + b.width, b.y, 640, 300);
 		frame.setVisible(true);
 	}
 

@@ -4,6 +4,7 @@ import com.gitlab.daring.sandbox.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatExpr;
 import org.bytedeco.javacpp.opencv_core.Size;
+import org.bytedeco.javacv.CanvasFrame;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -76,6 +77,10 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	Size getSize() {
 		return size;
+	}
+
+	CanvasFrame getFrame() {
+		return frame;
 	}
 
 	public static void main(String[] args) throws Exception {
