@@ -1,4 +1,4 @@
-package com.gitlab.daring.sandbox.image.processor;
+package com.gitlab.daring.sandbox.image.commands;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
 
@@ -8,10 +8,10 @@ import java.util.function.Consumer;
 import static java.lang.Math.max;
 import static org.apache.commons.lang3.StringUtils.split;
 
-public class ImageProcessorUtils {
+public class CommandUtils {
 
-	public static ImageProcessor newProc(Consumer<Mat> c) {
-		return m -> { c.accept(m); return m; };
+	public static Command newCommand(Consumer<Mat> c) {
+		return env -> c.accept(env.mat);
 	}
 
 	public static String[] parseArgs(String argStr, List<String> defArgs) {
@@ -22,7 +22,7 @@ public class ImageProcessorUtils {
 		return args;
 	}
 
-	private ImageProcessorUtils() {
+	private CommandUtils() {
 	}
 
 }

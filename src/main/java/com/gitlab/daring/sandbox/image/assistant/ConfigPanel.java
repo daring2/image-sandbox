@@ -2,8 +2,10 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
-import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
+
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 class ConfigPanel extends JPanel {
 
@@ -33,7 +35,7 @@ class ConfigPanel extends JPanel {
 
 	void showFrame() {
 		JFrame frame = new JFrame("Configuration");
-		frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.setContentPane(this);
 		frame.setSize(640, 480);
 		frame.setVisible(true);
