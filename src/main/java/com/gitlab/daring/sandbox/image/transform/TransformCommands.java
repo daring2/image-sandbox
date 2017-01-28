@@ -1,10 +1,10 @@
 package com.gitlab.daring.sandbox.image.transform;
 
-import com.gitlab.daring.sandbox.image.commands.Command;
-import com.gitlab.daring.sandbox.image.commands.CommandRegistry;
+import com.gitlab.daring.sandbox.image.command.Command;
+import com.gitlab.daring.sandbox.image.command.CommandRegistry;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
-import static com.gitlab.daring.sandbox.image.commands.CommandUtils.newCommand;
+import static com.gitlab.daring.sandbox.image.command.CommandUtils.newCommand;
 import static com.gitlab.daring.sandbox.image.util.EnumUtils.findEnumIndex;
 import static java.lang.Double.parseDouble;
 import static org.bytedeco.javacpp.opencv_imgproc.*;

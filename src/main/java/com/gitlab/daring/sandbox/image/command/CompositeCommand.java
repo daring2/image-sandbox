@@ -1,4 +1,4 @@
-package com.gitlab.daring.sandbox.image.commands;
+package com.gitlab.daring.sandbox.image.command;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.gitlab.daring.sandbox.image.commands;
+package com.gitlab.daring.sandbox.image.command;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
 

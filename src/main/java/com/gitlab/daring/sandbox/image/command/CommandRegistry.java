@@ -1,4 +1,4 @@
-package com.gitlab.daring.sandbox.image.commands;
+package com.gitlab.daring.sandbox.image.command;
 
 import com.gitlab.daring.sandbox.image.transform.TransformCommands;
 import com.typesafe.config.Config;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.gitlab.daring.sandbox.image.commands.CommandUtils.parseArgs;
+import static com.gitlab.daring.sandbox.image.command.CommandUtils.parseArgs;
 import static com.gitlab.daring.sandbox.image.util.ConfigUtils.defaultConfig;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;

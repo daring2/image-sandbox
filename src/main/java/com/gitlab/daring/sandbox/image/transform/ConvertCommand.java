@@ -1,7 +1,7 @@
 package com.gitlab.daring.sandbox.image.transform;
 
-import com.gitlab.daring.sandbox.image.commands.BaseCommand;
-import com.gitlab.daring.sandbox.image.commands.CommandEnv;
+import com.gitlab.daring.sandbox.image.command.BaseCommand;
+import com.gitlab.daring.sandbox.image.command.CommandEnv;
 
 import static com.gitlab.daring.sandbox.image.transform.ConvertCommand.Target.Grey;
 import static com.gitlab.daring.sandbox.image.util.EnumUtils.findEnum;
