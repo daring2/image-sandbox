@@ -2,15 +2,19 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.MatExpr;
 import org.bytedeco.javacpp.opencv_core.Size;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
+
 import static com.gitlab.daring.sandbox.image.util.ImageUtils.addWeightedMat;
 import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static java.awt.BorderLayout.*;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
 import static org.bytedeco.javacpp.opencv_core.bitwise_or;
+import static org.bytedeco.javacpp.opencv_core.multiply;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 class ShotAssistant extends BaseVideoProcessor {
@@ -25,6 +29,7 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	final JLabel statusField = new JLabel();
 	double sampleOpacity;
+	double templateOpacity;
 	boolean checkResult;
 
 	public ShotAssistant() {
@@ -54,7 +59,8 @@ class ShotAssistant extends BaseVideoProcessor {
 		inputMat.copyTo(dm);
 		if (!templateMat.empty()) {
 			addWeightedMat(dm, sampleMat, dm, sampleOpacity);
-			bitwise_or(dm, templateMat, dm);
+			MatExpr dt = multiply(templateMat, templateOpacity);
+			bitwise_or(dm, dt.asMat(), dm);
 		} else {
 			inputMat.copyTo(dm);
 		}

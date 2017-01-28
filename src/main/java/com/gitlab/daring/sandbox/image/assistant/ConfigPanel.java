@@ -5,6 +5,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
+import static com.gitlab.daring.sandbox.image.util.SwingUtils.newPercentSlider;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 class ConfigPanel extends JPanel {
@@ -17,15 +18,21 @@ class ConfigPanel extends JPanel {
 		this.config = a.config;
 		setLayout(new MigLayout("fillx, wrap 2", "[right][grow,fill]", "[center]"));
 		createSampleOpacitySlider();
+		createTemplateOpacitySlider();
 	}
 
 	void createSampleOpacitySlider() {
-		JSlider sl = new JSlider(0, 100);
-		sl.setMajorTickSpacing(10);
-		sl.setPaintLabels(true);
+		JSlider sl = newPercentSlider();
 		sl.addChangeListener(e -> a.sampleOpacity = sl.getValue() / 100.0);
 		sl.setValue(config.getInt("sampleOpacity"));
 		addComponent("Sample opacity", sl);
+	}
+
+	void createTemplateOpacitySlider() {
+		JSlider sl = newPercentSlider();
+		sl.addChangeListener(e -> a.templateOpacity = sl.getValue() / 100.0);
+		sl.setValue(config.getInt("templateOpacity"));
+		addComponent("Template opacity", sl);
 	}
 
 	void addComponent(String label, JComponent comp) {

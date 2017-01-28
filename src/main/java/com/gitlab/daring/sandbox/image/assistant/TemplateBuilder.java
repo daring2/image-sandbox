@@ -13,11 +13,15 @@ import static com.gitlab.daring.sandbox.image.util.ImageUtils.convertToGrey;
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
 
-	final String buildScript = config.getString("buildScript");
-	final Command buildCmd = parseScript(buildScript);
+	Command buildCmd ;
 
 	TemplateBuilder(ShotAssistant a) {
 		super(a.config.getConfig("template"));
+		setScript(config.getString("script"));
+	}
+
+	void setScript(String script) {
+		buildCmd = parseScript(script);
 	}
 
 	Mat build(Mat inputMat) {
