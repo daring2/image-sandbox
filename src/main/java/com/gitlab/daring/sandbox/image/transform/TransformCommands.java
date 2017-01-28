@@ -13,6 +13,7 @@ public class TransformCommands {
 
 	public static void register(CommandRegistry r) {
 		TransformCommands p = new TransformCommands();
+		r.register("convert", ConvertCommand::new);
 		r.register("equalizeHist", p::newEqualizeHistCmd);
 		r.register("threshold", p::newThresholdCmd);
 		r.register("morphology", p::newMorphologyCmd);
@@ -30,9 +31,7 @@ public class TransformCommands {
 		return newCommand(m -> threshold(m, m, th1, maxValue, type));
 	}
 
-	enum ThresholdType {
-		Bin, BinInv, Trunc, ToZero, ToZeroInv
-	}
+	enum ThresholdType { Bin, BinInv, Trunc, ToZero, ToZeroInv }
 
 	public Command newMorphologyCmd(String[] args) {
 		int op = findEnumIndex(MorphOperation.values(), args[0]);
@@ -40,9 +39,7 @@ public class TransformCommands {
 		return newCommand(m -> morphologyEx(m, m, op, kernel));
 	}
 
-	enum MorphOperation {
-		Erode, Dilate, Open, Close, Gradient, TopHat, BlackHat, HitMiss
-	}
+	enum MorphOperation { Erode, Dilate, Open, Close, Gradient, TopHat, BlackHat, HitMiss }
 
 	public Command newCannyCmd(String[] args) {
 		double th1 = parseDouble(args[0]);

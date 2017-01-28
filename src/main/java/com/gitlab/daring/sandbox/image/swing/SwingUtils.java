@@ -1,4 +1,4 @@
-package com.gitlab.daring.sandbox.image.util;
+package com.gitlab.daring.sandbox.image.swing;
 
 import javax.swing.*;
 

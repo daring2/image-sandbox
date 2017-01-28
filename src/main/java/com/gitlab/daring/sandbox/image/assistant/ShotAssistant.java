@@ -9,8 +9,8 @@ import org.bytedeco.javacv.CanvasFrame;
 import javax.swing.*;
 import java.awt.BorderLayout;
 
+import static com.gitlab.daring.sandbox.image.swing.SwingUtils.newButton;
 import static com.gitlab.daring.sandbox.image.util.ImageUtils.addWeightedMat;
-import static com.gitlab.daring.sandbox.image.util.SwingUtils.newButton;
 import static java.awt.BorderLayout.*;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
