@@ -2,7 +2,6 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.MatExpr;
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacv.CanvasFrame;
 
@@ -10,18 +9,15 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 
 import static com.gitlab.daring.sandbox.image.swing.SwingUtils.newButton;
-import static com.gitlab.daring.sandbox.image.util.ImageUtils.addWeightedMat;
 import static java.awt.BorderLayout.*;
-import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
-import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
-import static org.bytedeco.javacpp.opencv_core.bitwise_or;
-import static org.bytedeco.javacpp.opencv_core.multiply;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
+import static org.bytedeco.javacpp.opencv_imgproc.COLOR_GRAY2BGR;
+import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 class ShotAssistant extends BaseVideoProcessor {
 
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
+	final DisplayBuilder displayBuilder = new DisplayBuilder(this);
 	final ConfigPanel configPanel = new ConfigPanel(this);
 
 	final Mat sampleMat = new Mat();
@@ -29,8 +25,6 @@ class ShotAssistant extends BaseVideoProcessor {
 	final Mat displayMat = new Mat();
 
 	final JLabel statusField = new JLabel();
-	double sampleOpacity;
-	double templateOpacity;
 	boolean checkResult;
 
 	public ShotAssistant() {
@@ -50,22 +44,9 @@ class ShotAssistant extends BaseVideoProcessor {
 	@Override
 	protected void processFrame() {
 		checkResult = control.check(inputMat);
-		buildDisplayMat();
+		displayBuilder.build(inputMat);
 		if (writer.isOpened()) writer.write(displayMat);
 		frame.showImage(matConverter.convert(displayMat));
-	}
-
-	void buildDisplayMat() {
-		Mat dm = displayMat;
-		inputMat.copyTo(dm);
-		if (!templateMat.empty()) {
-			addWeightedMat(dm, sampleMat, dm, sampleOpacity);
-			MatExpr dt = multiply(templateMat, templateOpacity);
-			bitwise_or(dm, dt.asMat(), dm);
-		} else {
-			inputMat.copyTo(dm);
-		}
-		rectangle(dm, control.roi, checkResult ? GREEN : BLUE);
 	}
 
 	void saveSample() {

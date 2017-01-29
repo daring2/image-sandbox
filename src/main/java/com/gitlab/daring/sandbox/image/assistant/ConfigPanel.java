@@ -2,7 +2,6 @@ package com.gitlab.daring.sandbox.image.assistant;
 
 import com.gitlab.daring.sandbox.image.swing.BaseAction;
 import com.gitlab.daring.sandbox.image.util.ValueEvent;
-import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -14,13 +13,13 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 class ConfigPanel extends JPanel {
 
-	final ShotAssistant a;
-	final Config config;
+	final ShotAssistant assistant;
+	final DisplayBuilder db;
 	final ValueEvent<String> applyEvent = new ValueEvent<>();
 
 	ConfigPanel(ShotAssistant a) {
-		this.a = a;
-		this.config = a.config;
+		this.assistant = a;
+		this.db = a.displayBuilder;
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 		createSampleOpacitySlider();
 		createTemplateOpacitySlider();
@@ -31,24 +30,25 @@ class ConfigPanel extends JPanel {
 
 	void createSampleOpacitySlider() {
 		JSlider sl = newPercentSlider();
-		sl.addChangeListener(e -> a.sampleOpacity = sl.getValue() / 100.0);
-		sl.setValue(config.getInt("sampleOpacity"));
+		sl.addChangeListener(e -> db.sampleOpacity = sl.getValue() / 100.0);
+		sl.setValue(db.config.getInt("sampleOpacity"));
 		addComponent("Образец", sl);
 	}
 
 	void createTemplateOpacitySlider() {
 		JSlider sl = newPercentSlider();
-		sl.addChangeListener(e -> a.templateOpacity = sl.getValue() / 100.0);
-		sl.setValue(config.getInt("templateOpacity"));
+		sl.addChangeListener(e -> db.templateOpacity = sl.getValue() / 100.0);
+		sl.setValue(db.config.getInt("templateOpacity"));
 		addComponent("Контур", sl);
 	}
 
 	void createScriptField() {
-		String script = config.getString("template.script");
+		TemplateBuilder tb = assistant.templateBuilder;
+		String script = tb.config.getString("script");
 		JTextArea field = new JTextArea(script, 5, 10);
 		add(new JLabel("Скрипт"), "left, span 2");
 		add(new JScrollPane(field), "h 1000, grow, span 2");
-		applyEvent.addListener(v -> a.templateBuilder.setScript(field.getText()));
+		applyEvent.addListener(v -> tb.setScript(field.getText()));
 	}
 
 	void createApplyButton() {
@@ -67,7 +67,7 @@ class ConfigPanel extends JPanel {
 		JFrame frame = new JFrame("Configuration");
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.setContentPane(this);
-		Rectangle b = a.getFrame().getBounds();
+		Rectangle b = assistant.getFrame().getBounds();
 		frame.setBounds(b.x + b.width, b.y, 640, 300);
 		frame.setVisible(true);
 	}
