@@ -11,9 +11,16 @@ import java.util.function.Consumer;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_core.addWeighted;
 import static org.bytedeco.javacpp.opencv_core.flip;
+import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ImageUtils {
+
+	public static Mat loadAndShow(String file) {
+		Mat m = imread(file);
+		showMat(m, file);
+		return m;
+	}
 
 	public static Mat buildMat(Consumer<Mat> func) {
 		Mat m = new Mat();

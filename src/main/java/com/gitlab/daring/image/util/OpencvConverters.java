@@ -1,10 +1,15 @@
 package com.gitlab.daring.image.util;
 
 import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Size;
 
 import java.awt.*;
+import java.util.Collection;
+
+import static com.google.common.collect.Iterables.toArray;
 
 public class OpencvConverters {
 
@@ -22,6 +27,10 @@ public class OpencvConverters {
 
 	public static Rect toOpencv(Rectangle r) {
 		return new Rect(r.x, r.y, r.width, r.height);
+	}
+
+	public static MatVector toOpencv(Collection<Mat> ms) {
+		return new MatVector(toArray(ms, Mat.class));
 	}
 
 	private OpencvConverters() {
