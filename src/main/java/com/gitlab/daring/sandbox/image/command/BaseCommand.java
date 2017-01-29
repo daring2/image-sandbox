@@ -23,4 +23,11 @@ public abstract class BaseCommand implements Command {
 		return Arrays.hashCode(params);
 	}
 
+	@Override
+	public String toString() {
+		return "BaseCommand{" +
+			"params=" + Arrays.toString(params) +
+			'}';
+	}
+
 }

@@ -47,7 +47,7 @@ public class CommandRegistry {
 	private Command parseCommand(String conf) {
 		String[] ss = split(conf.trim(), "()");
 		String name = ss[0].trim();
-		String[] ps = parseParams(ss[1], getDefParams(name));
+		String[] ps = parseParams(ss.length > 1 ? ss[1] : "", getDefParams(name));
 		return registry.get(name).create(ps);
 	}
 
