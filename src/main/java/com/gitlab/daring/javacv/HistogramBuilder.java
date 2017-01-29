@@ -10,7 +10,7 @@ import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Point;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
-import static com.gitlab.daring.javacv.JavaCvUtils.buildMat;
+import static com.gitlab.daring.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.javacv.JavaCvUtils.intPointer;
 import static org.bytedeco.javacpp.opencv_core.CV_8U;
 import static org.bytedeco.javacpp.opencv_core.split;

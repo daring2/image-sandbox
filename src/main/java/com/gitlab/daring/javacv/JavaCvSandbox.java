@@ -6,8 +6,8 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_features2d.BFMatcher;
 import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
+import static com.gitlab.daring.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.image.util.ImageUtils.showMat;
-import static com.gitlab.daring.javacv.JavaCvUtils.buildMat;
 import static com.gitlab.daring.javacv.MatchUtils.selectBest;
 import static org.bytedeco.javacpp.opencv_features2d.drawMatches;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
