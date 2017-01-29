@@ -5,9 +5,12 @@ import org.bytedeco.javacpp.opencv_core.Point2f;
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
+
 import java.util.function.Consumer;
+
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_core.addWeighted;
+import static org.bytedeco.javacpp.opencv_core.flip;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ImageUtils {
@@ -24,12 +27,8 @@ public class ImageUtils {
 		frame.showImage(new ToMat().convert(m));
 	}
 
-	public static void convertToGrey(Mat m, Mat d) {
-		if (m.channels() > 1) {
-			cvtColor(m, d, COLOR_BGR2GRAY);
-		} else {
-			m.copyTo(d);
-		}
+	public static void flipMat(Mat mat, int code) {
+		buildMat(m -> flip(mat, m, code)).copyTo(mat);
 	}
 
 	public static Mat resizeMat(Mat m, double scale) {

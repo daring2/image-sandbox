@@ -9,11 +9,14 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 
 import static com.gitlab.daring.sandbox.image.swing.SwingUtils.newButton;
+import static com.gitlab.daring.sandbox.image.util.ImageUtils.flipMat;
 import static java.awt.BorderLayout.*;
 import static org.bytedeco.javacpp.opencv_imgproc.COLOR_GRAY2BGR;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 class ShotAssistant extends BaseVideoProcessor {
+
+	final boolean flipInput = config.getBoolean("flipInput");
 
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
 	final PositionControl control = new PositionControl(this);
@@ -43,6 +46,8 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	@Override
 	protected void processFrame() {
+		if (flipInput)
+			flipMat(inputMat, 1);
 		checkResult = control.check(inputMat);
 		displayBuilder.build(inputMat);
 		if (writer.isOpened()) writer.write(displayMat);
