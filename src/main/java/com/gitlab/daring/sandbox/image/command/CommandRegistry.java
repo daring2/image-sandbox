@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.gitlab.daring.sandbox.image.command.CommandUtils.parseArgs;
+import static com.gitlab.daring.sandbox.image.command.CommandUtils.parseParams;
 import static com.gitlab.daring.sandbox.image.util.ConfigUtils.defaultConfig;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -47,11 +47,11 @@ public class CommandRegistry {
 	private Command parseCommand(String conf) {
 		String[] ss = split(conf.trim(), "()");
 		String name = ss[0].trim();
-		String[] args = parseArgs(ss[1], getDefArgs(name));
-		return registry.get(name).create(args);
+		String[] ps = parseParams(ss[1], getDefParams(name));
+		return registry.get(name).create(ps);
 	}
 
-	private List<String> getDefArgs(String name) {
+	private List<String> getDefParams(String name) {
 		return cmdConf.hasPath(name) ? cmdConf.getStringList(name) : emptyList();
 	}
 

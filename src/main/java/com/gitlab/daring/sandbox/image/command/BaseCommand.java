@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 public abstract class BaseCommand implements Command {
 
-	protected final String[] args;
+	protected final String[] params;
 
-	public BaseCommand(String... args) {
-		this.args = args;
+	public BaseCommand(String... params) {
+		this.params = params;
 	}
 
 	@Override
@@ -15,12 +15,12 @@ public abstract class BaseCommand implements Command {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		BaseCommand that = (BaseCommand) o;
-		return Arrays.equals(args, that.args);
+		return Arrays.equals(params, that.params);
 	}
 
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(args);
+		return Arrays.hashCode(params);
 	}
 
 }

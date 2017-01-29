@@ -11,10 +11,10 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 public class ConvertCommand extends BaseCommand {
 
-	final Target target = findEnum(Target.values(), args[0]);
+	final Target target = findEnum(Target.values(), params[0]);
 
-	public ConvertCommand(String... args) {
-		super(args);
+	public ConvertCommand(String... params) {
+		super(params);
 	}
 
 	@Override

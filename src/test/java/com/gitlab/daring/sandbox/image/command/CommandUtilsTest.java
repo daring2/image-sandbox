@@ -11,15 +11,15 @@ import static org.junit.Assert.assertEquals;
 public class CommandUtilsTest {
 
 	@Test
-	public void testParseArgs() throws Exception {
-		assertEquals(emptyList(), parseArgs(""));
-		assertEquals(asList("p1", "p2", "p3"), parseArgs("p1, p2, p3"));
-		assertEquals(asList("d1", "d2", "d3"), parseArgs("", "d1", "d2", "d3"));
-		assertEquals(asList("p1", "d2", "d3"), parseArgs("p1", "d1", "d2", "d3"));
+	public void testParseParams() throws Exception {
+		assertEquals(emptyList(), parseParams(""));
+		assertEquals(asList("p1", "p2", "p3"), parseParams("p1, p2, p3"));
+		assertEquals(asList("d1", "d2", "d3"), parseParams("", "d1", "d2", "d3"));
+		assertEquals(asList("p1", "d2", "d3"), parseParams("p1", "d1", "d2", "d3"));
 	}
 
-	List<String> parseArgs(String argStr, String... defArgs) {
-		return asList(CommandUtils.parseArgs(argStr, asList(defArgs)));
+	List<String> parseParams(String paramStr, String... defParams) {
+		return asList(CommandUtils.parseParams(paramStr, asList(defParams)));
 	}
 
 }

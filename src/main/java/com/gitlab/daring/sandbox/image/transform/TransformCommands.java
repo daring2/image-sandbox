@@ -20,30 +20,30 @@ public class TransformCommands {
 		r.register("canny", p::newCannyCmd);
 	}
 
-	public Command newEqualizeHistCmd(String[] args) {
+	public Command newEqualizeHistCmd(String[] params) {
 		return newCommand(m -> equalizeHist(m, m));
 	}
 
-	public Command newThresholdCmd(String[] args) {
-		double th1 = parseDouble(args[0]);
-		double maxValue = parseDouble(args[1]);
-		int type = findEnumIndex(ThresholdType.values(), args[2]);
+	public Command newThresholdCmd(String[] params) {
+		double th1 = parseDouble(params[0]);
+		double maxValue = parseDouble(params[1]);
+		int type = findEnumIndex(ThresholdType.values(), params[2]);
 		return newCommand(m -> threshold(m, m, th1, maxValue, type));
 	}
 
 	enum ThresholdType { Bin, BinInv, Trunc, ToZero, ToZeroInv }
 
-	public Command newMorphologyCmd(String[] args) {
-		int op = findEnumIndex(MorphOperation.values(), args[0]);
+	public Command newMorphologyCmd(String[] params) {
+		int op = findEnumIndex(MorphOperation.values(), params[0]);
 		Mat kernel = new Mat();
 		return newCommand(m -> morphologyEx(m, m, op, kernel));
 	}
 
 	enum MorphOperation { Erode, Dilate, Open, Close, Gradient, TopHat, BlackHat, HitMiss }
 
-	public Command newCannyCmd(String[] args) {
-		double th1 = parseDouble(args[0]);
-		double th2 = parseDouble(args[1]);
+	public Command newCannyCmd(String[] params) {
+		double th1 = parseDouble(params[0]);
+		double th2 = parseDouble(params[1]);
 		return newCommand(m -> Canny(m, m, th1, th2));
 	}
 

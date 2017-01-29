@@ -7,11 +7,11 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
-	final CanvasFrame frame = new CanvasFrame(args[0], 1);
+	final CanvasFrame frame = new CanvasFrame(params[0], 1);
 	final ToMat converter = new ToMat();
 
-	public ShowCommand(String... args) {
-		super(args);
+	public ShowCommand(String... params) {
+		super(params);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 

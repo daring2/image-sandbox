@@ -7,7 +7,7 @@ public interface Command {
 
 	@FunctionalInterface
 	interface Factory {
-		Command create(String[] args);
+		Command create(String[] params);
 	}
 
 }

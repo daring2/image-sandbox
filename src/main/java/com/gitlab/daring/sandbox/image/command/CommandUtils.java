@@ -14,12 +14,12 @@ public class CommandUtils {
 		return env -> c.accept(env.mat);
 	}
 
-	public static String[] parseArgs(String argStr, List<String> defArgs) {
-		List<String> ss = splitAndTrim(argStr, ",");
-		String[] args = new String[max(ss.size(), defArgs.size())];
-		for (int i = 0; i < args.length; i++)
-			args[i] = i < ss.size() ? ss.get(i) : defArgs.get(i);
-		return args;
+	public static String[] parseParams(String paramStr, List<String> defParams) {
+		List<String> ss = splitAndTrim(paramStr, ",");
+		String[] ps = new String[max(ss.size(), defParams.size())];
+		for (int i = 0; i < ps.length; i++)
+			ps[i] = i < ss.size() ? ss.get(i) : defParams.get(i);
+		return ps;
 	}
 
 	private CommandUtils() {
