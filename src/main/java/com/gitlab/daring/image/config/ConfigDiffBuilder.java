@@ -17,7 +17,7 @@ public class ConfigDiffBuilder {
 				rc = rc.withoutPath(p);
 			} else if (cv.valueType() == ConfigValueType.OBJECT) {
 				Config sc = build(c1.getConfig(p), c2.getConfig(p));
-				rc = rc.withValue(p, sc.root());
+				rc = sc.isEmpty() ? rc.withoutPath(p): rc.withValue(p, sc.root());
 			}
 		}
 		return rc;
