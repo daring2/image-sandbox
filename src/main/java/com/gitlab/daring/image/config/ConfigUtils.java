@@ -9,6 +9,10 @@ public class ConfigUtils {
 		return ConfigFactory.load();
 	}
 
+	public static Config emptyConfig() {
+		return ConfigFactory.empty();
+	}
+
 	public static Config configFromString(String str) {
 		return ConfigFactory.parseString(str);
 	}
