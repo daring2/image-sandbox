@@ -4,14 +4,13 @@ import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
-
 import javax.annotation.concurrent.NotThreadSafe;
-
 import static com.gitlab.daring.image.command.CommandRegistry.parseScript;
 
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
 
+	String script;
 	Command buildCmd ;
 
 	TemplateBuilder(ShotAssistant a) {
@@ -20,6 +19,7 @@ class TemplateBuilder extends BaseComponent {
 	}
 
 	void setScript(String script) {
+		this.script = script;
 		buildCmd = parseScript(script);
 	}
 
