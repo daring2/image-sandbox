@@ -11,21 +11,21 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 public class TransformCommands {
 
 	public static void register(CommandRegistry r) {
-		TransformCommands i = new TransformCommands();
+		TransformCommands f = new TransformCommands();
 		r.register("convert", ConvertCommand::new);
-		r.register("equalizeHist", i::newEqualizeHistCmd);
-		r.register("morphology", i::newMorphologyCmd);
-		r.register("canny", i::newCannyCmd);
+		r.register("equalizeHist", f::equalizeHistCmd);
+		r.register("morphology", f::morphologyCmd);
+		r.register("canny", f::cannyCmd);
 		r.register("filterContours", FilterContoursCommand::new);
 		ThresholdCommands.register(r);
+		FilterCommands.register(r);
 	}
 
-	public Command newEqualizeHistCmd(String[] ps) {
+	public Command equalizeHistCmd(String... ps) {
 		return newCommand(m -> equalizeHist(m, m));
 	}
 
-
-	public Command newMorphologyCmd(String[] ps) {
+	public Command morphologyCmd(String... ps) {
 		int op = findEnumIndex(MorphOperation.values(), ps[0]);
 		Mat kernel = new Mat();
 		return newCommand(m -> morphologyEx(m, m, op, kernel));
@@ -33,7 +33,7 @@ public class TransformCommands {
 
 	enum MorphOperation { Erode, Dilate, Open, Close, Gradient, TopHat, BlackHat, HitMiss }
 
-	public Command newCannyCmd(String[] ps) {
+	public Command cannyCmd(String[] ps) {
 		double th1 = parseDouble(ps[0]);
 		double th2 = parseDouble(ps[1]);
 		return newCommand(m -> Canny(m, m, th1, th2));
