@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import static com.gitlab.daring.image.config.ConfigUtils.*;
 import static com.gitlab.daring.image.swing.SwingUtils.newPercentSlider;
 import static javax.swing.KeyStroke.getKeyStroke;
@@ -81,11 +83,11 @@ class ConfigPanel extends JPanel {
 	}
 
 	Config buildCurrentConfig() {
-		return configFromString(
-			"display.sampleOpacity = " + db.sampleOpacity
-			+ "\ndisplay.templateOpacity = " + db.templateOpacity
-			+ "\ntemplate.script = \"" + tb.script + "\""
-		);
+		Map<String, Object> m = new HashMap<>();
+		m.put("display.sampleOpacity", db.sampleOpacity);
+		m.put("display.templateOpacity", db.templateOpacity);
+		m.put("template.script", tb.script);
+		return configFromMap(m);
 	}
 
 	void showFrame() {

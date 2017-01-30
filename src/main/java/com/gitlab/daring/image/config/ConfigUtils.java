@@ -5,6 +5,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import static com.typesafe.config.ConfigRenderOptions.concise;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -16,6 +17,10 @@ public class ConfigUtils {
 
 	public static Config emptyConfig() {
 		return ConfigFactory.empty();
+	}
+
+	public static Config configFromMap(Map<String, Object> map) {
+		return ConfigFactory.parseMap(map);
 	}
 
 	public static Config configFromString(String str) {
