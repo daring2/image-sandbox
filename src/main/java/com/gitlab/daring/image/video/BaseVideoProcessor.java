@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacpp.opencv_videoio.VideoWriter;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
-
+import java.io.File;
 import static com.gitlab.daring.image.util.ConfigUtils.getIntOpt;
 import static com.gitlab.daring.image.util.VideoUtils.*;
 import static java.lang.Integer.parseInt;
@@ -53,6 +53,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	protected void openWriter() {
 		String file = config.getString("output");
 		if (file.isEmpty()) return;
+		new File(file).delete();
 		int codec = getCodec(config.getString("outputCodec"));
 		if (!writer.open(file, codec, 1000.0 / delay, size, true))
 			throw new RuntimeException("Cannot create VideoWriter");
