@@ -15,7 +15,7 @@ public class CommandRegistry {
 
 	static final CommandRegistry Instance = new CommandRegistry();
 
-	public static Command parseScript(String script) {
+	public static CompositeCommand parseScript(String script) {
 		return Instance.parse(script);
 	}
 
@@ -31,7 +31,7 @@ public class CommandRegistry {
 		registry.put(name, f);
 	}
 
-	public Command parse(String script) {
+	public CompositeCommand parse(String script) {
 		List<String> ss = splitAndTrim(script, ";\n");
 		List<Command> cmds = ss.stream().map(this::parseCommand).collect(toList());
 		return new CompositeCommand(cmds);

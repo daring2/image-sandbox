@@ -2,10 +2,9 @@ package com.gitlab.daring.image.command;
 
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
-
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-public class ShowCommand extends BaseCommand {
+public class ShowCommand extends BaseCommand implements AutoCloseable {
 
 	final CanvasFrame frame = new CanvasFrame(params[0], 1);
 	final ToMat converter = new ToMat();
@@ -18,6 +17,11 @@ public class ShowCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		frame.showImage(converter.convert(env.mat));
+	}
+
+	@Override
+	public void close() {
+		frame.dispose();
 	}
 
 }
