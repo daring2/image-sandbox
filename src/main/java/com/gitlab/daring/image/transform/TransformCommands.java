@@ -3,7 +3,6 @@ package com.gitlab.daring.image.transform;
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 import org.bytedeco.javacpp.opencv_core.Mat;
-
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
 import static com.gitlab.daring.image.util.EnumUtils.findEnumIndex;
 import static java.lang.Double.parseDouble;
@@ -17,6 +16,7 @@ public class TransformCommands {
 		r.register("equalizeHist", i::newEqualizeHistCmd);
 		r.register("morphology", i::newMorphologyCmd);
 		r.register("canny", i::newCannyCmd);
+		r.register("filterContours", FilterContoursCommand::new);
 		ThresholdCommands.register(r);
 	}
 

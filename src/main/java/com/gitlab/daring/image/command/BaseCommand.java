@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.command;
 
 import java.util.Arrays;
+import static java.lang.Double.parseDouble;
 
 public abstract class BaseCommand implements Command {
 
@@ -8,6 +9,10 @@ public abstract class BaseCommand implements Command {
 
 	public BaseCommand(String... params) {
 		this.params = params;
+	}
+
+	public double doubleParam(int index) {
+		return parseDouble(params[index]);
 	}
 
 	@Override
