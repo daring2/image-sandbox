@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.opencv_videoio.VideoWriter;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 import java.io.File;
-import static com.gitlab.daring.image.util.ConfigUtils.getIntOpt;
+import static com.gitlab.daring.image.config.ConfigUtils.getIntOpt;
 import static com.gitlab.daring.image.util.VideoUtils.*;
 import static java.lang.Integer.parseInt;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
-import static com.gitlab.daring.image.util.ConfigUtils.defaultConfig;
+import static com.gitlab.daring.image.config.ConfigUtils.defaultConfig;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;

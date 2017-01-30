@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.util;
+package com.gitlab.daring.image.config;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
