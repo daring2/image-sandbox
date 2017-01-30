@@ -2,18 +2,14 @@ package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.transform.TransformCommands;
 import com.typesafe.config.Config;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
 import static com.gitlab.daring.image.util.ConfigUtils.defaultConfig;
+import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.split;
 
 public class CommandRegistry {
 
@@ -36,18 +32,15 @@ public class CommandRegistry {
 	}
 
 	public Command parse(String script) {
-		String[] ss = split(script, ";\n");
-		List<Command> cmds = Arrays.stream(ss)
-			.filter(StringUtils::isNoneBlank)
-			.map(this::parseCommand)
-			.collect(toList());
+		List<String> ss = splitAndTrim(script, ";\n");
+		List<Command> cmds = ss.stream().map(this::parseCommand).collect(toList());
 		return new CompositeCommand(cmds);
 	}
 
 	private Command parseCommand(String conf) {
-		String[] ss = split(conf.trim(), "()");
-		String name = ss[0].trim();
-		String[] ps = parseParams(ss.length > 1 ? ss[1] : "", getDefParams(name));
+		List<String> ss = splitAndTrim(conf, "()");
+		String name = ss.get(0);
+		String[] ps = parseParams(ss.size() > 1 ? ss.get(1) : "", getDefParams(name));
 		return registry.get(name).create(ps);
 	}
 
