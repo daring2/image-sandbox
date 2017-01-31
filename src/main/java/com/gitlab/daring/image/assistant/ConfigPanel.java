@@ -95,7 +95,7 @@ class ConfigPanel extends JPanel {
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.setContentPane(this);
 		Rectangle b = assistant.getFrame().getBounds();
-		frame.setBounds(b.x + b.width, b.y, 640, 300);
+		frame.setBounds(b.x , b.y + b.height, 640, 300);
 		frame.setVisible(true);
 	}
 
