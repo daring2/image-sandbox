@@ -23,6 +23,7 @@ public class BitwisePrevCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
+		if (env.mat.empty()) return;
 		env.mat.copyTo(hms[index]);
 		for (int i = 0; i < hms.length; i++) {
 			Mat hm = hms[i];
