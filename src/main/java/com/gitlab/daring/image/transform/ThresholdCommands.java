@@ -2,6 +2,7 @@ package com.gitlab.daring.image.transform;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
+
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
 import static com.gitlab.daring.image.util.EnumUtils.findEnumIndex;
 import static java.lang.Double.parseDouble;
@@ -13,18 +14,18 @@ public class ThresholdCommands {
 
 	public static void register(CommandRegistry r) {
 		ThresholdCommands f = new ThresholdCommands();
-		r.register("threshold", f::thresholdCmd);
-		r.register("adaptiveThreshold", f::adaptiveThresholdCmd);
+		r.register("threshold", f::thresholdCommand);
+		r.register("adaptiveThreshold", f::adaptiveThresholdCommand);
 	}
 
-	public Command thresholdCmd(String... ps) {
+	public Command thresholdCommand(String... ps) {
 		double th1 = parseDouble(ps[0]);
 		double maxValue = parseDouble(ps[1]);
 		int type = findEnumIndex(ThresholdType.values(), ps[2]);
 		return newCommand(m -> threshold(m, m, th1, maxValue, type));
 	}
 
-	public Command adaptiveThresholdCmd(String... ps) {
+	public Command adaptiveThresholdCommand(String... ps) {
 		double maxValue = parseDouble(ps[0]);
 		int method = findEnumIndex(AdaptiveMethod.values(), ps[1]);
 		int type = findEnumIndex(ThresholdType.values(), ps[2]);

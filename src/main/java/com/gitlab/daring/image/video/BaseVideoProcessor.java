@@ -7,11 +7,14 @@ import org.bytedeco.javacpp.opencv_videoio.VideoCapture;
 import org.bytedeco.javacpp.opencv_videoio.VideoWriter;
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
+
 import java.io.File;
+
 import static com.gitlab.daring.image.config.ConfigUtils.getIntOpt;
 import static com.gitlab.daring.image.util.VideoUtils.*;
 import static java.lang.Integer.parseInt;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static org.apache.commons.io.FileUtils.deleteQuietly;
 
 public abstract class BaseVideoProcessor extends BaseComponent implements AutoCloseable {
 
@@ -53,7 +56,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	protected void openWriter() {
 		String file = config.getString("output");
 		if (file.isEmpty()) return;
-		new File(file).delete();
+		deleteQuietly(new File(file));
 		int codec = getCodec(config.getString("outputCodec"));
 		if (!writer.open(file, codec, fps, size, true))
 			throw new RuntimeException("Cannot create VideoWriter");

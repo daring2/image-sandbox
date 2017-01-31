@@ -3,6 +3,7 @@ package com.gitlab.daring.image.transform;
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 import org.bytedeco.javacpp.opencv_core.Size;
+
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
@@ -12,24 +13,24 @@ public class FilterCommands {
 
 	public static void register(CommandRegistry r) {
 		FilterCommands f = new FilterCommands();
-		r.register("blur", f::blurCmd);
-		r.register("gaussianBlur", f::gaussianBlurCmd);
-		r.register("medianBlur", f::medianBlurCmd);
+		r.register("blur", f::blurCommand);
+		r.register("gaussianBlur", f::gaussianBlurCommand);
+		r.register("medianBlur", f::medianBlurCommand);
 		//TODO bilateralFilter
 	}
 
-	public Command blurCmd(String... ps) {
+	public Command blurCommand(String... ps) {
 		Size size = parseSize(ps[0]);
 		return newCommand((m, d) -> blur(m, d, size));
 	}
 
-	public Command gaussianBlurCmd(String... ps) {
+	public Command gaussianBlurCommand(String... ps) {
 		Size size = parseSize(ps[0]);
 		double sigma = parseDouble(ps[1]);
 		return newCommand((m, d) -> GaussianBlur(m, d, size, sigma));
 	}
 
-	public Command medianBlurCmd(String... ps) {
+	public Command medianBlurCommand(String... ps) {
 		int ksize = parseInt(ps[0]);
 		return newCommand((m, d) -> medianBlur(m ,d, ksize));
 	}
