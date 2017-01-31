@@ -2,9 +2,7 @@ package com.gitlab.daring.image.util;
 
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_videoio.*;
-
 import java.nio.ByteBuffer;
-
 import static java.nio.ByteOrder.LITTLE_ENDIAN;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.bytedeco.javacpp.opencv_videoio.*;
@@ -13,9 +11,9 @@ public class VideoUtils {
 
 	public static final int XVID = getCodec("XVID");
 
-	public static long getFrameDelay(VideoCapture c, long defValue) {
+	public static int getVideoFps(VideoCapture c, long defValue) {
 		double fps = c.get(CAP_PROP_FPS);
-		return fps > 0 ? Math.round(1000 / fps) : defValue;
+		return (int) (fps > 0 ? fps : defValue);
 	}
 
 	public static Size getFrameSize(VideoCapture c) {

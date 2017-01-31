@@ -16,7 +16,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public abstract class BaseVideoProcessor extends BaseComponent implements AutoCloseable {
 
 	protected final VideoCapture capture = createCapture();
-	protected final long delay = getFrameDelay(capture, config.getInt("defaultDelay"));
+	protected final int fps = getVideoFps(capture, config.getInt("fps"));
 	protected final Size size = getFrameSize(capture);
 	protected final VideoWriter writer = new VideoWriter();
 	protected final CanvasFrame frame =  createFrame();
@@ -46,7 +46,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 		openWriter();
 		while (capture.read(inputMat) && isStarted()) {
 			processFrame();
-			Thread.sleep(delay);
+			Thread.sleep(1000 / fps);
 		}
 	}
 
@@ -55,7 +55,7 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 		if (file.isEmpty()) return;
 		new File(file).delete();
 		int codec = getCodec(config.getString("outputCodec"));
-		if (!writer.open(file, codec, 1000.0 / delay, size, true))
+		if (!writer.open(file, codec, fps, size, true))
 			throw new RuntimeException("Cannot create VideoWriter");
 	}
 
@@ -64,6 +64,10 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 	}
 
 	protected abstract void processFrame();
+
+	public CanvasFrame getFrame() {
+		return frame;
+	}
 
 	@Override
 	public void close() throws Exception {
