@@ -2,9 +2,11 @@ package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.transform.TransformCommands;
 import com.typesafe.config.Config;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
 import static com.gitlab.daring.image.config.ConfigUtils.defaultConfig;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
@@ -37,11 +39,13 @@ public class CommandRegistry {
 		return new CompositeCommand(cmds);
 	}
 
-	private Command parseCommand(String conf) {
-		List<String> ss = splitAndTrim(conf, "()");
+	private Command parseCommand(String cmd) {
+		List<String> ss = splitAndTrim(cmd, "()");
 		String name = ss.get(0);
 		String[] ps = parseParams(ss.size() > 1 ? ss.get(1) : "", getDefParams(name));
-		return registry.get(name).create(ps);
+		Command.Factory cf = registry.get(name);
+		if (cf == null) throw new IllegalArgumentException("Invalid command '" + cmd);
+		return cf.create(ps);
 	}
 
 	private List<String> getDefParams(String name) {
