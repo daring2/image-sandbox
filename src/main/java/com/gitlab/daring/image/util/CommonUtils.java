@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 
 public class CommonUtils {
 
-	public static <T> T runQuietly(Callable<T> call) {
+	public static <T> T tryRun(Callable<T> call) {
 		try {
 			return call.call();
 		} catch (Exception e) {
@@ -12,8 +12,16 @@ public class CommonUtils {
 		}
 	}
 
+	public static void tryRun(VoidCallable call) {
+		tryRun(() -> { call.call(); return null; });
+	}
+
 	public static void runQuietly(VoidCallable call) {
-		runQuietly(() -> {call.call(); return "";});
+		try {
+			call.call();
+		} catch (Exception e) {
+			// ignore
+		}
 	}
 
 	public static void closeQuietly(AutoCloseable c) {

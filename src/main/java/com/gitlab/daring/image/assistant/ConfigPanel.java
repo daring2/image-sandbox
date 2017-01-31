@@ -1,27 +1,21 @@
 package com.gitlab.daring.image.assistant;
 
-import com.gitlab.daring.image.config.ConfigDiffBuilder;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
 import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
-import org.slf4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.gitlab.daring.image.config.ConfigUtils.*;
 import static com.gitlab.daring.image.swing.SwingUtils.newPercentSlider;
-import static javax.swing.KeyStroke.getKeyStroke;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import static org.slf4j.LoggerFactory.getLogger;
 
 class ConfigPanel extends JPanel {
 
-	final Logger log = getLogger(getClass());
 	final ShotAssistant assistant;
 	final TemplateBuilder tb;
 	final DisplayBuilder db;
@@ -36,7 +30,7 @@ class ConfigPanel extends JPanel {
 		createTemplateOpacitySlider();
 		add(new JSeparator(), "sx 2, width 100%");
 		createScriptField();
-		createApplyButton();
+		createButtons();
 		applyEvent.addListener(v -> save());
 	}
 
@@ -62,11 +56,10 @@ class ConfigPanel extends JPanel {
 		applyEvent.addListener(v -> tb.setScript(field.getText()));
 	}
 
-	void createApplyButton() {
+	void createButtons() {
 		BaseAction act = new BaseAction("Применить", e -> applyEvent.fire() );
+		act.register(this, "control S");
 		add(new JButton(act), "left, span 2");
-		getActionMap().put(act.getName(), act);
-		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(getKeyStroke("control S"), act.getName());
 	}
 
 	void addComponent(String label, JComponent comp) {
@@ -75,16 +68,10 @@ class ConfigPanel extends JPanel {
 	}
 
 	void save() {
-		try {
-			Config c = buildCurrentConfig(); //TODO refactor
-			Config dc = new ConfigDiffBuilder().build(c, referenceConfig());
-			saveConfig(dc, "conf/application.conf");
-		} catch (IOException e) {
-			log.warn("Cannot save configuration", e);
-		}
+		saveDiffConfig(buildConfig(), "conf/application.conf");
 	}
 
-	Config buildCurrentConfig() {
+	Config buildConfig() {
 		Map<String, Object> m = new HashMap<>();
 		m.put("display.sampleOpacity", db.sampleOpacity);
 		m.put("display.templateOpacity", db.templateOpacity);

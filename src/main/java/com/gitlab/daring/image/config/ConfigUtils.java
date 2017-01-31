@@ -3,9 +3,11 @@ package com.gitlab.daring.image.config;
 import com.google.common.io.Files;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
+
+import static com.gitlab.daring.image.util.CommonUtils.tryRun;
 import static com.typesafe.config.ConfigRenderOptions.concise;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -31,9 +33,16 @@ public class ConfigUtils {
 		return ConfigFactory.parseString(str);
 	}
 
-	public static void saveConfig(Config c, String file) throws IOException {
-		String str = c.root().render(concise().setFormatted(true).setJson(false));
-		Files.write(str, new File(file), UTF_8);
+	public static void saveConfig(Config c, String file) {
+		tryRun(() -> {
+			String str = c.root().render(concise().setFormatted(true).setJson(false));
+			Files.write(str, new File(file), UTF_8);
+		});
+	}
+
+	public static void saveDiffConfig(Config c, String file) {
+		Config dc = new ConfigDiffBuilder().build(c, referenceConfig());
+		saveConfig(dc, file);
 	}
 
 	public static int getIntOpt(Config c, String path, int defValue) {
