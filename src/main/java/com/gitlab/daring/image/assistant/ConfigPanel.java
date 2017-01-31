@@ -75,8 +75,8 @@ class ConfigPanel extends JPanel {
 	void save() {
 		try {
 			Config c = buildCurrentConfig(); //TODO refactor
-			Config dc = new ConfigDiffBuilder().build(c, assistant.config);
-			saveConfig(dc.atPath("gmv.ShotAssistant"), "conf/application.conf");
+			Config dc = new ConfigDiffBuilder().build(c, referenceConfig());
+			saveConfig(dc, "conf/application.conf");
 		} catch (IOException e) {
 			log.warn("Cannot save configuration", e);
 		}
@@ -87,7 +87,7 @@ class ConfigPanel extends JPanel {
 		m.put("display.sampleOpacity", db.sampleOpacity);
 		m.put("display.templateOpacity", db.templateOpacity);
 		m.put("template.script", tb.script);
-		return configFromMap(m);
+		return configFromMap(m).atPath("gmv.ShotAssistant");
 	}
 
 	void showFrame() {

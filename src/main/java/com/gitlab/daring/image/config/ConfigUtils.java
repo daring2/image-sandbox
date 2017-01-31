@@ -15,6 +15,10 @@ public class ConfigUtils {
 		return ConfigFactory.load();
 	}
 
+	public static Config referenceConfig() {
+		return ConfigFactory.defaultReference();
+	}
+
 	public static Config emptyConfig() {
 		return ConfigFactory.empty();
 	}
