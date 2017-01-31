@@ -23,10 +23,11 @@ public class BitwisePrevCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		Mat m = env.mat;
-		m.copyTo(hms[index]);
-		for (Mat hm : hms) {
-			if (!hm.empty()) func.apply(m, hm, m);
+		env.mat.copyTo(hms[index]);
+		for (int i = 0; i < hms.length; i++) {
+			Mat hm = hms[i];
+			if (i == index || hm.empty()) continue;
+			func.apply(env.mat, hm, env.mat);
 		}
 		index = (index + 1) % hms.length;
 	}
