@@ -31,7 +31,7 @@ class ConfigPanel extends JPanel {
 		add(new JSeparator(), "sx 2, width 100%");
 		createScriptField();
 		createButtons();
-		applyEvent.addListener(v -> save());
+		applyEvent.onFire(this::save);
 	}
 
 	void createSampleOpacitySlider() {
@@ -53,7 +53,7 @@ class ConfigPanel extends JPanel {
 		JTextArea field = new JTextArea(script, 5, 10);
 		add(new JLabel("Скрипт"), "left, span 2");
 		add(new JScrollPane(field), "h 1000, grow, span 2");
-		applyEvent.addListener(v -> tb.setScript(field.getText()));
+		applyEvent.onFire(() -> tb.setScript(field.getText()));
 	}
 
 	void createButtons() {
