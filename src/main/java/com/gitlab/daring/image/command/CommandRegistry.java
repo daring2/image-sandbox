@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
 import static com.gitlab.daring.image.config.ConfigUtils.defaultConfig;
+import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -44,7 +45,7 @@ public class CommandRegistry {
 		String name = ss.get(0);
 		String[] ps = parseParams(ss.size() > 1 ? ss.get(1) : "", getDefParams(name));
 		Command.Factory cf = registry.get(name);
-		if (cf == null) throw new IllegalArgumentException("Invalid command '" + cmd);
+		if (cf == null) throwArgumentException("Invalid command '" + cmd);
 		return cf.create(ps);
 	}
 
