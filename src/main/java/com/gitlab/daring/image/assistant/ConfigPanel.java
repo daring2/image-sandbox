@@ -2,6 +2,7 @@ package com.gitlab.daring.image.assistant;
 
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
+import com.gitlab.daring.image.swing.BaseFrame;
 import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 
@@ -12,7 +13,6 @@ import java.util.Map;
 
 import static com.gitlab.daring.image.config.ConfigUtils.*;
 import static com.gitlab.daring.image.swing.SwingUtils.newPercentSlider;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 class ConfigPanel extends JPanel {
 
@@ -80,9 +80,7 @@ class ConfigPanel extends JPanel {
 	}
 
 	void showFrame() {
-		JFrame frame = new JFrame("Configuration");
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		frame.setContentPane(this);
+		JFrame frame = new BaseFrame("Configuration", this);
 		Rectangle b = assistant.getFrame().getBounds();
 		frame.setBounds(b.x , b.y + b.height, 640, 300);
 		frame.setVisible(true);
