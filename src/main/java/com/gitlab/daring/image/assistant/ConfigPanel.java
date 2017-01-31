@@ -1,16 +1,18 @@
 package com.gitlab.daring.image.assistant;
 
 import com.gitlab.daring.image.config.ConfigDiffBuilder;
+import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
-import com.gitlab.daring.image.util.ValueEvent;
 import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 import org.slf4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import static com.gitlab.daring.image.config.ConfigUtils.*;
 import static com.gitlab.daring.image.swing.SwingUtils.newPercentSlider;
 import static javax.swing.KeyStroke.getKeyStroke;
@@ -23,7 +25,7 @@ class ConfigPanel extends JPanel {
 	final ShotAssistant assistant;
 	final TemplateBuilder tb;
 	final DisplayBuilder db;
-	final ValueEvent<String> applyEvent = new ValueEvent<>();
+	final VoidEvent applyEvent = new VoidEvent();
 
 	ConfigPanel(ShotAssistant a) {
 		this.assistant = a;
@@ -61,7 +63,7 @@ class ConfigPanel extends JPanel {
 	}
 
 	void createApplyButton() {
-		BaseAction act = new BaseAction("Применить", e -> applyEvent.fire("") );
+		BaseAction act = new BaseAction("Применить", e -> applyEvent.fire() );
 		add(new JButton(act), "left, span 2");
 		getActionMap().put(act.getName(), act);
 		getInputMap(WHEN_IN_FOCUSED_WINDOW).put(getKeyStroke("control S"), act.getName());

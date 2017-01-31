@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.util;
+package com.gitlab.daring.image.event;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
