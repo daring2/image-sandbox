@@ -9,6 +9,8 @@ import static com.gitlab.daring.image.util.EnumUtils.findEnum;
 public class BitwisePrevCommand extends BaseCommand {
 
 	final Type type = findEnum(Type.values(), params[0]);
+
+	final BitwiseFunction func = type.func;
 	final Mat curMat = new Mat();
 	final Mat prevMat = new Mat();
 
@@ -19,12 +21,12 @@ public class BitwisePrevCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		env.mat.copyTo(curMat);
-		if (!prevMat.empty()) type.func.apply(prevMat, curMat, env.mat);
+		if (!prevMat.empty()) func.apply(prevMat, curMat, env.mat);
 		curMat.copyTo(prevMat);
 	}
 
 	@FunctionalInterface
-	interface BitwiseMethod {
+	interface BitwiseFunction {
 		void apply(Mat m1, Mat m2, Mat dm);
 	}
 
@@ -35,9 +37,9 @@ public class BitwisePrevCommand extends BaseCommand {
 		NOT(opencv_core::bitwise_not),
 		XOR(opencv_core::bitwise_xor);
 
-		final BitwiseMethod func;
+		final BitwiseFunction func;
 
-		Type(BitwiseMethod func) {
+		Type(BitwiseFunction func) {
 			this.func = func;
 		}
 	}
