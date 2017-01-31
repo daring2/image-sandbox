@@ -16,6 +16,7 @@ public class TransformCommands {
 		r.register("equalizeHist", f::equalizeHistCmd);
 		r.register("morphology", f::morphologyCmd);
 		r.register("canny", f::cannyCmd);
+		r.register("bitwisePrev",  BitwisePrevCommand::new);
 		r.register("filterContours", FilterContoursCommand::new);
 		ThresholdCommands.register(r);
 		FilterCommands.register(r);
