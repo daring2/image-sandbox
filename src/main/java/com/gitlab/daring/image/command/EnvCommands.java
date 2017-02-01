@@ -9,29 +9,29 @@ public class EnvCommands {
 
 	public static void register(CommandRegistry r) {
 		EnvCommands f = new EnvCommands();
-		r.register("read", f::readCommand);
-		r.register("write", f::writeCommand);
-		r.register("get", f::getCommand);
-		r.register("put", f::putCommand);
+		r.register("read", f::newReadCommand);
+		r.register("write", f::newWriteCommand);
+		r.register("get", f::newGetCommand);
+		r.register("put", f::newPutCommand);
 		r.register("show", ShowCommand::new);
 	}
 
-	public Command readCommand(String... ps) {
+	public Command newReadCommand(String... ps) {
 		int flags = findEnumIndex(ReadFlag.values(), ps[1]);
 		return env -> env.mat = imread(ps[0], flags);
 	}
 
 	enum ReadFlag { Grey, Color }
 
-	public Command writeCommand(String... ps) {
+	public Command newWriteCommand(String... ps) {
 		return newCommand(m -> imwrite(ps[0], m));
 	}
 
-	public Command getCommand(String... ps) {
+	public Command newGetCommand(String... ps) {
 		return env -> env.vars.get(ps[0]).copyTo(env.mat);
 	}
 
-	public Command putCommand(String... ps) {
+	public Command newPutCommand(String... ps) {
 		return env -> env.vars.put(ps[0], env.mat.clone());
 	}
 
