@@ -6,6 +6,7 @@ import com.typesafe.config.Config;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
 import static com.gitlab.daring.image.config.ConfigUtils.defaultConfig;
@@ -18,12 +19,13 @@ public class CommandRegistry {
 
 	static final CommandRegistry Instance = new CommandRegistry();
 
-	public static CompositeCommand parseScript(String script) {
-		return Instance.parse(script);
+	public static CompositeCommand parseCmdScript(String script) {
+		return Instance.parseScript(script);
 	}
 
 	final Config cmdConf = defaultConfig().getConfig("gmv.commands");
-	final Map<String, Command.Factory> registry = new HashMap<>();
+	final Map<String, Command.Factory> factories = new HashMap<>();
+	final Map<String, Command> cache = new ConcurrentHashMap<>();
 
 	public CommandRegistry() {
 		EnvCommands.register(this);
@@ -32,21 +34,30 @@ public class CommandRegistry {
 	}
 
 	public void register(String name, Command.Factory f) {
-		registry.put(name, f);
+		factories.put(name, f);
 	}
 
-	public CompositeCommand parse(String script) {
+	public CompositeCommand parseScript(String script) {
 		List<String> ss = splitAndTrim(script, ";\n");
-		List<Command> cmds = ss.stream().map(this::parseCommand).collect(toList());
+		List<Command> cmds = ss.stream().map(this::getCommand).collect(toList());
 		return new CompositeCommand(cmds);
 	}
 
-	private Command parseCommand(String cmd) {
-		List<String> ss = splitAndTrim(cmd, "()");
+	private Command getCommand(String cmdStr) {
+		Command cmd = cache.get(cmdStr);
+		if (cmd == null) {
+			cmd = parseCommand(cmdStr);
+			if (cmd.isCacheable()) cache.put(cmdStr, cmd);
+		}
+		return cmd;
+	}
+
+	private Command parseCommand(String cmdStr) {
+		List<String> ss = splitAndTrim(cmdStr, "()");
 		String name = ss.get(0);
 		String[] ps = parseParams(ss.size() > 1 ? ss.get(1) : "", getDefParams(name));
-		Command.Factory cf = registry.get(name);
-		if (cf == null) throwArgumentException("Invalid command " + cmd);
+		Command.Factory cf = factories.get(name);
+		if (cf == null) throwArgumentException("Invalid command " + cmdStr);
 		return cf.create(ps);
 	}
 

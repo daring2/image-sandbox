@@ -4,9 +4,10 @@ import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.CompositeCommand;
 import com.gitlab.daring.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
+
 import javax.annotation.concurrent.NotThreadSafe;
-import static com.gitlab.daring.image.command.CommandRegistry.parseScript;
-import static com.gitlab.daring.image.util.CommonUtils.closeQuietly;
+
+import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
 
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
@@ -20,9 +21,9 @@ class TemplateBuilder extends BaseComponent {
 	}
 
 	void setScript(String script) {
-		closeQuietly(buildCmd);
+//		closeQuietly(buildCmd);
 		this.script = script;
-		buildCmd = parseScript(script);
+		buildCmd = parseCmdScript(script);
 	}
 
 	Mat build(Mat inputMat) {

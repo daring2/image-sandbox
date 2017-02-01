@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.gitlab.daring.image.command.CommandRegistry.parseScript;
+import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
 import static com.gitlab.daring.image.util.CommonUtils.closeQuietly;
@@ -32,7 +32,7 @@ public class ImageSandbox extends BaseComponent {
 	void setScript(String script) {
 		closeQuietly(scriptCmd);
 		this.script = script;
-		scriptCmd = parseScript(script);
+		scriptCmd = parseCmdScript(script);
 		scriptCmd.execute(cmdEnv);
 	}
 

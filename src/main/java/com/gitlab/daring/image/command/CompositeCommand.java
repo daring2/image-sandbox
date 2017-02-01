@@ -1,9 +1,8 @@
 package com.gitlab.daring.image.command;
 
 import java.util.List;
-import static com.gitlab.daring.image.util.CommonUtils.closeQuietly;
 
-public class CompositeCommand implements Command, AutoCloseable {
+public class CompositeCommand implements Command {
 
 	final List<Command> commands;
 
@@ -18,10 +17,7 @@ public class CompositeCommand implements Command, AutoCloseable {
 
 	@Override
 	public void close()  {
-		for (Command cmd : commands) {
-			if (cmd instanceof AutoCloseable)
-				closeQuietly((AutoCloseable) cmd);
-		}
+		commands.forEach(Command::close);
 	}
 
 }
