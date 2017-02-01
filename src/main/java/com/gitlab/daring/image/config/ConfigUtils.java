@@ -41,7 +41,8 @@ public class ConfigUtils {
 	}
 
 	public static void saveDiffConfig(Config c, String file) {
-		Config dc = new ConfigDiffBuilder().build(c, referenceConfig());
+		ConfigDiffBuilder db = new ConfigDiffBuilder();
+		Config dc = db.build(c.withFallback(defaultConfig()), referenceConfig());
 		saveConfig(dc, file);
 	}
 
