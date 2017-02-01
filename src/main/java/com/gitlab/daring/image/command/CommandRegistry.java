@@ -26,6 +26,7 @@ public class CommandRegistry {
 	final Map<String, Command.Factory> registry = new HashMap<>();
 
 	public CommandRegistry() {
+		EnvCommands.register(this);
 		TransformCommands.register(this);
 		register("show", ShowCommand::new);
 	}
@@ -45,7 +46,7 @@ public class CommandRegistry {
 		String name = ss.get(0);
 		String[] ps = parseParams(ss.size() > 1 ? ss.get(1) : "", getDefParams(name));
 		Command.Factory cf = registry.get(name);
-		if (cf == null) throwArgumentException("Invalid command '" + cmd);
+		if (cf == null) throwArgumentException("Invalid command " + cmd);
 		return cf.create(ps);
 	}
 
