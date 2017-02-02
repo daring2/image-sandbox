@@ -10,8 +10,8 @@ import static java.lang.Integer.parseInt;
 
 public class BitwisePrevCommand extends BaseCommand {
 
-	final Type type = findEnum(Type.values(), params[0]);
-	final int histSize = parseInt(params[1]);
+	final Type type = findEnum(Type.values(), args[0]);
+	final int histSize = parseInt(args[1]);
 
 	final BitwiseFunction func = type.func;
 	final Mat[] hms = new Mat[histSize + 1];

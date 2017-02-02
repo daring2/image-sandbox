@@ -1,6 +1,10 @@
 package com.gitlab.daring.image.command;
 
+import com.gitlab.daring.image.command.parameter.CommandParam;
+
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class CompositeCommand implements Command {
 
@@ -13,6 +17,11 @@ public class CompositeCommand implements Command {
 	@Override
 	public void execute(CommandEnv env) {
 		commands.forEach(c -> c.execute(env));
+	}
+
+	@Override
+	public List<CommandParam<?>> getParams() {
+		return commands.stream().flatMap(c -> c.getParams().stream()).collect(toList());
 	}
 
 	@Override

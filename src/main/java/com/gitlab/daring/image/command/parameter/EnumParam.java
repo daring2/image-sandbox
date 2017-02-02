@@ -8,6 +8,8 @@ public class EnumParam<T extends Enum<T>>  extends CommandParam<T> {
 
 	public EnumParam(Class<T> cl, String sv) {
 		super(sv, "");
+		enumClass = cl;
+		v = parseValue(sv);
 	}
 
 	public int index() {
@@ -16,7 +18,7 @@ public class EnumParam<T extends Enum<T>>  extends CommandParam<T> {
 
 	@Override
 	public T parseValue(String sv) {
-		return findEnum(enumClass, sv);
+		return enumClass != null ? findEnum(enumClass, sv) : null;
 	}
 
 }

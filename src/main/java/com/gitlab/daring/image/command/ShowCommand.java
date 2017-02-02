@@ -8,7 +8,7 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
-	final String title = params[0];
+	final String title = args[0];
 	final CanvasFrame frame = new CanvasFrame(title, 1);
 	final ToMat converter = new ToMat();
 
