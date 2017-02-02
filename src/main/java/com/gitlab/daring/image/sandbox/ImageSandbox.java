@@ -17,7 +17,7 @@ public class ImageSandbox extends BaseComponent {
 
 	static final String ConfigPath = "gmv.ImageSandbox";
 
-	final ManPanel mainPanel = new ManPanel(this);
+	final MainPanel mainPanel = new MainPanel(this);
 	final CommandEnv cmdEnv = new CommandEnv();
 
 	String script;

@@ -7,12 +7,12 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-class ManPanel extends JPanel {
+class MainPanel extends JPanel {
 
 	final ImageSandbox sb;
 	final VoidEvent applyEvent = new VoidEvent();
 
-	ManPanel(ImageSandbox sb) {
+	MainPanel(ImageSandbox sb) {
 		this.sb = sb;
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 		createScriptField();
