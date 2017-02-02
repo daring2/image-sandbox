@@ -1,21 +1,22 @@
 package com.gitlab.daring.image.command;
 
+import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.transform.TransformCommands;
+import com.google.common.cache.Cache;
 import com.typesafe.config.Config;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+import static com.gitlab.daring.image.cache.CacheUtils.buildClosableCache;
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
-import static com.gitlab.daring.image.config.ConfigUtils.defaultConfig;
 import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-public class CommandRegistry {
+public class CommandRegistry extends BaseComponent {
 
 	static final CommandRegistry Instance = new CommandRegistry();
 
@@ -23,11 +24,12 @@ public class CommandRegistry {
 		return Instance.parseScript(script);
 	}
 
-	final Config cmdConf = defaultConfig().getConfig("gmv.commands");
+	final Config cmdConfig = getConfig("commands");
 	final Map<String, Command.Factory> factories = new HashMap<>();
-	final Map<String, Command> cache = new ConcurrentHashMap<>();
+	final Cache<String, Command> cache = buildClosableCache(config.getString("cache"));
 
 	public CommandRegistry() {
+		super("gmv.CommandRegistry");
 		EnvCommands.register(this);
 		TransformCommands.register(this);
 		register("show", ShowCommand::new);
@@ -44,7 +46,7 @@ public class CommandRegistry {
 	}
 
 	private Command getCommand(String cmdStr) {
-		Command cmd = cache.get(cmdStr);
+		Command cmd = cache.getIfPresent(cmdStr);
 		if (cmd == null) {
 			cmd = parseCommand(cmdStr);
 			if (cmd.isCacheable()) cache.put(cmdStr, cmd);
@@ -62,7 +64,7 @@ public class CommandRegistry {
 	}
 
 	private List<String> getDefParams(String name) {
-		return cmdConf.hasPath(name) ? cmdConf.getStringList(name) : emptyList();
+		return cmdConfig.hasPath(name) ? cmdConfig.getStringList(name) : emptyList();
 	}
 
 }
