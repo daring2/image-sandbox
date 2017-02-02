@@ -10,6 +10,10 @@ public class EnumParam<T extends Enum<T>>  extends CommandParam<T> {
 		super(sv, "");
 	}
 
+	public int index() {
+		return v.ordinal();
+	}
+
 	@Override
 	public T parseValue(String sv) {
 		return findEnum(enumClass, sv);
