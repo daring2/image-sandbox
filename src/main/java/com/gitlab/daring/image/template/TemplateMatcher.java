@@ -17,7 +17,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 public class TemplateMatcher extends BaseComponent {
 
 	final Mat resultMat = new Mat();
-	final MatchMethod method = findEnum(config, "method", MatchMethod.values());
+	final MatchMethod method = findEnum(config, MatchMethod.class, "method");
 	final DoublePointer valueRef = new DoublePointer(1);
 	final Point pointRef = new Point();
 

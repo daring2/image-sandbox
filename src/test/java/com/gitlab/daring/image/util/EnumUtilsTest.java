@@ -19,7 +19,7 @@ public class EnumUtilsTest {
 	}
 
 	void checkFindEnum(TestEnum exp, String name) {
-		assertEquals(exp, findEnum(TestEnum.values(), name));
+		assertEquals(exp, findEnum(TestEnum.class, name));
 	}
 
 	enum TestEnum { One, Two, Three }

@@ -18,8 +18,8 @@ public class EnumUtils {
 		return findEnum(cl.getEnumConstants(), name);
 	}
 
-	public static <T> T findEnum(Config c, String path, T[] vs) {
-		return findEnum(vs, c.getString(path));
+	public static <T> T findEnum(Config c, Class<T> cl, String path) {
+		return findEnum(cl, c.getString(path));
 	}
 
 	public static int findEnumIndex(Enum[] vs, String name) {
