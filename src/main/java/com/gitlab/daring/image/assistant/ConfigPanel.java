@@ -11,7 +11,8 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.gitlab.daring.image.config.ConfigUtils.*;
+import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
+import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
 import static com.gitlab.daring.image.swing.SwingUtils.newPercentSlider;
 
 class ConfigPanel extends JPanel {
@@ -36,15 +37,15 @@ class ConfigPanel extends JPanel {
 
 	void createSampleOpacitySlider() {
 		JSlider sl = newPercentSlider();
-		sl.addChangeListener(e -> db.sampleOpacity = sl.getValue() / 100.0);
-		sl.setValue(getPercent(db.config, "sampleOpacity"));
+		sl.addChangeListener(e -> db.sampleOpacity = sl.getValue());
+		sl.setValue(db.config.getInt("sampleOpacity"));
 		addComponent("Образец", sl);
 	}
 
 	void createTemplateOpacitySlider() {
 		JSlider sl = newPercentSlider();
-		sl.addChangeListener(e -> db.templateOpacity = sl.getValue() / 100.0);
-		sl.setValue(getPercent(db.config, "templateOpacity"));
+		sl.addChangeListener(e -> db.templateOpacity = sl.getValue());
+		sl.setValue(db.config.getInt("templateOpacity"));
 		addComponent("Контур", sl);
 	}
 
@@ -82,7 +83,7 @@ class ConfigPanel extends JPanel {
 	void showFrame() {
 		JFrame frame = new BaseFrame("Configuration", this);
 		Rectangle b = assistant.getFrame().getBounds();
-		frame.setBounds(b.x , b.y + b.height, 640, 300);
+		frame.setBounds(b.x + b.width , b.y, 640, 300);
 		frame.setVisible(true);
 	}
 
