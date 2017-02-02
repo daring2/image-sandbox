@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.assistant;
 
+import com.gitlab.daring.image.command.parameter.BaseParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
 import com.gitlab.daring.image.swing.BaseFrame;
@@ -20,6 +21,7 @@ class ConfigPanel extends JPanel {
 	final ShotAssistant assistant;
 	final TemplateBuilder tb;
 	final DisplayBuilder db;
+	final BaseParamPanel paramPanel = new BaseParamPanel();
 	final VoidEvent applyEvent = new VoidEvent();
 
 	ConfigPanel(ShotAssistant a) {
@@ -29,10 +31,12 @@ class ConfigPanel extends JPanel {
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 		createSampleOpacitySlider();
 		createTemplateOpacitySlider();
+		add(paramPanel, "sx 2, width 100%");
 		add(new JSeparator(), "sx 2, width 100%");
 		createScriptField();
 		createButtons();
 		applyEvent.onFire(this::save);
+		save();
 	}
 
 	void createSampleOpacitySlider() {
@@ -69,6 +73,7 @@ class ConfigPanel extends JPanel {
 	}
 
 	void save() {
+		paramPanel.setParams(tb.buildCmd.getParams());
 		saveDiffConfig(buildConfig(), "conf/application.conf");
 	}
 

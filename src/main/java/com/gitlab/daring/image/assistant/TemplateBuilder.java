@@ -17,7 +17,7 @@ class TemplateBuilder extends BaseComponent {
 
 	TemplateBuilder(ShotAssistant a) {
 		super(a.config.getConfig("template"));
-		setScript(config.getString("script"));
+		setScript("");
 	}
 
 	void setScript(String script) {
