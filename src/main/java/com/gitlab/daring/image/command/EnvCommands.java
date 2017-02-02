@@ -17,7 +17,7 @@ public class EnvCommands {
 	}
 
 	public Command newReadCommand(String... ps) {
-		int flags = findEnumIndex(ReadFlag.values(), ps[1]);
+		int flags = findEnumIndex(ReadFlag.class, ps[1]);
 		return env -> env.mat = imread(ps[0], flags);
 	}
 

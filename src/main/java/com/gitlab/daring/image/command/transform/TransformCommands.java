@@ -28,7 +28,7 @@ public class TransformCommands {
 	}
 
 	public Command morphologyCommand(String... ps) {
-		int op = findEnumIndex(MorphOperation.values(), ps[0]);
+		int op = findEnumIndex(MorphOperation.class, ps[0]);
 		Mat kernel = new Mat();
 		return newCommand(m -> morphologyEx(m, m, op, kernel));
 	}

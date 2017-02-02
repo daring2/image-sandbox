@@ -14,15 +14,15 @@ public class EnumUtils {
 		throw new IllegalArgumentException("name=" + name);
 	}
 
-	public static <T> T findEnum(Class<T> cl, String name) {
+	public static <T extends Enum<T>> T findEnum(Class<T> cl, String name) {
 		return findEnum(cl.getEnumConstants(), name);
 	}
 
-	public static <T> T findEnum(Config c, Class<T> cl, String path) {
+	public static <T extends Enum<T>> T findEnum(Config c, Class<T> cl, String path) {
 		return findEnum(cl, c.getString(path));
 	}
 
-	public static int findEnumIndex(Enum[] vs, String name) {
+	public static <T extends Enum<T>> int findEnumIndex(Class<T> vs, String name) {
 		return findEnum(vs, name).ordinal();
 	}
 

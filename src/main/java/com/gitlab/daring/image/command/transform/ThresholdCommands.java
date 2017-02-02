@@ -21,14 +21,14 @@ public class ThresholdCommands {
 	public Command thresholdCommand(String... ps) {
 		double th1 = parseDouble(ps[0]);
 		double maxValue = parseDouble(ps[1]);
-		int type = findEnumIndex(ThresholdType.values(), ps[2]);
+		int type = findEnumIndex(ThresholdType.class, ps[2]);
 		return newCommand(m -> threshold(m, m, th1, maxValue, type));
 	}
 
 	public Command adaptiveThresholdCommand(String... ps) {
 		double maxValue = parseDouble(ps[0]);
-		int method = findEnumIndex(AdaptiveMethod.values(), ps[1]);
-		int type = findEnumIndex(ThresholdType.values(), ps[2]);
+		int method = findEnumIndex(AdaptiveMethod.class, ps[1]);
+		int type = findEnumIndex(ThresholdType.class, ps[2]);
 		int blockSize = parseInt(ps[3]);
 		int c = parseInt(ps[4]);
 		return newCommand(m -> adaptiveThreshold(m, m, maxValue, method, type, blockSize, c));
