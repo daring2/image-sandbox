@@ -1,9 +1,9 @@
-package com.gitlab.daring.image.transform;
+package com.gitlab.daring.image.command.transform;
 
 import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 
-import static com.gitlab.daring.image.transform.ConvertCommand.Target.Grey;
+import static com.gitlab.daring.image.command.transform.ConvertCommand.Target.Grey;
 import static com.gitlab.daring.image.util.EnumUtils.findEnum;
 import static com.gitlab.daring.image.util.ImageUtils.buildMat;
 import static org.bytedeco.javacpp.opencv_imgproc.COLOR_BGR2GRAY;

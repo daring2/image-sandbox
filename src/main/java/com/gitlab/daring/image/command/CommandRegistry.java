@@ -1,7 +1,7 @@
 package com.gitlab.daring.image.command;
 
+import com.gitlab.daring.image.command.transform.TransformCommands;
 import com.gitlab.daring.image.common.BaseComponent;
-import com.gitlab.daring.image.transform.TransformCommands;
 import com.google.common.cache.Cache;
 import com.typesafe.config.Config;
 
