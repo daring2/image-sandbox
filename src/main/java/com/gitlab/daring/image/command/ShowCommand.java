@@ -4,6 +4,7 @@ import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
@@ -13,7 +14,7 @@ public class ShowCommand extends BaseCommand {
 
 	public ShowCommand(String... params) {
 		super(params);
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(isCacheable() ? DO_NOTHING_ON_CLOSE : DISPOSE_ON_CLOSE);
 	}
 
 	@Override
