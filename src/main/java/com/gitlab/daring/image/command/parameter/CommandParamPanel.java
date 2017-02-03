@@ -1,11 +1,17 @@
 package com.gitlab.daring.image.command.parameter;
 
+import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.util.List;
 
+import static com.gitlab.daring.image.config.ConfigUtils.defaultConfig;
+
 public class CommandParamPanel extends JPanel {
+
+	final Config config = defaultConfig("gmv.CommandParamPanel");
+	final boolean applyAdjustingValue = config.getBoolean("applyAdjustingValue");
 
 	public CommandParamPanel() {
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
@@ -31,7 +37,7 @@ public class CommandParamPanel extends JPanel {
 		sl.setMajorTickSpacing((sl.getMaximum() - sl.getMinimum()) / 10);
 		sl.setPaintLabels(true);
 		sl.addChangeListener(e -> {
-			if (!sl.getValueIsAdjusting()) p.setNumValue(sl.getValue());
+			if (applyAdjustingValue || !sl.getValueIsAdjusting()) p.setNumValue(sl.getValue());
 		});
 		addComponent(p.name, sl);
 	}
