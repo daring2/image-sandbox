@@ -1,7 +1,7 @@
 package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.command.parameter.CommandParam;
-import com.gitlab.daring.image.command.parameter.ParamPanel;
+import com.gitlab.daring.image.command.parameter.CommandParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
 import net.miginfocom.swing.MigLayout;
@@ -15,7 +15,7 @@ import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
 public class CommandScriptPanel extends JPanel {
 
 	final JTextArea scriptField;
-	final ParamPanel paramPanel = new ParamPanel();
+	final CommandParamPanel paramPanel = new CommandParamPanel();
 	final List<CommandParam<?>> staticParams = new ArrayList<>();
 	public final VoidEvent applyEvent = new VoidEvent();
 

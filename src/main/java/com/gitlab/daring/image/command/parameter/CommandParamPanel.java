@@ -5,9 +5,9 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.util.List;
 
-public class ParamPanel extends JPanel {
+public class CommandParamPanel extends JPanel {
 
-	public ParamPanel() {
+	public CommandParamPanel() {
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 	}
 
