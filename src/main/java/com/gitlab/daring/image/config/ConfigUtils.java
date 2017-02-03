@@ -17,6 +17,10 @@ public class ConfigUtils {
 		return ConfigFactory.load();
 	}
 
+	public static Config defaultConfig(String path) {
+		return defaultConfig().getConfig(path);
+	}
+
 	public static Config referenceConfig() {
 		return ConfigFactory.defaultReference();
 	}
