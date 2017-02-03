@@ -30,7 +30,9 @@ public class CommandParamPanel extends JPanel {
 		JSlider sl = new JSlider(p.minValue.intValue(), p.maxValue.intValue(), p.v.intValue());
 		sl.setMajorTickSpacing((sl.getMaximum() - sl.getMinimum()) / 10);
 		sl.setPaintLabels(true);
-		sl.addChangeListener(e -> p.setNumValue(sl.getValue())); //TODO check getValueIsAdjusting
+		sl.addChangeListener(e -> {
+			if (!sl.getValueIsAdjusting()) p.setNumValue(sl.getValue());
+		});
 		addComponent(p.name, sl);
 	}
 
