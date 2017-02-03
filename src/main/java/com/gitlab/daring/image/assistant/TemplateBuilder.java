@@ -1,29 +1,21 @@
 package com.gitlab.daring.image.assistant;
 
+import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandEnv;
-import com.gitlab.daring.image.command.CompositeCommand;
 import com.gitlab.daring.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
+import static com.gitlab.daring.image.command.CommandUtils.EmptyCommand;
 
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
 
-	String script;
-	CompositeCommand buildCmd ;
+	Command buildCmd = EmptyCommand;
 
 	TemplateBuilder(ShotAssistant a) {
 		super(a.config.getConfig("template"));
-		setScript("");
-	}
-
-	void setScript(String script) {
-//		closeQuietly(buildCmd);
-		this.script = script;
-		buildCmd = parseCmdScript(script);
 	}
 
 	Mat build(Mat inputMat) {

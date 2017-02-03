@@ -1,13 +1,17 @@
 package com.gitlab.daring.image.command;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
+
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.lang.Math.max;
 
 public class CommandUtils {
+
+	public static final Command EmptyCommand = newCommand(m -> {});
 
 	public static Command newCommand(Consumer<Mat> c) {
 		return env -> c.accept(env.mat);
