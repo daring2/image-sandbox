@@ -22,6 +22,7 @@ public class EnumUtils {
 		return findEnum(cl, c.getString(path));
 	}
 
+	//TODO remove
 	public static <T extends Enum<T>> int findEnumIndex(Class<T> vs, String name) {
 		return findEnum(vs, name).ordinal();
 	}

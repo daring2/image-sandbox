@@ -12,8 +12,9 @@ public class SimpleCommand extends BaseCommand {
 		super(args);
 	}
 
-	public void setFunc(Consumer<Mat> c) {
+	public SimpleCommand withFunc(Consumer<Mat> c) {
 		func = env -> c.accept(env.mat);
+		return this;
 	}
 
 	@Override
