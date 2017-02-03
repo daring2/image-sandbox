@@ -31,7 +31,7 @@ public class ImageSandbox extends BaseComponent {
 
 	void apply() {
 		scriptCmd = mp.getScriptCommand();
-		scriptCmd.getParams().forEach(p -> p.changeEvent.addListener(chaneListener));
+		scriptCmd.addParamChangeListener(chaneListener);
 		execute();
 		saveConfig();
 	}
