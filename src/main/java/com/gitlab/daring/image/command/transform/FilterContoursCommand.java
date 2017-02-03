@@ -25,6 +25,7 @@ public class FilterContoursCommand extends BaseCommand {
 	final EnumParam<Metric> metric = enumParam(Metric.class, 1);
 	final DoubleParam minValue = doubleParam(2, "0-1000");
 	final DoubleParam maxValue = doubleParam(3, "0-1000");
+	final EnumParam<ApproxMethod> method = enumParam(ApproxMethod.class, 4);
 
 	public FilterContoursCommand(String... params) {
 		super(params);
@@ -35,7 +36,7 @@ public class FilterContoursCommand extends BaseCommand {
 		Mat m = env.mat;
 		if (minValue.v == 0 && isNaN(maxValue.v)) return;
 		MatVector cs = new MatVector();
-		findContours(m, cs, mode.vi(), CHAIN_APPROX_NONE);
+		findContours(m, cs, mode.vi(), method.vi() + 1);
 		List<Mat> rcs = new ArrayList<>();
 		for (long i = 0, size = cs.size(); i < size; i++) {
 			Mat c = cs.get(i);
@@ -67,5 +68,7 @@ public class FilterContoursCommand extends BaseCommand {
 	enum Mode { External, List, CComp, Tree, FloodFill }
 
 	enum Metric { Length, Area, Size, Diameter}
+
+	enum ApproxMethod { None, Simple, TC89_L1, TC89_KCOS }
 	
 }
