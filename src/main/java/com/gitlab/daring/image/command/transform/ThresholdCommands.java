@@ -5,11 +5,8 @@ import com.gitlab.daring.image.command.CommandRegistry;
 import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
+import com.gitlab.daring.image.command.parameter.IntParam;
 
-import static com.gitlab.daring.image.command.CommandUtils.newCommand;
-import static com.gitlab.daring.image.util.EnumUtils.findEnumIndex;
-import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
 import static org.bytedeco.javacpp.opencv_imgproc.adaptiveThreshold;
 import static org.bytedeco.javacpp.opencv_imgproc.threshold;
 
@@ -30,12 +27,13 @@ public class ThresholdCommands {
 	}
 
 	public Command adaptiveThresholdCommand(String... ps) {
-		double maxValue = parseDouble(ps[0]);
-		int method = findEnumIndex(AdaptiveMethod.class, ps[1]);
-		int type = findEnumIndex(ThresholdType.class, ps[2]);
-		int blockSize = parseInt(ps[3]);
-		int c = parseInt(ps[4]);
-		return newCommand(m -> adaptiveThreshold(m, m, maxValue, method, type, blockSize, c));
+		SimpleCommand c = new SimpleCommand(ps);
+		DoubleParam mv = c.doubleParam(0, "0-255");
+		EnumParam<AdaptiveMethod> method = c.enumParam(AdaptiveMethod.class, 1);
+		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2);
+		IntParam blockSize = c.intParam(3, "0-30");
+		IntParam cf = c.intParam(4, "0-100");
+		return c.withFunc(m -> adaptiveThreshold(m, m, mv.v, method.vi(), type.vi(), blockSize.v, cf.v));
 	}
 
 	enum ThresholdType { Bin, BinInv, Trunc, ToZero, ToZeroInv }

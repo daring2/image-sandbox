@@ -1,7 +1,8 @@
 package com.gitlab.daring.image.command;
 
+import com.gitlab.daring.image.command.parameter.EnumParam;
+
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
-import static com.gitlab.daring.image.util.EnumUtils.findEnumIndex;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
 
@@ -17,8 +18,10 @@ public class EnvCommands {
 	}
 
 	public Command newReadCommand(String... ps) {
-		int flags = findEnumIndex(ReadFlag.class, ps[1]);
-		return env -> env.mat = imread(ps[0], flags);
+		SimpleCommand c = new SimpleCommand(ps);
+		EnumParam<ReadFlag> flags = c.enumParam(ReadFlag.class, 1);
+		c.func = env -> env.mat = imread(ps[0], flags.vi());
+		return c;
 	}
 
 	enum ReadFlag { Grey, Color }

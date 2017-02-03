@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class SimpleCommand extends BaseCommand {
 
-	Consumer<CommandEnv> func;
+	public Consumer<CommandEnv> func;
 
 	public SimpleCommand(String... args) {
 		super(args);
