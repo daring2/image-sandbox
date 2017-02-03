@@ -8,6 +8,10 @@ public class IntParam extends NumberParam<Integer> {
 		super(sv, sp);
 	}
 
+	public IntParam(String sv) {
+		this(sv, "");
+	}
+
 	@Override
 	public Integer parseValue(String sv) {
 		return parseInt(sv);

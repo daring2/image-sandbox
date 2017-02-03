@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.assistant;
 
+import com.gitlab.daring.image.command.parameter.CommandParam;
 import com.gitlab.daring.image.command.parameter.ParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
@@ -9,12 +10,13 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
-import static com.gitlab.daring.image.swing.SwingUtils.newPercentSlider;
 
 class ConfigPanel extends JPanel {
 
@@ -22,35 +24,28 @@ class ConfigPanel extends JPanel {
 	final TemplateBuilder tb;
 	final DisplayBuilder db;
 	final ParamPanel paramPanel = new ParamPanel();
+	final List<CommandParam<?>> staticParams = new ArrayList<>();
 	final VoidEvent applyEvent = new VoidEvent();
 
 	ConfigPanel(ShotAssistant a) {
 		this.assistant = a;
 		this.tb = a.templateBuilder;
 		this.db = a.displayBuilder;
+		addStaticParams();
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
-		createSampleOpacitySlider();
-		createTemplateOpacitySlider();
-		add(paramPanel, "sx 2, width 100%");
-		add(new JSeparator(), "sx 2, width 100%");
 		createScriptField();
 		createButtons();
+		add(new JSeparator(), "sx 2, width 100%");
+		add(paramPanel, "sx 2, width 100%");
 		applyEvent.onFire(this::save);
 		applyEvent.fire();
 	}
 
-	void createSampleOpacitySlider() {
-		JSlider sl = newPercentSlider();
-		sl.addChangeListener(e -> db.sampleOpacity = sl.getValue());
-		sl.setValue(db.config.getInt("sampleOpacity"));
-		addComponent("Образец", sl);
-	}
-
-	void createTemplateOpacitySlider() {
-		JSlider sl = newPercentSlider();
-		sl.addChangeListener(e -> db.templateOpacity = sl.getValue());
-		sl.setValue(db.config.getInt("templateOpacity"));
-		addComponent("Контур", sl);
+	void addStaticParams() {
+		db.sampleOpacity.v = db.config.getInt("sampleOpacity");
+		staticParams.add(db.sampleOpacity);
+		db.templateOpacity.v = db.config.getInt("templateOpacity");
+		staticParams.add(db.templateOpacity);
 	}
 
 	void createScriptField() {
@@ -67,20 +62,21 @@ class ConfigPanel extends JPanel {
 		add(new JButton(act), "left, span 2");
 	}
 
-	void addComponent(String label, JComponent comp) {
-		add(new JLabel(label));
-		add(comp);
+	void save() {
+		paramPanel.setParams(buildParams());
+		saveDiffConfig(buildConfig(), "conf/application.conf");
 	}
 
-	void save() {
-		paramPanel.setParams(tb.buildCmd.getParams());
-		saveDiffConfig(buildConfig(), "conf/application.conf");
+	List<CommandParam<?>> buildParams() {
+		List<CommandParam<?>> ps = new ArrayList<>(staticParams);
+		ps.addAll(tb.buildCmd.getParams());
+		return ps;
 	}
 
 	Config buildConfig() {
 		Map<String, Object> m = new HashMap<>();
-		m.put("display.sampleOpacity", db.sampleOpacity);
-		m.put("display.templateOpacity", db.templateOpacity);
+		m.put("display.sampleOpacity", db.sampleOpacity.v);
+		m.put("display.templateOpacity", db.templateOpacity.v);
 		m.put("template.script", tb.script);
 		return configFromMap(m).atPath("gmv.ShotAssistant");
 	}
@@ -88,7 +84,7 @@ class ConfigPanel extends JPanel {
 	void showFrame() {
 		JFrame frame = new BaseFrame("Configuration", this);
 		Rectangle b = assistant.getFrame().getBounds();
-		frame.setBounds(b.x + b.width , b.y, 640, 300);
+		frame.setBounds(b.x + b.width , b.y, 640, 400);
 		frame.setVisible(true);
 	}
 

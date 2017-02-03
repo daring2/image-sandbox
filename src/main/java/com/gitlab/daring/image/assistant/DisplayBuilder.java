@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.assistant;
 
+import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatExpr;
@@ -14,9 +15,8 @@ import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 class DisplayBuilder extends BaseComponent {
 
 	final ShotAssistant a;
-
-	int sampleOpacity;
-	int templateOpacity;
+	final IntParam sampleOpacity = new IntParam("0:Образец:0-100");
+	final IntParam templateOpacity = new IntParam("0:Контур:0-100");
 
 	DisplayBuilder(ShotAssistant a) {
 		super(a.config.getConfig("display"));
@@ -27,8 +27,8 @@ class DisplayBuilder extends BaseComponent {
 		Mat dm = a.displayMat;
 		inputMat.copyTo(dm);
 		if (!a.templateMat.empty()) {
-			addWeightedMat(dm, a.sampleMat, dm, sampleOpacity * 0.01);
-			MatExpr dt = multiply(a.templateMat, templateOpacity * 0.01);
+			addWeightedMat(dm, a.sampleMat, dm, sampleOpacity.v * 0.01);
+			MatExpr dt = multiply(a.templateMat, templateOpacity.v * 0.01);
 			bitwise_or(dm, dt.asMat(), dm);
 		} else {
 			inputMat.copyTo(dm);
