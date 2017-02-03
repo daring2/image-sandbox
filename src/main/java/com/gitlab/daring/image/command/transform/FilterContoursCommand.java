@@ -35,7 +35,7 @@ public class FilterContoursCommand extends BaseCommand {
 		Mat m = env.mat;
 		if (minValue.v == 0 && isNaN(maxValue.v)) return;
 		MatVector cs = new MatVector();
-		findContours(m, cs, mode.index(), CHAIN_APPROX_NONE);
+		findContours(m, cs, mode.vi(), CHAIN_APPROX_NONE);
 		List<Mat> rcs = new ArrayList<>();
 		for (long i = 0, size = cs.size(); i < size; i++) {
 			Mat c = cs.get(i);

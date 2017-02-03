@@ -9,10 +9,10 @@ public class EnumParam<T extends Enum<T>>  extends CommandParam<T> {
 	public EnumParam(Class<T> cl, String sv) {
 		super(sv, "");
 		enumClass = cl;
-		v = parseValue(sv);
+		v = parseValue(args[0]);
 	}
 
-	public int index() {
+	public int vi() {
 		return v.ordinal();
 	}
 

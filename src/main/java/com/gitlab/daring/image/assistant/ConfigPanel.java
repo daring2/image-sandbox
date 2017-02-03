@@ -36,7 +36,7 @@ class ConfigPanel extends JPanel {
 		createScriptField();
 		createButtons();
 		applyEvent.onFire(this::save);
-		save();
+		applyEvent.fire();
 	}
 
 	void createSampleOpacitySlider() {

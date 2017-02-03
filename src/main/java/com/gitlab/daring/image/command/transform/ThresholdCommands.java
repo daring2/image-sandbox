@@ -26,7 +26,7 @@ public class ThresholdCommands {
 		DoubleParam th = c.doubleParam(0, "0-255");
 		DoubleParam mv = c.doubleParam(1, "0-255");
 		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2);
-		c.setFunc(m -> threshold(m, m, th.v, mv.v, type.index()));
+		c.setFunc(m -> threshold(m, m, th.v, mv.v, type.vi()));
 		return c;
 	}
 

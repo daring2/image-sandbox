@@ -14,6 +14,7 @@ public class ParamPanel extends JPanel {
 	public void setParams(List<CommandParam<?>> params) {
 		removeAll();
 		params.forEach(this::addParam);
+		revalidate();
 	}
 
 	void addParam(CommandParam<?> p) {
@@ -21,7 +22,7 @@ public class ParamPanel extends JPanel {
 		if (p instanceof NumberParam<?>) {
 			addNumberParam((NumberParam<?>) p);
 		} else if (p instanceof EnumParam<?>) {
-			//TODO implement
+			addEnumParam((EnumParam<?>) p);
 		}
 	}
 
@@ -31,6 +32,14 @@ public class ParamPanel extends JPanel {
 		sl.setPaintLabels(true);
 		sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
 		addComponent(p.name, sl);
+	}
+
+	<T extends Enum<T>> void addEnumParam(EnumParam<T> p) {
+		T[] vs = p.enumClass.getEnumConstants();
+		JComboBox<T> cb = new JComboBox<T>(vs);
+		cb.setSelectedItem(p.v);
+		cb.addActionListener(e -> p.setValue(vs[cb.getSelectedIndex()]));
+		addComponent(p.name, cb);
 	}
 
 	void addComponent(String label, JComponent comp) {
