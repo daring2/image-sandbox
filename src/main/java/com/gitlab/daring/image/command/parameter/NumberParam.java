@@ -18,8 +18,6 @@ public abstract class NumberParam<T extends Number> extends CommandParam<T> {
 		maxValue = parseValue(ss[1]);
 	}
 
-	public void setValue(int v) {
-		this.v = parseValue("" + v); //TODO refactor
-	}
-	
+	public abstract void setNumValue(Number v);
+
 }

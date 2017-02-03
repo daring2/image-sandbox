@@ -5,9 +5,9 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.util.List;
 
-public class BaseParamPanel extends JPanel {
+public class ParamPanel extends JPanel {
 
-	public BaseParamPanel() {
+	public ParamPanel() {
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 	}
 
@@ -29,7 +29,7 @@ public class BaseParamPanel extends JPanel {
 		JSlider sl = new JSlider(p.minValue.intValue(), p.maxValue.intValue(), p.v.intValue());
 		sl.setMajorTickSpacing((sl.getMaximum() - sl.getMinimum()) / 10);
 		sl.setPaintLabels(true);
-		sl.addChangeListener(e -> p.setValue(sl.getValue()));
+		sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
 		addComponent(p.name, sl);
 	}
 

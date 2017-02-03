@@ -3,8 +3,8 @@ package com.gitlab.daring.image.command.transform;
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 import com.gitlab.daring.image.command.SimpleCommand;
+import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
-import com.gitlab.daring.image.command.parameter.IntParam;
 
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
 import static com.gitlab.daring.image.util.EnumUtils.findEnumIndex;
@@ -23,9 +23,8 @@ public class ThresholdCommands {
 
 	public Command thresholdCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		//TODO use doubleParam
-		IntParam th = c.intParam(0, "0-255");
-		IntParam mv = c.intParam(1, "0-255");
+		DoubleParam th = c.doubleParam(0, "0-255");
+		DoubleParam mv = c.doubleParam(1, "0-255");
 		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2);
 		c.setFunc(m -> threshold(m, m, th.v, mv.v, type.index()));
 		return c;

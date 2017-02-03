@@ -17,4 +17,12 @@ public abstract class CommandParam<T> {
 
 	public abstract T parseValue(String sv);
 
+	public T getValue() {
+		return v;
+	}
+
+	public void setValue(T v) {
+		this.v = v;
+	}
+
 }

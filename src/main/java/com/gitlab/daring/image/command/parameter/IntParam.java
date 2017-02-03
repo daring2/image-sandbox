@@ -12,5 +12,10 @@ public class IntParam extends NumberParam<Integer> {
 	public Integer parseValue(String sv) {
 		return parseInt(sv);
 	}
-	
+
+	@Override
+	public void setNumValue(Number v) {
+		setValue(v.intValue());
+	}
+
 }

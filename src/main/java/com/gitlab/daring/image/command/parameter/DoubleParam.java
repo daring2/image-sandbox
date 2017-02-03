@@ -12,5 +12,10 @@ public class DoubleParam extends NumberParam<Double> {
 	public Double parseValue(String sv) {
 		return parseDouble(sv);
 	}
+
+	@Override
+	public void setNumValue(Number v) {
+		setValue(v.doubleValue());
+	}
 	
 }

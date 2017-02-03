@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.assistant;
 
-import com.gitlab.daring.image.command.parameter.BaseParamPanel;
+import com.gitlab.daring.image.command.parameter.ParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
 import com.gitlab.daring.image.swing.BaseFrame;
@@ -21,7 +21,7 @@ class ConfigPanel extends JPanel {
 	final ShotAssistant assistant;
 	final TemplateBuilder tb;
 	final DisplayBuilder db;
-	final BaseParamPanel paramPanel = new BaseParamPanel();
+	final ParamPanel paramPanel = new ParamPanel();
 	final VoidEvent applyEvent = new VoidEvent();
 
 	ConfigPanel(ShotAssistant a) {
