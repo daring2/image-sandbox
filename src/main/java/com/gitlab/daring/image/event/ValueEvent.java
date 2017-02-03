@@ -9,7 +9,8 @@ public class ValueEvent<T> {
 	private final List<Consumer<T>> listeners = new CopyOnWriteArrayList<>();
 
 	public void addListener(Consumer<T> l) {
-		listeners.add(l);
+		if (!listeners.contains(l))
+			listeners.add(l);
 	}
 
 	public void removeListener(Consumer<T> l) {

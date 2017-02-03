@@ -1,13 +1,17 @@
 package com.gitlab.daring.image.command.parameter;
 
+import com.gitlab.daring.image.event.VoidEvent;
+
 import static org.apache.commons.lang3.StringUtils.split;
 
 public abstract class CommandParam<T> {
 
 	protected final String[] args;
+	public final String name;
+	public final String spec;
+	public final VoidEvent changeEvent = new VoidEvent();
+	
 	public T v;
-	public String name;
-	public String spec;
 
 	public CommandParam(String sv, String sp) {
 		args = split(sv, ":");
@@ -24,6 +28,7 @@ public abstract class CommandParam<T> {
 
 	public void setValue(T v) {
 		this.v = v;
+		changeEvent.fire();
 	}
 
 }

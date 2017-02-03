@@ -1,11 +1,13 @@
 package com.gitlab.daring.image.sandbox;
 
 import com.gitlab.daring.image.command.CommandEnv;
+import com.gitlab.daring.image.command.CompositeCommand;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.typesafe.config.Config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
@@ -16,6 +18,9 @@ public class ImageSandbox extends BaseComponent {
 
 	final MainPanel mp = new MainPanel(this);
 	final CommandEnv cmdEnv = new CommandEnv();
+	final Consumer<Void> chaneListener = e -> execute();
+
+	CompositeCommand scriptCmd;
 
 	public ImageSandbox() {
 		super(ConfigPath);
@@ -25,8 +30,14 @@ public class ImageSandbox extends BaseComponent {
 	}
 
 	void apply() {
-		mp.getScriptCommand().execute(cmdEnv);
+		scriptCmd = mp.getScriptCommand();
+		scriptCmd.getParams().forEach(p -> p.changeEvent.addListener(chaneListener));
+		execute();
 		saveConfig();
+	}
+
+	void execute() {
+		scriptCmd.execute(cmdEnv);
 	}
 
 	void saveConfig() {
