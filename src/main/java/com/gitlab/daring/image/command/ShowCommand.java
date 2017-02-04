@@ -1,8 +1,10 @@
 package com.gitlab.daring.image.command;
 
 import org.bytedeco.javacv.CanvasFrame;
+import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
+import static com.gitlab.daring.image.swing.SwingUtils.runInEdt;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
@@ -24,7 +26,8 @@ public class ShowCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		frame.showImage(converter.convert(env.mat));
+		Frame f = converter.convert(env.mat);
+		runInEdt(() -> frame.showImage(f));
 	}
 
 	@Override

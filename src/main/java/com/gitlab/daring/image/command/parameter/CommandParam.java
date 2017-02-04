@@ -11,7 +11,7 @@ public abstract class CommandParam<T> {
 	public final String spec;
 	public final VoidEvent changeEvent = new VoidEvent();
 	
-	public T v;
+	public volatile T v;
 
 	public CommandParam(String sv, String sp) {
 		args = split(sv, ":");
