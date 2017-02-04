@@ -15,7 +15,7 @@ import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
 import static com.gitlab.daring.image.swing.SwingUtils.addWindowClosedListener;
 
-public class ImageSandbox extends BaseComponent {
+public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
 	static final String ConfigPath = "gmv.ImageSandbox";
 
@@ -30,7 +30,7 @@ public class ImageSandbox extends BaseComponent {
 		super(ConfigPath);
 		mp.applyEvent.onFire(this::apply);
 		mp.setScript(config.getString("script"));
-		addWindowClosedListener(frame, () -> mainContext().close());
+		addWindowClosedListener(frame, this::close);
 	}
 
 	void apply() {
@@ -49,6 +49,12 @@ public class ImageSandbox extends BaseComponent {
 		m.put("script", mp.getScript());
 		Config c = configFromMap(m).atPath(ConfigPath);
 		saveDiffConfig(c, "conf/application.conf");
+	}
+
+	@Override
+	public void close() {
+		frame.dispose();
+		mainContext().close();
 	}
 
 	public static void main(String[] args) {
