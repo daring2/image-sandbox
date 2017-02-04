@@ -26,9 +26,9 @@ public class CommandRegistryTest {
 	}
 
 	void checkParse(String script, Command... cmds) {
-        CompositeCommand cmd = r.parseScript(script);
-        assertEquals(cmd.commands, asList(cmds));
-    }
+		ScriptCommand cmd = r.parseScript(script);
+		assertEquals(cmd.commands, asList(cmds));
+	}
 
     static class TestCommand1 extends BaseCommand {
 	    public TestCommand1(String... params) {

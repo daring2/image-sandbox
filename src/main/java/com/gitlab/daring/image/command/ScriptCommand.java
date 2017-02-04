@@ -6,11 +6,13 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class CompositeCommand implements Command {
+public class ScriptCommand implements Command {
 
+	public final String script;
 	public final List<Command> commands;
 
-	public CompositeCommand(List<Command> commands) {
+	public ScriptCommand(String script, List<Command> commands) {
+		this.script = script;
 		this.commands = commands;
 	}
 

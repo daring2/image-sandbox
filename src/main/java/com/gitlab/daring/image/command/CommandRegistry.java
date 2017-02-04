@@ -21,7 +21,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
 	static final CommandRegistry Instance = new CommandRegistry();
 
-	public static CompositeCommand parseCmdScript(String script) {
+	public static ScriptCommand parseCmdScript(String script) {
 		return Instance.parseScript(script);
 	}
 
@@ -41,10 +41,10 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 		factories.put(name, f);
 	}
 
-	public CompositeCommand parseScript(String script) {
+	public ScriptCommand parseScript(String script) {
 		List<String> ss = splitAndTrim(script, ";\n");
 		List<Command> cmds = ss.stream().map(this::getCommand).collect(toList());
-		return new CompositeCommand(cmds);
+		return new ScriptCommand(script, cmds);
 	}
 
 	private Command getCommand(String cmdStr) {
