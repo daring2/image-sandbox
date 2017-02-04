@@ -9,15 +9,19 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
 
 public class CommandScriptPanel extends JPanel {
 
+	public final VoidEvent applyEvent = new VoidEvent();
+	public final VoidEvent changeEvent = new VoidEvent();
+
 	final JTextArea scriptField;
 	final CommandParamPanel paramPanel = new CommandParamPanel();
 	final List<CommandParam<?>> staticParams = new ArrayList<>();
-	public final VoidEvent applyEvent = new VoidEvent();
+	final Consumer<Void> chaneListener = e -> changeEvent.fire();
 
 	String script;
 	CompositeCommand scriptCommand;
@@ -65,6 +69,7 @@ public class CommandScriptPanel extends JPanel {
 	void apply() {
 		script = scriptField.getText();
 		scriptCommand = parseCmdScript(script);
+		scriptCommand.addParamChangeListener(chaneListener);
 		paramPanel.setParams(buildParams());
 	}
 

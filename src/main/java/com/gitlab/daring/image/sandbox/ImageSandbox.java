@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
@@ -25,20 +24,19 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	final JFrame frame = mp.showFrame();
 	final ExecutorService executor = newSingleThreadExecutor();
 	final CommandEnv cmdEnv = new CommandEnv();
-	final Consumer<Void> chaneListener = e -> executeScript();
 
 	volatile CompositeCommand scriptCmd;
 
 	public ImageSandbox() {
 		super(ConfigPath);
 		mp.applyEvent.onFire(this::apply);
+		mp.changeEvent.onFire(this::executeScript);
 		mp.setScript(config.getString("script"));
 		addWindowClosedListener(frame, this::close);
 	}
 
 	void apply() {
 		scriptCmd = mp.getScriptCommand();
-		scriptCmd.addParamChangeListener(chaneListener);
 		executeScript();
 		saveConfig();
 	}
