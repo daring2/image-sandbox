@@ -1,12 +1,11 @@
 package com.gitlab.daring.image.command;
 
 import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import static com.gitlab.daring.image.swing.SwingUtils.runInEdt;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
@@ -16,7 +15,7 @@ public class ShowCommand extends BaseCommand {
 
 	public ShowCommand(String... params) {
 		super(params);
-		frame.setDefaultCloseOperation(isCacheable() ? DO_NOTHING_ON_CLOSE : DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(isCacheable() ? HIDE_ON_CLOSE : DISPOSE_ON_CLOSE);
 	}
 
 	@Override
@@ -26,8 +25,10 @@ public class ShowCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		Frame f = converter.convert(env.mat);
-		runInEdt(() -> frame.showImage(f));
+		runInEdt(() -> {
+			if (!frame.isVisible()) frame.setVisible(true);
+			frame.showImage(converter.convert(env.mat));
+		});
 	}
 
 	@Override
