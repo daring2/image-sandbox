@@ -8,12 +8,14 @@ import com.typesafe.config.Config;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
 import static com.gitlab.daring.image.swing.SwingUtils.addWindowClosedListener;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
@@ -21,10 +23,11 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
 	final MainPanel mp = new MainPanel(this);
 	final JFrame frame = mp.showFrame();
+	final ExecutorService executor = newSingleThreadExecutor();
 	final CommandEnv cmdEnv = new CommandEnv();
-	final Consumer<Void> chaneListener = e -> execute();
+	final Consumer<Void> chaneListener = e -> executeScript();
 
-	CompositeCommand scriptCmd;
+	volatile CompositeCommand scriptCmd;
 
 	public ImageSandbox() {
 		super(ConfigPath);
@@ -36,12 +39,12 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	void apply() {
 		scriptCmd = mp.getScriptCommand();
 		scriptCmd.addParamChangeListener(chaneListener);
-		execute();
+		executeScript();
 		saveConfig();
 	}
 
-	void execute() {
-		scriptCmd.execute(cmdEnv);
+	void executeScript() {
+		executor.execute(() -> scriptCmd.execute(cmdEnv));
 	}
 
 	void saveConfig() {
@@ -54,6 +57,7 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	@Override
 	public void close() {
 		frame.dispose();
+		executor.shutdownNow();
 		mainContext().close();
 	}
 
