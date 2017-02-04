@@ -8,18 +8,17 @@ public class CommandScript {
 
 	public final CommandEnv env = new CommandEnv();
 
-	String text;
-	CompositeCommand command;
+	volatile ScriptCommand command;
 
 	public CommandScript() {
 		setText("");
 	}
 
 	public String getText() {
-		return text;
+		return command.script;
 	}
 
-	public CompositeCommand getCommand() {
+	public ScriptCommand getCommand() {
 		return command;
 	}
 
@@ -28,7 +27,6 @@ public class CommandScript {
 	}
 
 	public void setText(String text) {
-		this.text = text;
 		command = parseCmdScript(text);
 	}
 
