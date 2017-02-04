@@ -43,7 +43,7 @@ class ConfigPanel extends CommandScriptPanel {
 		m.put("display.sampleOpacity", db.sampleOpacity.v);
 		m.put("display.templateOpacity", db.templateOpacity.v);
 		m.put("template.script", getScript());
-		return configFromMap(m).atPath("gmv.ShotAssistant");
+		return configFromMap(m).atPath(ShotAssistant.ConfigPath);
 	}
 
 	void showFrame() {

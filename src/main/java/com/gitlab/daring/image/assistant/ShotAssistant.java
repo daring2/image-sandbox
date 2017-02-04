@@ -16,6 +16,8 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 class ShotAssistant extends BaseVideoProcessor {
 
+	static final String ConfigPath = "gmv.ShotAssistant";
+
 	final boolean flipInput = config.getBoolean("flipInput");
 
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
@@ -31,7 +33,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	boolean checkResult;
 
 	public ShotAssistant() {
-		super("gmv.ShotAssistant");
+		super(ConfigPath);
 		initFrame();
 		configPanel.showFrame();
 	}
