@@ -8,6 +8,6 @@ import java.util.Map;
 public class CommandEnv {
 
 	public Mat mat = new Mat();
-	public Map<String, Mat> vars = new HashMap<>();
+	public Map<String, Mat> mats = new HashMap<>();
 
 }

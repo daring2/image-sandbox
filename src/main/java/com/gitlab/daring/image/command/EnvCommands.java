@@ -31,11 +31,11 @@ public class EnvCommands {
 	}
 
 	public Command newGetCommand(String... ps) {
-		return env -> env.vars.get(ps[0]).copyTo(env.mat);
+		return env -> env.mats.get(ps[0]).copyTo(env.mat);
 	}
 
 	public Command newPutCommand(String... ps) {
-		return env -> env.vars.put(ps[0], env.mat.clone());
+		return env -> env.mats.put(ps[0], env.mat.clone());
 	}
 
 }
