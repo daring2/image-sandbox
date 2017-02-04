@@ -1,5 +1,7 @@
 package com.gitlab.daring.image.command;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
@@ -7,6 +9,7 @@ import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
 public class CommandScript {
 
 	public final CommandEnv env = new CommandEnv();
+	final AtomicLong taskIds = new AtomicLong();
 
 	volatile ScriptCommand command;
 
@@ -24,6 +27,11 @@ public class CommandScript {
 
 	public void execute() {
 		command.execute(env);
+	}
+
+	public void executeAsync(ExecutorService exec) {
+		long id = taskIds.incrementAndGet();
+		exec.execute(() -> { if (taskIds.get() == id) execute(); });
 	}
 
 	public void setText(String text) {
