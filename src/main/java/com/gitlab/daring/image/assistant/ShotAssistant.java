@@ -3,8 +3,11 @@ package com.gitlab.daring.image.assistant;
 import com.gitlab.daring.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
+
+import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.swing.SwingUtils.newButton;
 import static com.gitlab.daring.image.util.ImageUtils.flipMat;
 import static java.awt.BorderLayout.*;
@@ -60,6 +63,12 @@ class ShotAssistant extends BaseVideoProcessor {
 
 	Size getSize() {
 		return size;
+	}
+
+	@Override
+	public void close() throws Exception {
+		super.close();
+		mainContext().close();
 	}
 
 	public static void main(String[] args) throws Exception {

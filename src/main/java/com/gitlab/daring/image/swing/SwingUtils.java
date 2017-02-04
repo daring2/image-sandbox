@@ -1,6 +1,8 @@
 package com.gitlab.daring.image.swing;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import static com.gitlab.daring.image.util.CommonUtils.tryRun;
 import static javax.swing.SwingUtilities.invokeAndWait;
@@ -24,11 +26,10 @@ public class SwingUtils {
 		return b;
 	}
 
-	public static JSlider newPercentSlider() {
-		JSlider sl = new JSlider(0, 100);
-		sl.setMajorTickSpacing(10);
-		sl.setPaintLabels(true);
-		return sl;
+	public static void addWindowClosedListener(JFrame frame, Runnable l) {
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) { l.run(); }
+		});
 	}
 
 	private SwingUtils() {

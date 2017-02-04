@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.cache.CacheUtils.buildClosableCache;
 import static com.gitlab.daring.image.command.CommandUtils.parseParams;
 import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
@@ -16,7 +17,7 @@ import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-public class CommandRegistry extends BaseComponent {
+public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
 	static final CommandRegistry Instance = new CommandRegistry();
 
@@ -33,6 +34,7 @@ public class CommandRegistry extends BaseComponent {
 		EnvCommands.register(this);
 		TransformCommands.register(this);
 		register("show", ShowCommand::new);
+		mainContext().closeEvent.onFire(this::close);
 	}
 
 	public void register(String name, Command.Factory f) {
@@ -65,6 +67,12 @@ public class CommandRegistry extends BaseComponent {
 
 	private List<String> getDefParams(String name) {
 		return cmdConfig.hasPath(name) ? cmdConfig.getStringList(name) : emptyList();
+	}
+
+	@Override
+	public void close() {
+		cache.invalidateAll();
+		cache.cleanUp();
 	}
 
 }
