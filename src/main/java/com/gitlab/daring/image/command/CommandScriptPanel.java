@@ -21,7 +21,7 @@ public class CommandScriptPanel extends JPanel {
 	final JTextArea scriptField;
 	final CommandParamPanel paramPanel = new CommandParamPanel();
 	final List<CommandParam<?>> staticParams = new ArrayList<>();
-	final Consumer<Void> chaneListener = e -> changeEvent.fire();
+	final Consumer<Void> changeListener = e -> changeEvent.fire();
 
 	String script;
 	CompositeCommand scriptCommand;
@@ -69,7 +69,7 @@ public class CommandScriptPanel extends JPanel {
 	void apply() {
 		script = scriptField.getText();
 		scriptCommand = parseCmdScript(script);
-		scriptCommand.addParamChangeListener(chaneListener);
+		scriptCommand.addParamChangeListener(changeListener);
 		paramPanel.setParams(buildParams());
 	}
 
