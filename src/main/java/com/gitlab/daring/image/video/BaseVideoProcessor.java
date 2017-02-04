@@ -11,6 +11,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 import java.io.File;
 
 import static com.gitlab.daring.image.config.ConfigUtils.getIntOpt;
+import static com.gitlab.daring.image.swing.SwingUtils.runInEdt;
 import static com.gitlab.daring.image.util.VideoUtils.*;
 import static java.lang.Integer.parseInt;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
@@ -70,6 +71,10 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
 
 	public CanvasFrame getFrame() {
 		return frame;
+	}
+
+	protected void showImage(Mat m) {
+		runInEdt(() -> frame.showImage(matConverter.convert(m)));
 	}
 
 	@Override

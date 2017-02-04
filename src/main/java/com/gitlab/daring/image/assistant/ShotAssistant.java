@@ -51,7 +51,7 @@ class ShotAssistant extends BaseVideoProcessor {
 		checkResult = control.check(inputMat);
 		displayBuilder.build(inputMat);
 		if (writer.isOpened()) writer.write(displayMat);
-		frame.showImage(matConverter.convert(displayMat));
+		showImage(displayMat);
 	}
 
 	void saveSample() {
