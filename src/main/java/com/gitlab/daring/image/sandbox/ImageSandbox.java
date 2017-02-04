@@ -1,7 +1,5 @@
 package com.gitlab.daring.image.sandbox;
 
-import com.gitlab.daring.image.command.CommandEnv;
-import com.gitlab.daring.image.command.CompositeCommand;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.typesafe.config.Config;
 
@@ -23,9 +21,6 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	final MainPanel mp = new MainPanel(this);
 	final JFrame frame = mp.showFrame();
 	final ExecutorService executor = newSingleThreadExecutor();
-	final CommandEnv cmdEnv = new CommandEnv();
-
-	volatile CompositeCommand scriptCmd;
 
 	public ImageSandbox() {
 		super(ConfigPath);
@@ -36,18 +31,17 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	}
 
 	void apply() {
-		scriptCmd = mp.getScriptCommand();
 		executeScript();
 		saveConfig();
 	}
 
 	void executeScript() {
-		executor.execute(() -> scriptCmd.execute(cmdEnv));
+		mp.script.execute();
 	}
 
 	void saveConfig() {
 		Map<String, Object> m = new HashMap<>();
-		m.put("script", mp.getScript());
+		m.put("script", mp.script.getText());
 		Config c = configFromMap(m).atPath(ConfigPath);
 		saveDiffConfig(c, "conf/application.conf");
 	}

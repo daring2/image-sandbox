@@ -11,20 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
-
 public class CommandScriptPanel extends JPanel {
 
 	public final VoidEvent applyEvent = new VoidEvent();
 	public final VoidEvent changeEvent = new VoidEvent();
+	public final CommandScript script = new CommandScript();
 
 	final JTextArea scriptField;
 	final CommandParamPanel paramPanel = new CommandParamPanel();
 	final List<CommandParam<?>> staticParams = new ArrayList<>();
 	final Consumer<Void> changeListener = e -> changeEvent.fire();
-
-	String script;
-	CompositeCommand scriptCommand;
 
 	public CommandScriptPanel() {
 		setLayout(new MigLayout("fill, wrap 1", "[fill]", "[center]"));
@@ -53,29 +49,20 @@ public class CommandScriptPanel extends JPanel {
 		return p;
 	}
 
-	public String getScript() {
-		return script;
-	}
-
-	public CompositeCommand getScriptCommand() {
-		return scriptCommand;
-	}
-
 	public void setScript(String script) {
 		scriptField.setText(script);
 		applyEvent.fire();
 	}
 
 	void apply() {
-		script = scriptField.getText();
-		scriptCommand = parseCmdScript(script);
-		scriptCommand.addParamChangeListener(changeListener);
+		script.setText(scriptField.getText());
+		script.addParamChangeListener(changeListener);
 		paramPanel.setParams(buildParams());
 	}
 
 	List<CommandParam<?>> buildParams() {
 		List<CommandParam<?>> ps = new ArrayList<>(staticParams);
-		ps.addAll(scriptCommand.getParams());
+		ps.addAll(script.command.getParams());
 		return ps;
 	}
 

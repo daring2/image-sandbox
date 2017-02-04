@@ -34,7 +34,7 @@ class ConfigPanel extends CommandScriptPanel {
 	}
 
 	void save() {
-		tb.buildCmd = getScriptCommand();
+		tb.buildCmd = script.getCommand();
 		saveDiffConfig(buildConfig(), "conf/application.conf");
 	}
 
@@ -42,7 +42,7 @@ class ConfigPanel extends CommandScriptPanel {
 		Map<String, Object> m = new HashMap<>();
 		m.put("display.sampleOpacity", db.sampleOpacity.v);
 		m.put("display.templateOpacity", db.templateOpacity.v);
-		m.put("template.script", getScript());
+		m.put("template.script", script.getText());
 		return configFromMap(m).atPath(ShotAssistant.ConfigPath);
 	}
 
