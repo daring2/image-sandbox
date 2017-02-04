@@ -57,13 +57,13 @@ public class CommandScriptPanel extends JPanel {
 		return script;
 	}
 
+	public CompositeCommand getScriptCommand() {
+		return scriptCommand;
+	}
+
 	public void setScript(String script) {
 		scriptField.setText(script);
 		applyEvent.fire();
-	}
-
-	public CompositeCommand getScriptCommand() {
-		return scriptCommand;
 	}
 
 	void apply() {
