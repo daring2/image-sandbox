@@ -15,9 +15,9 @@ public abstract class CommandParam<T> {
 
 	public CommandParam(String sv, String sp) {
 		args = split(sv, ":");
-		v = parseValue(args[0]);
 		name = args.length > 1 ? args[1] : "";
 		spec = args.length > 2 ? args[2] : sp;
+		setValue(parseValue(args[0]));
 	}
 
 	public abstract T parseValue(String sv);
