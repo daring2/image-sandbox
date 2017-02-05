@@ -19,7 +19,7 @@ public class EnvCommands {
 	public Command newReadCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
 		EnumParam<ReadFlag> flags = c.enumParam(ReadFlag.class, 1);
-		c.func = env -> env.setMat(ps[1], imread(ps[0], flags.vi()));
+		c.func = env -> env.setMat(ps[2], imread(ps[0], flags.vi()));
 		return c;
 	}
 

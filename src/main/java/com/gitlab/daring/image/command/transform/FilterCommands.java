@@ -3,10 +3,8 @@ package com.gitlab.daring.image.command.transform;
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 import com.gitlab.daring.image.command.SimpleCommand;
-import org.bytedeco.javacpp.opencv_core.Size;
 
 import static java.lang.Double.parseDouble;
-import static java.lang.Integer.parseInt;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class FilterCommands {
@@ -36,11 +34,6 @@ public class FilterCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		KernelSizeParam sp = new KernelSizeParam(c, 0);
 		return c.withFunc((m, d) -> medianBlur(m ,d, sp.w));
-	}
-
-	Size parseSize(String p) {
-		int v = parseInt(p);
-		return new Size(v, v);
 	}
 
 }
