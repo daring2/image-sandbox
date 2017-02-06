@@ -1,9 +1,6 @@
 package com.gitlab.daring.image.command;
 
-import com.gitlab.daring.image.command.parameter.CommandParam;
-import com.gitlab.daring.image.command.parameter.DoubleParam;
-import com.gitlab.daring.image.command.parameter.EnumParam;
-import com.gitlab.daring.image.command.parameter.IntParam;
+import com.gitlab.daring.image.command.parameter.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +31,10 @@ public abstract class BaseCommand implements Command {
 
 	public IntParam intParam(int index, String spec) {
 		return addParam(new IntParam(args[index], spec));
+	}
+
+	public BooleanParam boolParam(int index) {
+		return addParam(new BooleanParam(args[index]));
 	}
 
 	public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, int index) {
