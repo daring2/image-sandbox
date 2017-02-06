@@ -28,6 +28,12 @@ public class GeometryUtils {
 		return new Dimension(roundInt(d.width * f), roundInt(d.height * f));
 	}
 
+	public static Dimension scaleToMax(Dimension d, Dimension md) {
+		if (md.width >= d.width && md.height >= d.height) return d;
+		double f = Math.min(1.0 * md.width / d.width, 1.0 * md.height / d.height);
+		return scale(d, f);
+	}
+
 	public static int roundInt(double v) {
 		return (int) Math.round(v);
 	}

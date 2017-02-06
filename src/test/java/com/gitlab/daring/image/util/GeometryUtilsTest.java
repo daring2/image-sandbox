@@ -4,8 +4,7 @@ import org.junit.Test;
 
 import java.awt.*;
 
-import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
-import static com.gitlab.daring.image.util.GeometryUtils.scale;
+import static com.gitlab.daring.image.util.GeometryUtils.*;
 import static org.junit.Assert.assertEquals;
 
 public class GeometryUtilsTest {
@@ -17,6 +16,15 @@ public class GeometryUtilsTest {
 		assertEquals(new Dimension(60, 30), scale(d1, 1.5));
 		assertEquals(new Dimension(10, 5), scale(d1, 0.25));
 		assertEquals(new Dimension(4, 2), scale(d1, 0.1));
+	}
+
+	@Test
+	public void testScaleToMax() {
+		Dimension d1 = new Dimension(20, 10);
+		assertEquals(d1, scaleToMax(d1, d1));
+		assertEquals(d1, scaleToMax(d1, new Dimension(40, 20)));
+		assertEquals(new Dimension(10, 5), scaleToMax(d1, new Dimension(10, 20)));
+		assertEquals(new Dimension(10, 5), scaleToMax(d1, new Dimension(40, 5)));
 	}
 
 	@Test
