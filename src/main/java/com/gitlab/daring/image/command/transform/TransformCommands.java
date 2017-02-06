@@ -22,6 +22,7 @@ public class TransformCommands {
 		r.register("filterContours", FilterContoursCommand::new);
 		ThresholdCommands.register(r);
 		FilterCommands.register(r);
+		GeometricCommands.register(r);
 	}
 
 	public Command equalizeHistCommand(String... ps) {
