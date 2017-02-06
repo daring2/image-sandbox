@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.command;
 
-import org.bytedeco.javacv.CanvasFrame;
+import com.gitlab.daring.image.component.BaseCanvasFrame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import java.awt.*;
@@ -13,7 +13,7 @@ import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 public class ShowCommand extends BaseCommand {
 
 	final String title = args[0];
-	final CanvasFrame frame = new CanvasFrame(title, 1);
+	final BaseCanvasFrame frame = new BaseCanvasFrame(title);
 	final ToMat converter = new ToMat();
 	final Dimension maxSize = new Dimension(1024, 768);
 
