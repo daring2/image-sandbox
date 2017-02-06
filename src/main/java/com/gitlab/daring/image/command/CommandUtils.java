@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.lang.Math.max;
+import static java.util.Arrays.stream;
 
 public class CommandUtils {
 
@@ -22,6 +23,10 @@ public class CommandUtils {
 		for (int i = 0; i < ps.length; i++)
 			ps[i] = i < ss.size() ? ss.get(i) : defParams.get(i);
 		return ps;
+	}
+
+	public static int[] parseIntParams(String... ps) {
+		return stream(ps).mapToInt(Integer::parseInt).toArray();
 	}
 
 	private CommandUtils() {
