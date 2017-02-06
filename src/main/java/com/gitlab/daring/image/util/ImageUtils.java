@@ -35,7 +35,7 @@ public class ImageUtils {
 	}
 
 	public static void flipMat(Mat mat, int code) {
-		buildMat(m -> flip(mat, m, code)).copyTo(mat);
+		flip(mat.clone(), mat, code);
 	}
 
 	public static Mat resizeMat(Mat m, double scale) {
