@@ -2,6 +2,8 @@ package com.gitlab.daring.image.command.parameter;
 
 import com.gitlab.daring.image.event.VoidEvent;
 
+import java.util.Objects;
+
 import static org.apache.commons.lang3.StringUtils.split;
 
 public abstract class CommandParam<T> {
@@ -27,6 +29,7 @@ public abstract class CommandParam<T> {
 	}
 
 	public void setValue(T v) {
+		if (Objects.equals(this.v, v)) return;
 		this.v = v;
 		changeEvent.fire();
 	}
