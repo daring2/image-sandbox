@@ -22,8 +22,9 @@ public class ThresholdCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		DoubleParam th = c.doubleParam(0, "0-255");
 		DoubleParam mv = c.doubleParam(1, "0-255");
-		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2);
-		return c.withFunc(m -> threshold(m, m, th.v, mv.v, type.vi()));
+		EnumParam<ThresholdType> tp = c.enumParam(ThresholdType.class, 2);
+		EnumParam<ThresholdFlag> fp = c.enumParam(ThresholdFlag.class, 3);
+		return c.withFunc(m -> threshold(m, m, th.v, mv.v, tp.vi() + fp.vi() * 8));
 	}
 
 	public Command adaptiveThresholdCommand(String... ps) {
@@ -39,6 +40,8 @@ public class ThresholdCommands {
 	}
 
 	enum ThresholdType { Bin, BinInv, Trunc, ToZero, ToZeroInv }
+
+	enum ThresholdFlag { None, OTSU, Triangle }
 
 	enum AdaptiveMethod { Mean, Gaussian }
 
