@@ -5,11 +5,10 @@ import com.gitlab.daring.image.command.CommandRegistry;
 import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
-import com.gitlab.daring.image.command.parameter.EnumParam;
-import org.bytedeco.javacpp.opencv_core.Mat;
 
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
+import static org.bytedeco.javacpp.opencv_imgproc.Canny;
+import static org.bytedeco.javacpp.opencv_imgproc.equalizeHist;
 
 public class TransformCommands {
 
@@ -17,8 +16,8 @@ public class TransformCommands {
 		TransformCommands f = new TransformCommands();
 		r.register("convert", ConvertCommand::new);
 		r.register("equalizeHist", f::equalizeHistCommand);
-		r.register("morphology", f::morphologyCommand);
 		r.register("canny", f::cannyCommand);
+		r.register("morphology", MorphologyCommand::new);
 		r.register("bitwisePrev",  BitwisePrevCommand::new);
 		r.register("filterContours", FilterContoursCommand::new);
 		ThresholdCommands.register(r);
@@ -29,15 +28,6 @@ public class TransformCommands {
 	public Command equalizeHistCommand(String... ps) {
 		return newCommand(m -> equalizeHist(m, m));
 	}
-
-	public Command morphologyCommand(String... ps) {
-		SimpleCommand c = new SimpleCommand(ps);
-		EnumParam<MorphOperation> op = c.enumParam(MorphOperation.class, 0);
-		Mat kernel = new Mat();
-		return c.withFunc(m -> morphologyEx(m, m, op.vi(), kernel));
-	}
-
-	enum MorphOperation { Erode, Dilate, Open, Close, Gradient, TopHat, BlackHat, HitMiss }
 
 	public Command cannyCommand(String[] ps) {
 		SimpleCommand c = new SimpleCommand(ps);
