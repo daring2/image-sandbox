@@ -21,11 +21,11 @@ public class GeometricCommands {
 
 	public Command scaleCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		IntParam sp = c.intParam(0, "1-201");
+		IntParam sp = c.intParam(0, "0-200");
 		EnumParam<InterMethod> method = c.enumParam(InterMethod.class, 1);
 		Size s0 = new Size();
 		return c.withFunc((m, d) -> {
-			double f = sp.v * 0.01;
+			double f = Math.max(sp.v * 0.01, 0.005);
 			resize(m, d, s0, f, f, method.vi());
 		});
 	}
