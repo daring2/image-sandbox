@@ -3,6 +3,8 @@ package com.gitlab.daring.image.command.transform;
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 import com.gitlab.daring.image.command.SimpleCommand;
+import com.gitlab.daring.image.command.parameter.DoubleParam;
+import com.gitlab.daring.image.command.parameter.IntParam;
 
 import static java.lang.Double.parseDouble;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
@@ -14,7 +16,7 @@ public class FilterCommands {
 		r.register("blur", f::blurCommand);
 		r.register("gaussianBlur", f::gaussianBlurCommand);
 		r.register("medianBlur", f::medianBlurCommand);
-		//TODO bilateralFilter
+		r.register("bilateralFilter", f::bilateralFilterCommand);
 	}
 
 	public Command blurCommand(String... ps) {
@@ -34,6 +36,14 @@ public class FilterCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		KernelSizeParam sp = new KernelSizeParam(c, 0);
 		return c.withFunc((m, d) -> medianBlur(m ,d, sp.w));
+	}
+
+	public Command bilateralFilterCommand(String... ps) {
+		SimpleCommand c = new SimpleCommand(ps);
+		IntParam dp = c.intParam(0, "0-50");;
+		DoubleParam sp1  = c.doubleParam(1, "0-200");
+		DoubleParam sp2  = c.doubleParam(1, "0-200");
+		return c.withFunc((m, d) -> bilateralFilter(m, d, dp.v, sp1.v, sp2.v));
 	}
 
 }
