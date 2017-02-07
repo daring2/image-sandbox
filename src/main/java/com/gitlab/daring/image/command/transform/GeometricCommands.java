@@ -21,7 +21,7 @@ public class GeometricCommands {
 
 	public Command scaleCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		IntParam sp = c.intParam(0, "1-200");
+		IntParam sp = c.intParam(0, "1-201");
 		EnumParam<InterMethod> method = c.enumParam(InterMethod.class, 1);
 		Size s0 = new Size();
 		return c.withFunc((m, d) -> {
