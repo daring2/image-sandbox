@@ -20,6 +20,7 @@ public class TransformCommands {
 		r.register("morphology", MorphologyCommand::new);
 		r.register("bitwisePrev",  BitwisePrevCommand::new);
 		r.register("filterContours", FilterContoursCommand::new);
+		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
 		ThresholdCommands.register(r);
 		FilterCommands.register(r);
 		GeometricCommands.register(r);

@@ -16,7 +16,7 @@ public class GeometricCommands {
 	public static void register(CommandRegistry r) {
 		GeometricCommands f = new GeometricCommands();
 		r.register("scale", f::scaleCommand);
-		r.register("rectangle", f::rectangleCommand);
+		r.register("selectRect", f::selectRectCommand);
 	}
 
 	public Command scaleCommand(String... ps) {
@@ -30,7 +30,7 @@ public class GeometricCommands {
 		});
 	}
 
-	public Command rectangleCommand(String... args) {
+	public Command selectRectCommand(String... args) {
 		SimpleCommand c = new SimpleCommand(args);
 		int[] ps = parseIntParams(args);
 		Rect rect = new Rect(ps[0], ps[1], ps[2], ps[3]);
