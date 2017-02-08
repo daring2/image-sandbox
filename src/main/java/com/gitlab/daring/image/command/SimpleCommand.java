@@ -4,6 +4,7 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class SimpleCommand extends BaseCommand {
 
@@ -21,6 +22,11 @@ public class SimpleCommand extends BaseCommand {
 	public SimpleCommand withFunc(BiConsumer<Mat, Mat> f) {
 		Mat d = new Mat();
 		func = env -> { f.accept(env.mat, d); env.mat = d; };
+		return this;
+	}
+
+	public SimpleCommand withSetFunc(Function<Mat, Mat> f) {
+		func = env -> env.mat = f.apply(env.mat);
 		return this;
 	}
 

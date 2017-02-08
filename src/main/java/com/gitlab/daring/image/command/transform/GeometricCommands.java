@@ -9,6 +9,7 @@ import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Size;
 
 import static com.gitlab.daring.image.command.CommandUtils.parseIntParams;
+import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static org.bytedeco.javacpp.opencv_imgproc.resize;
 
 public class GeometricCommands {
@@ -17,6 +18,7 @@ public class GeometricCommands {
 		GeometricCommands f = new GeometricCommands();
 		r.register("scale", f::scaleCommand);
 		r.register("cropRect", f::cropRectCommand);
+		r.register("cropCenter", f::cropCenterCommand);
 	}
 
 	public Command scaleCommand(String... ps) {
@@ -34,8 +36,13 @@ public class GeometricCommands {
 		SimpleCommand c = new SimpleCommand(args);
 		int[] ps = parseIntParams(args);
 		Rect rect = new Rect(ps[0], ps[1], ps[2], ps[3]);
-		c.func = env -> env.mat = env.mat.apply(rect);
-		return c;
+		return c.withSetFunc(m -> m.apply(rect));
+	}
+
+	public Command cropCenterCommand(String... ps) {
+		SimpleCommand c = new SimpleCommand(ps);
+		IntParam sp = c.intParam(0, "0-100");
+		return c.withSetFunc(m -> m.apply(getCenterRect(m.size(), sp.v * 0.01)));
 	}
 
 	enum InterMethod { Nearest, Linear, Cubic, Area, Lanczos4 }
