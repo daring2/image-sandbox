@@ -38,7 +38,7 @@ public class WatershedCenterCommand extends BaseCommand {
 		Scalar color = Scalar.all(c);
 		MarkerType mt = markerType.v;
 		if (mt == MarkerType.Rectangle) {
-			Rect rect = getCenterRect(m.size(), 0.01 * p.v);
+			Rect rect = getCenterRect(m.size(), p.v * 0.01);
 			rectangle(m, rect, color);
 		} else if (mt == MarkerType.Circle) {
 			Point cp = new Point(m.cols() / 2, m.rows() / 2);
