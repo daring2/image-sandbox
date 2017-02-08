@@ -24,6 +24,11 @@ public class SimpleCommand extends BaseCommand {
 		return this;
 	}
 
+	public SimpleCommand withCombFunc(String mk, BiConsumer<Mat, Mat> f) {
+		func = env -> f.accept(env.mat, env.getMat(mk));
+		return this;
+	}
+
 	@Override
 	public void execute(CommandEnv env) {
 		func.accept(env);
