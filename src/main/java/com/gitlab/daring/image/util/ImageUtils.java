@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.util;
 
+import com.gitlab.daring.image.component.BaseCanvasFrame;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point2f;
 import org.bytedeco.javacpp.opencv_core.Size;
@@ -29,7 +30,7 @@ public class ImageUtils {
 	}
 
 	public static void showMat(Mat m, String title) {
-		CanvasFrame frame = new CanvasFrame(title, 1);
+		CanvasFrame frame = new BaseCanvasFrame(title);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.showImage(new ToMat().convert(m));
 	}
