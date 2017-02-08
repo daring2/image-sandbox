@@ -14,7 +14,7 @@ public class PyrMeanShiftFilterCommand extends BaseCommand {
 	final IntParam sr = intParam(1, "0-100");
 	final IntParam ml = intParam(2, "0-5");
 	final TermCriteria tr = new TermCriteria(3, 5, 1);
-	final Mat dm = new Mat();
+	final Mat rm = new Mat();
 
 	public PyrMeanShiftFilterCommand(String... args) {
 		super(args);
@@ -22,8 +22,8 @@ public class PyrMeanShiftFilterCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		pyrMeanShiftFiltering(env.mat, dm, sp.v, sr.v, ml.v, tr);
-		env.mat = dm;
+		pyrMeanShiftFiltering(env.mat, rm, sp.v, sr.v, ml.v, tr);
+		env.mat = rm;
 	}
 
 }

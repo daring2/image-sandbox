@@ -5,8 +5,10 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Size;
+
 import java.awt.*;
 import java.util.Collection;
+
 import static com.google.common.collect.Iterables.toArray;
 
 public class OpencvConverters {
@@ -21,6 +23,10 @@ public class OpencvConverters {
 
 	public static Rectangle toJava(Rect rect) {
 		return new Rectangle(rect.x(), rect.y(), rect.width(), rect.height());
+	}
+
+	public static opencv_core.Point toOpencv(Point p) {
+		return new opencv_core.Point(p.x, p.y);
 	}
 
 	public static Size toOpencv(Dimension d) {
