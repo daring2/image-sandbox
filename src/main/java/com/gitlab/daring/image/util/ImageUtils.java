@@ -53,6 +53,10 @@ public class ImageUtils {
 		if (f > 0) addWeighted(m1, 1 - f, m2, f, 0, dm);
 	}
 
+	public static Mat newScalarMat(int v) {
+		return new Mat(new byte[] {(byte) v});
+	}
+
 	private ImageUtils() {
 	}
 
