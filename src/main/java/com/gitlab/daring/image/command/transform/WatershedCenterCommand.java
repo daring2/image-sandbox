@@ -17,6 +17,7 @@ public class WatershedCenterCommand extends BaseCommand {
 	final IntParam r1 = intParam(0, "0-100");
 	final IntParam r2 = intParam(1, "0-100");
 	final EnumParam<MarkerType> markerType = enumParam(MarkerType.class, 2);
+	final IntParam segment = intParam(3, "0-2");
 	final Mat rm = new Mat();
 
 	public WatershedCenterCommand(String... args) {
@@ -27,10 +28,11 @@ public class WatershedCenterCommand extends BaseCommand {
 	public void execute(CommandEnv env) {
 		Mat m = new Mat(env.mat.size(), CV_32SC1, BLACK);
 		drawMarker(m, r1, 1);
-		drawMarker(m, r2, 255);
+		drawMarker(m, r2, 2);
 		watershed(env.mat, m);
-		m.convertTo(rm, CV_8U, 255 , 255);
-		compare(rm, newScalarMat(0), rm, CMP_EQ);
+		max(m, 0).asMat().convertTo(rm, CV_8U);
+		Mat si = newScalarMat(segment.v);
+		inRange(rm, si, si, rm);
 		env.mat = rm;
 	}
 
