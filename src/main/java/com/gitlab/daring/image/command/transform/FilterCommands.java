@@ -42,7 +42,7 @@ public class FilterCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		IntParam dp = c.intParam(0, "0-50");;
 		DoubleParam sp1  = c.doubleParam(1, "0-200");
-		DoubleParam sp2  = c.doubleParam(1, "0-200");
+		DoubleParam sp2  = c.doubleParam(2, "0-200");
 		return c.withFunc((m, d) -> bilateralFilter(m, d, dp.v, sp1.v, sp2.v));
 	}
 
