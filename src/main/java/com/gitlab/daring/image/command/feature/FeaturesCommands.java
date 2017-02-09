@@ -17,7 +17,8 @@ public class FeaturesCommands {
 		r.register("detectFeaturesSURF", SURFCommand::new);
 		r.register("detectFeaturesSIFT", SIFTCommand::new);
 		r.register("detectFeaturesORB", ORBCommand::new);
-		r.register("detectFeaturesStar", StarDetectorCommand::new);
+		r.register("detectFeaturesSTAR", StarDetectorCommand::new);
+		r.register("detectFeaturesMSER", MSERCommand::new);
 	}
 
 	public Command drawKeyPointsCommand(String... ps) {
