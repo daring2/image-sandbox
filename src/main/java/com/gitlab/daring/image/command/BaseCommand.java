@@ -25,12 +25,22 @@ public abstract class BaseCommand implements Command {
 		return p;
 	}
 
-	public DoubleParam doubleParam(int index, String spec) {
-		return addParam(new DoubleParam(args[index], spec));
+	public DoubleParam doubleParam(int i, double dv, String spec) {
+		String sv = args.length < i ? args[i] : "" + dv;
+		return addParam(new DoubleParam(sv, spec));
 	}
 
-	public IntParam intParam(int index, String spec) {
-		return addParam(new IntParam(args[index], spec));
+	public DoubleParam doubleParam(int i, String spec) {
+		return doubleParam(i, -1, spec);
+	}
+
+	public IntParam intParam(int i, int dv, String spec) {
+		String sv = i < args.length ? args[i] : "" + dv;
+		return addParam(new IntParam(sv, spec));
+	}
+
+	public IntParam intParam(int i, String spec) {
+		return intParam(i, -1, spec);
 	}
 
 	public BooleanParam boolParam(int index) {

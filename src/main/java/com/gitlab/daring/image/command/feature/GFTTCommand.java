@@ -8,10 +8,10 @@ import org.bytedeco.javacpp.opencv_features2d.GFTTDetector;
 
 public class GFTTCommand extends BaseCommand {
 
-	final IntParam maxFeatures = intParam(0, "0-100");
-	final DoubleParam qualityLevel = doubleParam(1, "0-100");
-	final DoubleParam minDistance = doubleParam(2, "0-20");
-	final IntParam blockSize = intParam(3, "0-20");
+	final IntParam maxFeatures = intParam(0, 100, "0-100");
+	final DoubleParam qualityLevel = doubleParam(1, 1, "0-100");
+	final DoubleParam minDistance = doubleParam(2, 1, "0-20");
+	final IntParam blockSize = intParam(3, 3, "0-20");
 	final GFTTDetector detector = GFTTDetector.create();
 
 	public GFTTCommand(String... args) {
