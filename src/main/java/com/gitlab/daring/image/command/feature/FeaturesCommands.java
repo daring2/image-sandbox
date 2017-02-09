@@ -13,7 +13,7 @@ public class FeaturesCommands {
 	public static void register(CommandRegistry r) {
 		FeaturesCommands f = new FeaturesCommands();
 		r.register("drawKeyPoints", f::drawKeyPointsCommand);
-		r.register("detectFeatures", DetectFeaturesCommand::new);
+		r.register("detectFeaturesGFTT", GFTTCommand::new);
 	}
 
 	public Command drawKeyPointsCommand(String... ps) {
