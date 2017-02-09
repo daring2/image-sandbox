@@ -8,4 +8,5 @@ public class ExceptionUtils {
 
 	private ExceptionUtils() {
 	}
+
 }
