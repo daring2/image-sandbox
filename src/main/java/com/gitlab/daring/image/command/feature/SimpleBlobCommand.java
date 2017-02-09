@@ -11,7 +11,7 @@ public class SimpleBlobCommand extends BaseCommand {
 	final IntParam minThreshold = intParam(0, 0, "0-255");
 	final IntParam maxThreshold = intParam(1, 255, "0-255");
 	final IntParam thresholdStep = intParam(2, 5, "0-50");
-	final IntParam minDistBetweenBlobs = intParam(3, 10, "0-1000");
+	final IntParam minDistBetweenBlobs = intParam(3, 10, "0-100");
 	final IntParam minArea = intParam(4, 10, "0-10000");
 	final IntParam maxArea = intParam(5, 10000, "0-10000");
 
