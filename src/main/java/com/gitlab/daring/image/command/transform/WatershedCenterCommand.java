@@ -18,7 +18,6 @@ public class WatershedCenterCommand extends BaseCommand {
 	final IntParam r2 = intParam(1, "0-100");
 	final EnumParam<MarkerType> markerType = enumParam(MarkerType.class, 2);
 	final IntParam segment = intParam(3, "0-2");
-	final IntParam thickness = intParam(4, "0-10");
 	final Mat rm = new Mat();
 
 	public WatershedCenterCommand(String... args) {
@@ -40,7 +39,7 @@ public class WatershedCenterCommand extends BaseCommand {
 	void drawMarker(Mat m, IntParam p, int color) {
 		Rect cr = getCenterRect(m.size(), p.v * 0.01);
 		Scalar c = Scalar.all(color);
-		int th = thickness.v;
+		int th = color == 1 ? -1 : 1;
 		MarkerType mt = markerType.v;
 		if (mt == MarkerType.Rectangle) {
 			rectangle(m, cr, c, th, LINE_8, 0);
