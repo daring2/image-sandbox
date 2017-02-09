@@ -35,7 +35,10 @@ public class FilterCommands {
 	public Command medianBlurCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
 		KernelSizeParam sp = new KernelSizeParam(c, 0);
-		return c.withFunc((m, d) -> medianBlur(m ,d, sp.w));
+		IntParam n = c.intParam(1, "0-10");
+		return c.withFunc(m -> {
+			for (int i = 0; i < n.v; i++) medianBlur(m.clone(), m, sp.w);
+		});
 	}
 
 	public Command bilateralFilterCommand(String... ps) {
