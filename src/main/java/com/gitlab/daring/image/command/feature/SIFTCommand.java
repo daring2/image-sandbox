@@ -6,7 +6,7 @@ import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_xfeatures2d.SIFT;
 
-public class SIFTCommand extends BaseCommand {
+class SIFTCommand extends BaseCommand {
 
 	final IntParam maxFeatures = intParam(0, 100,"0-100");
 	final IntParam nOctaveLayers = intParam(1, 3,"0-10");
@@ -14,7 +14,7 @@ public class SIFTCommand extends BaseCommand {
 	final DoubleParam edgeThreshold = doubleParam(3, 10,"0-100");
 	final DoubleParam sigma = doubleParam(4, 1.6,"0.1-10");
 
-	public SIFTCommand(String... args) {
+	SIFTCommand(String... args) {
 		super(args);
 	}
 

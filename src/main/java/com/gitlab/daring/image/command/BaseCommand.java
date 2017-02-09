@@ -26,7 +26,7 @@ public abstract class BaseCommand implements Command {
 	}
 
 	public DoubleParam doubleParam(int i, double dv, String spec) {
-		String sv = args.length < i ? args[i] : "" + dv;
+		String sv = i < args.length ? args[i] : "" + dv;
 		return addParam(new DoubleParam(sv, spec));
 	}
 

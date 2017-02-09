@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
-public class SURFCommand extends BaseCommand {
+class SURFCommand extends BaseCommand {
 
 	final IntParam hessianThreshold = intParam(0, 100,"20-200");
 	final IntParam nOctaves = intParam(1, 4,"0-10");
@@ -13,7 +13,7 @@ public class SURFCommand extends BaseCommand {
 
 	final SURF detector = SURF.create();
 
-	public SURFCommand(String... args) {
+	SURFCommand(String... args) {
 		super(args);
 	}
 

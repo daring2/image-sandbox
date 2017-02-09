@@ -4,26 +4,25 @@ import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
-import org.bytedeco.javacpp.opencv_features2d.GFTTDetector;
+import org.bytedeco.javacpp.opencv_features2d.ORB;
 
-class GFTTCommand extends BaseCommand {
+class ORBCommand extends BaseCommand {
 
+	//TODO support all params
 	final IntParam maxFeatures = intParam(0, 100, "0-100");
-	final DoubleParam qualityLevel = doubleParam(1, 1, "0-100");
-	final DoubleParam minDistance = doubleParam(2, 1, "0-20");
-	final IntParam blockSize = intParam(3, 3, "0-20");
-	final GFTTDetector detector = GFTTDetector.create();
+	final DoubleParam scale = doubleParam(1, 12, "0-100");
+	final IntParam nlevels = intParam(2, 8, "0-100");
+	final ORB detector = ORB.create();
 
-	GFTTCommand(String... args) {
+	ORBCommand(String... args) {
 		super(args);
 	}
 
 	@Override
 	public void execute(CommandEnv env) {
 		detector.setMaxFeatures(maxFeatures.v);
-		detector.setQualityLevel(qualityLevel.v * 0.01);
-		detector.setMinDistance(minDistance.v);
-		detector.setBlockSize(blockSize.v);
+		detector.setScaleFactor(scale.v * 0.1);
+		detector.setNLevels(nlevels.v);
 		detector.detect(env.mat, env.keyPoints);
 	}
 
