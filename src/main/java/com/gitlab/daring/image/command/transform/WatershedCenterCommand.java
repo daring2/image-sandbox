@@ -18,6 +18,7 @@ public class WatershedCenterCommand extends BaseCommand {
 	final IntParam r2 = intParam(1, "0-100");
 	final EnumParam<MarkerType> markerType = enumParam(MarkerType.class, 2);
 	final IntParam segment = intParam(3, "0-2");
+	final IntParam thickness = intParam(4, "0-10");
 	final Mat rm = new Mat();
 
 	public WatershedCenterCommand(String... args) {
@@ -36,15 +37,16 @@ public class WatershedCenterCommand extends BaseCommand {
 		env.mat = rm;
 	}
 
-	void drawMarker(Mat m, IntParam p, int c) {
-		Scalar color = Scalar.all(c);
+	void drawMarker(Mat m, IntParam p, int color) {
+		Rect cr = getCenterRect(m.size(), p.v * 0.01);
+		Scalar c = Scalar.all(color);
+		int th = thickness.v;
 		MarkerType mt = markerType.v;
 		if (mt == MarkerType.Rectangle) {
-			Rect rect = getCenterRect(m.size(), p.v * 0.01);
-			rectangle(m, rect, color);
+			rectangle(m, cr, c, th, LINE_8, 0);
 		} else if (mt == MarkerType.Circle) {
 			Point cp = new Point(m.cols() / 2, m.rows() / 2);
-			circle(m, cp, m.cols() * p.v / 100, color);
+			circle(m, cp, cr.width() / 2, c, th, LINE_8, 0);
 		} else {
 			throw new IllegalArgumentException("markerType=" + mt);
 		}
