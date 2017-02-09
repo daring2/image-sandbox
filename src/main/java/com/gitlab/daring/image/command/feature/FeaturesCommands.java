@@ -14,6 +14,8 @@ public class FeaturesCommands {
 		FeaturesCommands f = new FeaturesCommands();
 		r.register("drawKeyPoints", f::drawKeyPointsCommand);
 		r.register("detectFeaturesGFTT", GFTTCommand::new);
+		r.register("detectFeaturesSURF", SURFCommand::new);
+		r.register("detectFeaturesSIFT", SIFTCommand::new);
 	}
 
 	public Command drawKeyPointsCommand(String... ps) {
