@@ -17,11 +17,15 @@ public class CommandUtils {
 		return env -> c.accept(env.mat);
 	}
 
-	public static String[] parseParams(String paramStr, List<String> defParams) {
-		List<String> ss = splitAndTrim(paramStr, ",");
-		String[] ps = new String[max(ss.size(), defParams.size())];
+	public static String[] parseArgs(String argStr, List<String> defArgs) {
+		List<String> ss = splitAndTrim(argStr, ",");
+		return buildArgs(ss, defArgs);
+	}
+
+	public static String[] buildArgs(List<String> args, List<String> defArgs) {
+		String[] ps = new String[max(args.size(), defArgs.size())];
 		for (int i = 0; i < ps.length; i++)
-			ps[i] = i < ss.size() ? ss.get(i) : defParams.get(i);
+			ps[i] = i < args.size() ? args.get(i) : defArgs.get(i);
 		return ps;
 	}
 

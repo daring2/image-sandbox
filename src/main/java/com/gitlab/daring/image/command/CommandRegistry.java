@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.cache.CacheUtils.buildClosableCache;
-import static com.gitlab.daring.image.command.CommandUtils.parseParams;
+import static com.gitlab.daring.image.command.CommandUtils.parseArgs;
 import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
@@ -63,13 +63,13 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 	private Command parseCommand(String cmdStr) {
 		List<String> ss = splitAndTrim(cmdStr, "()");
 		String name = ss.get(0);
-		String[] ps = parseParams(ss.size() > 1 ? ss.get(1) : "", getDefParams(name));
+		String[] args = parseArgs(ss.size() > 1 ? ss.get(1) : "", getDefArgs(name));
 		Command.Factory cf = factories.get(name);
 		if (cf == null) throwArgumentException("Invalid command " + cmdStr);
-		return cf.create(ps);
+		return cf.create(args);
 	}
 
-	private List<String> getDefParams(String name) {
+	private List<String> getDefArgs(String name) {
 		return cmdConfig.hasPath(name) ? cmdConfig.getStringList(name) : emptyList();
 	}
 
