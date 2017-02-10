@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.command.draw;
+package com.gitlab.daring.image.command.drawing;
 
 import com.gitlab.daring.image.command.CommandRegistry;
 
