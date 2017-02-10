@@ -4,6 +4,7 @@ import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
+import static org.bytedeco.javacpp.opencv_core.bitwise_not;
 import static org.bytedeco.javacpp.opencv_imgproc.equalizeHist;
 
 public class TransformCommands {
@@ -11,6 +12,7 @@ public class TransformCommands {
 	public static void register(CommandRegistry r) {
 		TransformCommands f = new TransformCommands();
 		r.register("equalizeHist", f::equalizeHistCommand);
+		r.register("bitwiseNot", f::bitwiseNotCommand);
 		r.register("convert", ConvertCommand::new);
 		r.register("morphology", MorphologyCommand::new);
 		r.register("bitwisePrev",  BitwisePrevCommand::new);
@@ -25,6 +27,10 @@ public class TransformCommands {
 
 	public Command equalizeHistCommand(String... ps) {
 		return newCommand(m -> equalizeHist(m, m));
+	}
+
+	public Command bitwiseNotCommand(String... ps) {
+		return newCommand(m -> bitwise_not(m, m));
 	}
 
 }

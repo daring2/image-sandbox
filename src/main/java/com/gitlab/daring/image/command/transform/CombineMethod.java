@@ -7,9 +7,10 @@ public enum CombineMethod {
 
 	MAX(opencv_core::max),
 	MIN(opencv_core::min),
+	ADD(opencv_core::add),
+	SUBTRACT(opencv_core::subtract),
 	AND(opencv_core::bitwise_and),
 	OR(opencv_core::bitwise_or),
-	NOT(opencv_core::bitwise_not),
 	XOR(opencv_core::bitwise_xor);
 
 	final CombineFunction func;
