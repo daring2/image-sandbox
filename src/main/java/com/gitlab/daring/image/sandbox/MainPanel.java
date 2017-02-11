@@ -15,7 +15,7 @@ class MainPanel extends CommandScriptPanel {
 
 	JFrame showFrame() {
 		BaseFrame frame = new BaseFrame("ImageSandbox", this);
-		frame.setSize(640, 480);
+		frame.setSize(800, 600);
 		frame.setVisible(true);
 		return frame;
 	}

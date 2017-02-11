@@ -5,6 +5,7 @@ import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.EnumParam;
 import org.bytedeco.javacpp.opencv_core.MatVector;
 
+import static com.gitlab.daring.image.util.CollectionUtils.mapList;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static org.bytedeco.javacpp.opencv_imgproc.findContours;
 
@@ -21,7 +22,7 @@ public class FindContoursCommand extends BaseCommand {
 	public void execute(CommandEnv env) {
 		MatVector mv = new MatVector();
 		findContours(env.mat, mv, mode.vi(), method.vi() + 1);
-		env.contours = toJava(mv);
+		env.contours = mapList(toJava(mv), Contour::new);
 	}
 
 	enum Mode { External, List, CComp, Tree, FloodFill }

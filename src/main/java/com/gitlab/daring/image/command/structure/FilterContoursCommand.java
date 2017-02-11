@@ -4,21 +4,16 @@ import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
-import org.bytedeco.javacpp.opencv_core.Mat;
 
-import java.awt.*;
+import java.util.Comparator;
 
-import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static java.lang.Double.NaN;
 import static java.lang.Double.isNaN;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 import static java.util.stream.Collectors.toList;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class FilterContoursCommand extends BaseCommand {
 
-	final EnumParam<Metric> metric = enumParam(Metric.class, 0, Metric.Length);
+	final EnumParam<ContourMetric> metric = enumParam(ContourMetric.class, 0, ContourMetric.Length);
 	final DoubleParam minValue = doubleParam(1, NaN, "0-1000");
 	final DoubleParam maxValue = doubleParam(2, NaN, "0-1000");
 
@@ -29,29 +24,12 @@ public class FilterContoursCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		if (isNaN(minValue.v) && isNaN(maxValue.v)) return;
+		ContourMetric m = metric.v;
+		Comparator<Contour> mc = m.comparator.reversed();
 		env.contours = env.contours.stream().filter(c -> {
-			double mv = calcMetric(c);
+			double mv = c.getMetric(m);
 			return mv >= minValue.v && (mv < maxValue.v || isNaN(maxValue.v));
-		}).collect(toList());
+		}).sorted(mc).collect(toList());
 	}
-
-	double calcMetric(Mat c) {
-		Metric m = metric.v;
-		if (m == Metric.Length) {
-			return arcLength(c, false);
-		} else if (m == Metric.Area) {
-			return contourArea(c);
-		} else if (m == Metric.Size){
-			Rectangle r = toJava(boundingRect(c));
-			return Math.max(r.width, r.height);
-		} else if (m == Metric.Diameter) {
-			Rectangle r = toJava(boundingRect(c));
-			return sqrt(pow(r.width, 2)  + pow(r.height, 2));
-		} else {
-			throw new IllegalArgumentException("metric=" + m);
-		}
-	}
-
-	enum Metric { Length, Area, Size, Diameter}
 
 }
