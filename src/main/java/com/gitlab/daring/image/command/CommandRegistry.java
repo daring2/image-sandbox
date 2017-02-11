@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.command;
 
-import com.gitlab.daring.image.command.draw.DrawCommands;
+import com.gitlab.daring.image.command.drawing.DrawCommands;
 import com.gitlab.daring.image.command.feature.FeaturesCommands;
 import com.gitlab.daring.image.command.transform.TransformCommands;
 import com.gitlab.daring.image.common.BaseComponent;
