@@ -8,8 +8,11 @@ import org.bytedeco.javacpp.opencv_core.Size;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.List;
 
 import static com.google.common.collect.Iterables.toArray;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.LongStream.range;
 
 public class OpencvConverters {
 
@@ -17,24 +20,28 @@ public class OpencvConverters {
 		return new Point(p.x(), p.y());
 	}
 
-	public static Dimension toJava(Size size) {
-		return new Dimension(size.width(), size.height());
-	}
-
-	public static Rectangle toJava(Rect rect) {
-		return new Rectangle(rect.x(), rect.y(), rect.width(), rect.height());
-	}
-
 	public static opencv_core.Point toOpencv(Point p) {
 		return new opencv_core.Point(p.x, p.y);
+	}
+
+	public static Dimension toJava(Size size) {
+		return new Dimension(size.width(), size.height());
 	}
 
 	public static Size toOpencv(Dimension d) {
 		return new Size(d.width, d.height);
 	}
 
+	public static Rectangle toJava(Rect rect) {
+		return new Rectangle(rect.x(), rect.y(), rect.width(), rect.height());
+	}
+
 	public static Rect toOpencv(Rectangle r) {
 		return new Rect(r.x, r.y, r.width, r.height);
+	}
+
+	public static List<Mat> toJava(MatVector ms) {
+		return range(0, ms.size()).mapToObj(ms::get).collect(toList());
 	}
 
 	public static MatVector toOpencv(Collection<Mat> ms) {

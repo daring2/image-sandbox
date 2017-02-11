@@ -15,6 +15,7 @@ public class StructureCommands {
 	public static void register(CommandRegistry r) {
 		StructureCommands f = new StructureCommands();
 		r.register("canny", f::cannyCommand);
+		r.register("findContours", FindContoursCommand::new);
 		r.register("filterContours", FilterContoursCommand::new);
 		r.register("watershedCenter", WatershedCenterCommand::new);
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
