@@ -12,6 +12,10 @@ public class IntParam extends NumberParam<Integer> {
 		this(sv, "");
 	}
 
+	public int posVal(int dv) {
+		return v > 0 ? v : dv;
+	}
+
 	@Override
 	public Integer parseValue(String sv) {
 		return parseInt(sv);

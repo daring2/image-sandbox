@@ -33,7 +33,7 @@ public class DrawCenterCommand extends BaseCommand {
 		Dimension d = toJava(m.size());
 		Rectangle cr = getCenterRect(d, scale.v * 0.01);
 		Scalar c = Scalar.all(color.v);
-		int th = thickness.v; if (th == 0) th = CV_FILLED;
+		int th = thickness.posVal(CV_FILLED);
 		Shape sh = shape.v;
 		if (sh == Shape.Rectangle) {
 			rectangle(m, toOpencv(cr), c, th, LINE_8, 0);
