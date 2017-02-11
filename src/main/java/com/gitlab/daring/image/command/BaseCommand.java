@@ -26,8 +26,7 @@ public abstract class BaseCommand implements Command {
 	}
 
 	public DoubleParam doubleParam(int i, double dv, String spec) {
-		String sv = i < args.length ? args[i] : "" + dv;
-		return addParam(new DoubleParam(sv, spec));
+		return addParam(new DoubleParam(arg(i, dv), spec));
 	}
 
 	public DoubleParam doubleParam(int i, String spec) {
@@ -35,16 +34,19 @@ public abstract class BaseCommand implements Command {
 	}
 
 	public IntParam intParam(int i, int dv, String spec) {
-		String sv = i < args.length ? args[i] : "" + dv;
-		return addParam(new IntParam(sv, spec));
+		return addParam(new IntParam(arg(i, dv), spec));
 	}
 
 	public IntParam intParam(int i, String spec) {
 		return intParam(i, -1, spec);
 	}
 
-	public BooleanParam boolParam(int index) {
-		return addParam(new BooleanParam(args[index]));
+	public BooleanParam boolParam(int i, boolean dv) {
+		return addParam(new BooleanParam(arg(i, dv)));
+	}
+
+	public String arg(int i, Object dv) {
+		return i < args.length ? args[i] : "" + dv;
 	}
 
 	public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, int index) {
