@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.command.contour;
+package com.gitlab.daring.image.command.structure;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
@@ -6,16 +6,18 @@ import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
-import com.gitlab.daring.image.command.transform.WatershedCenterCommand;
+import com.gitlab.daring.image.command.transform.PyrMeanShiftFilterCommand;
 
 import static org.bytedeco.javacpp.opencv_imgproc.Canny;
 
-public class ContourCommands {
+public class StructureCommands {
 
 	public static void register(CommandRegistry r) {
-		ContourCommands f = new ContourCommands();
+		StructureCommands f = new StructureCommands();
 		r.register("canny", f::cannyCommand);
+		r.register("filterContours", FilterContoursCommand::new);
 		r.register("watershedCenter", WatershedCenterCommand::new);
+		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
 	}
 
 	public Command cannyCommand(String[] ps) {
