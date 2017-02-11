@@ -4,6 +4,7 @@ import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
+import com.gitlab.daring.image.command.parameter.IntParam;
 
 import java.util.Comparator;
 
@@ -16,6 +17,8 @@ public class FilterContoursCommand extends BaseCommand {
 	final EnumParam<ContourMetric> metric = enumParam(ContourMetric.class, 0, ContourMetric.Length);
 	final DoubleParam minValue = doubleParam(1, NaN, "0-1000");
 	final DoubleParam maxValue = doubleParam(2, NaN, "0-1000");
+	final IntParam offset = intParam(3, 0, "0-100");
+	final IntParam maxSize = intParam(4, Integer.MAX_VALUE, "0-100");
 
 	public FilterContoursCommand(String... params) {
 		super(params);
@@ -29,7 +32,7 @@ public class FilterContoursCommand extends BaseCommand {
 		env.contours = env.contours.stream().filter(c -> {
 			double mv = c.getMetric(m);
 			return mv >= minValue.v && (mv < maxValue.v || isNaN(maxValue.v));
-		}).sorted(mc).collect(toList());
+		}).sorted(mc).skip(offset.v).limit(maxSize.v).collect(toList());
 	}
 
 }
