@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.command;
 
+import com.gitlab.daring.image.command.contour.ContourCommands;
 import com.gitlab.daring.image.command.drawing.DrawCommands;
 import com.gitlab.daring.image.command.feature.FeaturesCommands;
 import com.gitlab.daring.image.command.transform.TransformCommands;
@@ -37,6 +38,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 		EnvCommands.register(this);
 		TransformCommands.register(this);
 		DrawCommands.register(this);
+		ContourCommands.register(this);
 		FeaturesCommands.register(this);
 		mainContext().closeEvent.onFire(this::close);
 	}

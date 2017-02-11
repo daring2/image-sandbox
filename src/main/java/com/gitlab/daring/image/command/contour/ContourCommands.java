@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.command.transform;
+package com.gitlab.daring.image.command.contour;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
@@ -6,6 +6,7 @@ import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
+import com.gitlab.daring.image.command.transform.WatershedCenterCommand;
 
 import static org.bytedeco.javacpp.opencv_imgproc.Canny;
 

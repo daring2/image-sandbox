@@ -21,7 +21,6 @@ public class TransformCommands {
 		ThresholdCommands.register(r);
 		FilterCommands.register(r);
 		GeometricCommands.register(r);
-		ContourCommands.register(r);
 		CombineCommands.register(r);
 	}
 
