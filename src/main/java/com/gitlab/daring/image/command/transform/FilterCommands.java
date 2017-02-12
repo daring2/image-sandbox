@@ -17,6 +17,7 @@ public class FilterCommands {
 		r.register("gaussianBlur", f::gaussianBlurCommand);
 		r.register("medianBlur", f::medianBlurCommand);
 		r.register("bilateralFilter", f::bilateralFilterCommand);
+		r.register("laplacian", LaplacianCommand::new);
 	}
 
 	public Command blurCommand(String... ps) {
