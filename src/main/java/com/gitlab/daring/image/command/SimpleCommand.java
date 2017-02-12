@@ -6,6 +6,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static java.util.stream.IntStream.range;
+
 public class SimpleCommand extends BaseCommand {
 
 	public Consumer<CommandEnv> func;
@@ -16,6 +18,11 @@ public class SimpleCommand extends BaseCommand {
 
 	public SimpleCommand withFunc(Consumer<Mat> c) {
 		func = env -> c.accept(env.mat);
+		return this;
+	}
+
+	public SimpleCommand withFunc(int n, Consumer<Mat> c) {
+		func = env -> range(0, n).forEach(i -> c.accept(env.mat));
 		return this;
 	}
 

@@ -10,9 +10,9 @@ import static org.bytedeco.javacpp.opencv_imgproc.pyrMeanShiftFiltering;
 
 public class PyrMeanShiftFilterCommand extends BaseCommand {
 
-	final IntParam sp = intParam(0, "0-100");
-	final IntParam sr = intParam(1, "0-100");
-	final IntParam ml = intParam(2, "0-5");
+	final IntParam sp = intParam(0, 10, "0-100");
+	final IntParam sr = intParam(1, 10, "0-100");
+	final IntParam ml = intParam(2, 1, "0-5");
 	final TermCriteria tr = new TermCriteria(3, 5, 1);
 	final Mat rm = new Mat();
 

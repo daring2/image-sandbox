@@ -20,20 +20,20 @@ public class ThresholdCommands {
 
 	public Command thresholdCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		DoubleParam th = c.doubleParam(0, "0-255");
-		DoubleParam mv = c.doubleParam(1, "0-255");
-		EnumParam<ThresholdType> tp = c.enumParam(ThresholdType.class, 2);
-		EnumParam<ThresholdFlag> fp = c.enumParam(ThresholdFlag.class, 3);
+		DoubleParam th = c.doubleParam(0, 128, "0-255");
+		DoubleParam mv = c.doubleParam(1, 255, "0-255");
+		EnumParam<ThresholdType> tp = c.enumParam(ThresholdType.class, 2, ThresholdType.Bin);
+		EnumParam<ThresholdFlag> fp = c.enumParam(ThresholdFlag.class, 3, ThresholdFlag.None);
 		return c.withFunc(m -> threshold(m, m, th.v, mv.v, tp.vi() + fp.vi() * 8));
 	}
 
 	public Command adaptiveThresholdCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		DoubleParam mv = c.doubleParam(0, "0-255");
-		EnumParam<AdaptiveMethod> method = c.enumParam(AdaptiveMethod.class, 1);
-		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2);
-		IntParam bs = c.intParam(3, "1-51");
-		IntParam cf = c.intParam(4, "0-100");
+		DoubleParam mv = c.doubleParam(0, 255, "0-255");
+		EnumParam<AdaptiveMethod> method = c.enumParam(AdaptiveMethod.class, 1, AdaptiveMethod.Mean);
+		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2, ThresholdType.Bin);
+		IntParam bs = c.intParam(3, 1, "1-51");
+		IntParam cf = c.intParam(4, 0, "0-100");
 		return c.withFunc(m ->
 			adaptiveThreshold(m, m, mv.v, method.vi(), type.vi(), bs.v * 2 + 1, cf.v)
 		);
