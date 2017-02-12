@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.command.transform;
+package com.gitlab.daring.image.command.structure;
 
 import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;

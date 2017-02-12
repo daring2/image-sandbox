@@ -6,7 +6,6 @@ import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
-import com.gitlab.daring.image.command.transform.PyrMeanShiftFilterCommand;
 
 import static org.bytedeco.javacpp.opencv_imgproc.Canny;
 
@@ -20,6 +19,7 @@ public class StructureCommands {
 		r.register("drawContours", DrawContoursCommand::new);
 		r.register("watershedCenter", WatershedCenterCommand::new);
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
+		r.register("grubCutCenter", GrubCutCenterCommand::new);
 	}
 
 	public Command cannyCommand(String[] ps) {
