@@ -6,17 +6,17 @@ import com.gitlab.daring.image.command.parameter.EnumParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_core.*;
 
-import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
+import static com.gitlab.daring.image.command.structure.MarkerType.Circle;
 import static com.gitlab.daring.image.util.ImageUtils.newScalarMat;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLACK;
 import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
+import static org.bytedeco.javacpp.opencv_imgproc.watershed;
 
 public class WatershedCenterCommand extends BaseCommand {
 
 	final IntParam r1 = intParam(0, 5, "0-100");
 	final IntParam r2 = intParam(1, 30, "0-100");
-	final EnumParam<MarkerType> markerType = enumParam(MarkerType.class, 2, MarkerType.Circle);
+	final EnumParam<MarkerType> mt = enumParam(MarkerType.class, 2, Circle);
 	final IntParam segment = intParam(3, 0, "0-2");
 	final Mat rm = new Mat();
 
@@ -36,21 +36,8 @@ public class WatershedCenterCommand extends BaseCommand {
 		env.mat = rm;
 	}
 
-	void drawMarker(Mat m, IntParam p, int color) {
-		Rect cr = getCenterRect(m.size(), p.v * 0.01);
-		Scalar c = Scalar.all(color);
-		int th = color == 1 ? -1 : 1;
-		MarkerType mt = markerType.v;
-		if (mt == MarkerType.Rectangle) {
-			rectangle(m, cr, c, th, LINE_8, 0);
-		} else if (mt == MarkerType.Circle) {
-			Point cp = new Point(m.cols() / 2, m.rows() / 2);
-			circle(m, cp, cr.width() / 2, c, th, LINE_8, 0);
-		} else {
-			throw new IllegalArgumentException("markerType=" + mt);
-		}
+	void drawMarker(Mat m, IntParam p, int c) {
+		mt.v.drawCenter(m, p, c, c == 1 ? -1 : 1);
 	}
-
-	enum MarkerType { Rectangle, Circle }
 
 }

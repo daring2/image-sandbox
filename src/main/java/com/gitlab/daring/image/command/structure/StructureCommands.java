@@ -19,7 +19,7 @@ public class StructureCommands {
 		r.register("drawContours", DrawContoursCommand::new);
 		r.register("watershedCenter", WatershedCenterCommand::new);
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
-		r.register("grubCut", GrubCutCommand::new);
+		r.register("grubCutCenter", GrubCutCenterCommand::new);
 	}
 
 	public Command cannyCommand(String[] ps) {
