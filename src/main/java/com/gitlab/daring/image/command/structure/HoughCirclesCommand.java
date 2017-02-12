@@ -18,6 +18,7 @@ public class HoughCirclesCommand extends BaseCommand {
 	final IntParam p2 = intParam(3, 100, "0-1000");
 	final IntParam minRadius = intParam(4, 0, "0-1000");
 	final IntParam maxRadius = intParam(5, 0, "0-1000");
+	final IntParam limit = intParam(6, Integer.MAX_VALUE, "0-100");
 
 	final int method = CV_HOUGH_GRADIENT;
 
@@ -31,7 +32,8 @@ public class HoughCirclesCommand extends BaseCommand {
 		HoughCircles(env.mat, cs, method, dp.v, minDist.v, p1.v, p2.v, minRadius.v, maxRadius.v);
 		if (cs.empty()) return;
 		FloatRawIndexer ind = cs.createIndexer();
-		for (int i = 0; i < cs.cols(); i++) {
+		long size = Math.min(ind.cols(), limit.v);
+		for (int i = 0; i < size; i++) {
 			Point cp = new Point((int) ind.get(0, i, 0), (int) ind.get(0, i, 1));
 			int radius = (int) ind.get(0, i, 2);
 			circle(env.mat, cp, radius, Scalar.WHITE);
