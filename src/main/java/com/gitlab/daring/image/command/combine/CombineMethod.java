@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.command.transform;
+package com.gitlab.daring.image.command.combine;
 
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;

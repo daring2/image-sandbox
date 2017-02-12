@@ -2,6 +2,7 @@ package com.gitlab.daring.image.command.transform;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
+import com.gitlab.daring.image.command.combine.BitwisePrevCommand;
 
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
 import static org.bytedeco.javacpp.opencv_core.bitwise_not;
@@ -19,7 +20,6 @@ public class TransformCommands {
 		ThresholdCommands.register(r);
 		FilterCommands.register(r);
 		GeometricCommands.register(r);
-		CombineCommands.register(r);
 	}
 
 	public Command equalizeHistCommand(String... ps) {

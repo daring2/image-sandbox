@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.command.transform;
+package com.gitlab.daring.image.command.combine;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
@@ -10,6 +10,7 @@ public class CombineCommands {
 	public static void register(CommandRegistry r) {
 		CombineCommands f = new CombineCommands();
 		r.register("combine", f::combineCommand);
+		r.register("addWeighted", AddWeightedCommand::new);
 	}
 
 	public Command combineCommand(String... ps) {
