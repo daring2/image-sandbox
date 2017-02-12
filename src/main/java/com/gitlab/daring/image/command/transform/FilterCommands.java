@@ -41,7 +41,7 @@ public class FilterCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		KernelSizeParam sp = new KernelSizeParam(c, 0);
 		IntParam n = c.intParam(1, 1, "0-10");
-		return c.withFunc(n.v, m -> medianBlur(m.clone(), m, sp.w));
+		return c.withFunc(n, m -> medianBlur(m.clone(), m, sp.w));
 	}
 
 	public Command bilateralFilterCommand(String... ps) {
@@ -56,7 +56,7 @@ public class FilterCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		IntParam n = c.intParam(0, 1, "0-10");
 		Mat rm = new Mat();
-		return c.withFunc(n.v, m -> {
+		return c.withFunc(n, m -> {
 			GaussianBlur(m, rm, new Size(), 3);
 			addWeighted(m, 1.5, rm, -0.5, 0, m);
 		});

@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.command;
 
+import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import java.util.function.BiConsumer;
@@ -21,8 +22,8 @@ public class SimpleCommand extends BaseCommand {
 		return this;
 	}
 
-	public SimpleCommand withFunc(int n, Consumer<Mat> c) {
-		func = env -> range(0, n).forEach(i -> c.accept(env.mat));
+	public SimpleCommand withFunc(IntParam n, Consumer<Mat> c) {
+		func = env -> range(0, n.v).forEach(i -> c.accept(env.mat));
 		return this;
 	}
 
