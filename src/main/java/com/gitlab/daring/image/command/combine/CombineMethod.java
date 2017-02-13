@@ -9,6 +9,7 @@ public enum CombineMethod {
 	Min(opencv_core::min),
 	Add(opencv_core::add),
 	Subtract(opencv_core::subtract),
+	AbsDiff(opencv_core::absdiff),
 	And(opencv_core::bitwise_and),
 	Or(opencv_core::bitwise_or),
 	Xor(opencv_core::bitwise_xor);
