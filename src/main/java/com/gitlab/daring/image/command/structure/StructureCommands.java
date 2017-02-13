@@ -21,6 +21,7 @@ public class StructureCommands {
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
 		r.register("grubCutCenter", GrubCutCenterCommand::new);
 		r.register("houghCircles", HoughCirclesCommand::new);
+		r.register("detectLines", DetectLinesCommand::new);
 	}
 
 	public Command cannyCommand(String[] ps) {
