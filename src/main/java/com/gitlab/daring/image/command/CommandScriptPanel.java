@@ -5,6 +5,7 @@ import com.gitlab.daring.image.command.parameter.CommandParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
 import net.miginfocom.swing.MigLayout;
+import org.slf4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -12,8 +13,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class CommandScriptPanel extends JPanel {
+
+	protected Logger logger = getLogger(getClass());
 
 	public final VoidEvent applyEvent = new VoidEvent();
 	public final VoidEvent changeEvent = new VoidEvent();
@@ -70,7 +74,8 @@ public class CommandScriptPanel extends JPanel {
 	}
 
 	void onError(Exception e) {
-		String msg = "Ошибка выполнения: " + e;
+		logger.error("Script error", e);
+		String msg = "Ошибка выполнения:\n" + e;
 		JOptionPane.showMessageDialog(this, msg, "Ошибки", ERROR_MESSAGE);
 	}
 
