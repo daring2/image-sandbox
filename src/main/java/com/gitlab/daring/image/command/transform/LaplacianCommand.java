@@ -10,7 +10,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.Laplacian;
 
 public class LaplacianCommand extends BaseCommand {
 
-	final IntParam ksize = intParam(0, 2, "1-10");
+	final IntParam ksize = intParam(2, "1-10");
 	final Mat rm = new Mat();
 
 	public LaplacianCommand(String... args) {
