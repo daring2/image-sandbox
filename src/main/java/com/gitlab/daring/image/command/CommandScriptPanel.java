@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class CommandScriptPanel extends JPanel {
@@ -76,7 +77,7 @@ public class CommandScriptPanel extends JPanel {
 	void onError(Exception e) {
 		logger.error("Script error", e);
 		String msg = "Ошибка выполнения:\n" + e;
-		JOptionPane.showMessageDialog(this, msg, "Ошибки", ERROR_MESSAGE);
+		showMessageDialog(this, msg, "Ошибки", ERROR_MESSAGE);
 	}
 
 }
