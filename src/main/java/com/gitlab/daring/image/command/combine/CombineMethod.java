@@ -5,13 +5,13 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 
 public enum CombineMethod {
 
-	MAX(opencv_core::max),
-	MIN(opencv_core::min),
-	ADD(opencv_core::add),
-	SUBTRACT(opencv_core::subtract),
-	AND(opencv_core::bitwise_and),
-	OR(opencv_core::bitwise_or),
-	XOR(opencv_core::bitwise_xor);
+	Max(opencv_core::max),
+	Min(opencv_core::min),
+	Add(opencv_core::add),
+	Subtract(opencv_core::subtract),
+	And(opencv_core::bitwise_and),
+	Or(opencv_core::bitwise_or),
+	Xor(opencv_core::bitwise_xor);
 
 	final CombineFunction func;
 
