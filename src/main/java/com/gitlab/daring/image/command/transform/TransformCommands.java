@@ -17,6 +17,7 @@ public class TransformCommands {
 		r.register("convert", ConvertCommand::new);
 		r.register("morphology", MorphologyCommand::new);
 		r.register("bitwisePrev",  BitwisePrevCommand::new);
+		r.register("normalize",  NormalizeCommand::new);
 		ThresholdCommands.register(r);
 		FilterCommands.register(r);
 		GeometricCommands.register(r);
