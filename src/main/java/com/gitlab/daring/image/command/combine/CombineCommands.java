@@ -15,7 +15,7 @@ public class CombineCommands {
 
 	public Command combineCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		EnumParam<CombineMethod> op = c.enumParam(CombineMethod.class, 1);
+		EnumParam<CombineMethod> op = c.enumParam(CombineMethod.class, 1, null);
 		return c.withCombFunc(ps[0], (m1, m2) -> op.v.func.apply(m1, m2, m1));
 	}
 

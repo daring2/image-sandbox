@@ -33,6 +33,10 @@ public abstract class BaseCommand implements Command {
 		return addParam(new IntParam(arg(i, dv), spec));
 	}
 
+	public IntParam intParam(int dv, String spec) {
+		return intParam(params.size(), dv, spec);
+	}
+
 	public BooleanParam boolParam(int i, boolean dv) {
 		return addParam(new BooleanParam(arg(i, dv)));
 	}
@@ -43,10 +47,6 @@ public abstract class BaseCommand implements Command {
 
 	public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, int i, T dv) {
 		return addParam(new EnumParam<>(cl, arg(i, dv)));
-	}
-
-	public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, int i) {
-		return enumParam(cl, i, null);
 	}
 
 	@Override

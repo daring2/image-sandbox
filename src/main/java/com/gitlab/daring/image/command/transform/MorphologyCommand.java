@@ -9,7 +9,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.morphologyEx;
 
 public class MorphologyCommand extends BaseCommand {
 
-	final EnumParam<Operation> operation = enumParam(Operation.class, 0);
+	final EnumParam<Operation> operation = enumParam(Operation.class, 0, null);
 	final Mat kernel = new Mat();
 
 	public MorphologyCommand(String... args) {

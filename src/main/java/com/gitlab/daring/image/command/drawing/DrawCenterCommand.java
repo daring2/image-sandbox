@@ -18,7 +18,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class DrawCenterCommand extends BaseCommand {
 
-	final EnumParam<Shape> shape = enumParam(Shape.class, 0);
+	final EnumParam<Shape> shape = enumParam(Shape.class, 0, Shape.Rectangle);
 	final IntParam scale = intParam(1, 10, "0-100");
 	final IntParam color = intParam(2,255, "0-255");
 	final IntParam thickness = intParam(3, 1, "0-10");
