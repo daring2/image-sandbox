@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+
 public class CommandScriptPanel extends JPanel {
 
 	public final VoidEvent applyEvent = new VoidEvent();
@@ -29,6 +31,7 @@ public class CommandScriptPanel extends JPanel {
 		add(new JSeparator(), "w 100%");
 		add(paramPanel, "w 100%");
 		applyEvent.onFire(this::apply);
+		script.errorEvent.addListener(this::onError);
 	}
 
 	JTextArea createScriptField() {
@@ -64,6 +67,11 @@ public class CommandScriptPanel extends JPanel {
 		List<CommandParam<?>> ps = new ArrayList<>(staticParams);
 		ps.addAll(script.command.getParams());
 		return ps;
+	}
+
+	void onError(Exception e) {
+		String msg = "Ошибка выполнения: " + e;
+		JOptionPane.showMessageDialog(this, msg, "Ошибки", ERROR_MESSAGE);
 	}
 
 }

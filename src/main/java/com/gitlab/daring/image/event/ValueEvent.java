@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
-public class ValueEvent<T> {
+public class ValueEvent<T> implements Consumer<T> {
 
 	private final List<Consumer<T>> listeners = new CopyOnWriteArrayList<>();
 
@@ -19,6 +19,11 @@ public class ValueEvent<T> {
 
 	public void fire(T value) {
 		listeners.forEach(c -> c.accept(value));
+	}
+
+	@Override
+	public void accept(T v) {
+		fire(v);
 	}
 
 }

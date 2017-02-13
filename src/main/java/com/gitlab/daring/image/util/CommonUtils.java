@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.util;
 
 import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 public class CommonUtils {
 
@@ -14,6 +15,14 @@ public class CommonUtils {
 
 	public static void tryRun(VoidCallable call) {
 		tryRun(() -> { call.call(); return null; });
+	}
+
+	public static void tryRun(VoidCallable call, Consumer<Exception> onError) {
+		try {
+			call.call();
+		} catch (Exception e) {
+			onError.accept(e);
+		}
 	}
 
 	public static void runQuietly(VoidCallable call) {
