@@ -24,7 +24,7 @@ import static java.util.Collections.emptyList;
 public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
 	//TODO move to main context
-	static final CommandRegistry Instance = new CommandRegistry();
+	public static final CommandRegistry Instance = new CommandRegistry();
 
 	public static ScriptCommand parseCmdScript(String script) {
 		return Instance.parseScript(script);
