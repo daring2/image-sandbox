@@ -16,7 +16,6 @@ public class ShowCommand extends BaseCommand {
 	public ShowCommand(String... params) {
 		super(params);
 		frame.setDefaultCloseOperation(isCacheable() ? HIDE_ON_CLOSE : DISPOSE_ON_CLOSE);
-		frame.setVisible(false);
 	}
 
 	@Override
