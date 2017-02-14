@@ -14,9 +14,7 @@ allprojects {
 
 	repositories {
 		mavenLocal()
-		maven {
-			url 'http://192.168.100.181:9999/artifactory/repo'
-		}
+		maven { url 'http://192.168.100.181:9999/artifactory/repo' }
 	}
 
 	dependencies {
