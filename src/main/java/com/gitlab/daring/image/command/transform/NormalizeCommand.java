@@ -6,6 +6,7 @@ import com.gitlab.daring.image.command.parameter.EnumParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
+import static org.bytedeco.javacpp.opencv_core.CV_8U;
 import static org.bytedeco.javacpp.opencv_core.normalize;
 
 public class NormalizeCommand extends BaseCommand {
@@ -13,6 +14,7 @@ public class NormalizeCommand extends BaseCommand {
 	final IntParam alpha = intParam(0, "0-255");
 	final IntParam beta = intParam(255, "0-255");
 	final EnumParam<NormType> normType = enumParam(NormType.class, NormType.MinMax);
+	final IntParam dtype = intParam(CV_8U, "0-10");
 
 	final Mat mask = new Mat();
 
@@ -24,7 +26,7 @@ public class NormalizeCommand extends BaseCommand {
 	public void execute(CommandEnv env) {
 		Mat rm = new Mat();
 		int nt = normType.v.code;
-		normalize(env.mat, rm, alpha.v, beta.v, nt, -1, mask);
+		normalize(env.mat, rm, alpha.v, beta.v, nt, dtype.v, mask);
 		env.mat = rm;
 	}
 
