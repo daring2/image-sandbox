@@ -28,6 +28,7 @@ public class CheckSealCommand extends BaseCommand {
 	final IntParam scale = intParam(30, "0-100");
 
 	final TemplateMatcher tm = new TemplateMatcher();
+	Mat m1, m2;
 
 	public CheckSealCommand(String... args) {
 		super(args);
@@ -35,8 +36,8 @@ public class CheckSealCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		Mat m1 = imread(f1.v, 0);
-		Mat m2 = imread(f2.v, 0);
+		m1 = imread(f1.v, 0);
+		m2 = imread(f2.v, 0);
 		Rect cr = getCenterRect(m1.size(), scale.v * 0.01);
 		Mat cm = m1.apply(cr);
 		MatchResult mr = tm.findBest(m2, cm);
