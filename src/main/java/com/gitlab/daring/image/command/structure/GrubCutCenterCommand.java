@@ -12,10 +12,10 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class GrubCutCenterCommand extends BaseCommand {
 
-	final IntParam r1 = intParam(0, 5,"0-100");
-	final IntParam r2 = intParam(1, 90,"0-100");
-	final EnumParam<MarkerType> mt = enumParam(MarkerType.class, 2, Circle);
-	final IntParam iterCount = intParam(3, 5, "0-100");
+	final IntParam r1 = intParam(5,"0-100");
+	final IntParam r2 = intParam(90,"0-100");
+	final EnumParam<MarkerType> mt = enumParam(MarkerType.class, Circle);
+	final IntParam iterCount = intParam(5, "0-100");
 
 	final Rect rect = new Rect();
 	final Mat bm = new Mat();

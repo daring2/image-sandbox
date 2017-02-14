@@ -17,8 +17,8 @@ import static org.bytedeco.javacpp.opencv_imgproc.drawContours;
 
 public class DrawContoursCommand extends BaseCommand {
 
-	final IntParam index = intParam(0, 0, "0-10");
-	final IntParam thickness = intParam(1, 1, "0-10");
+	final IntParam index = intParam(0, "0-10");
+	final IntParam thickness = intParam(1, "0-10");
 	final int maxLevel = Integer.MAX_VALUE;
 
 	final Mat h = new Mat();

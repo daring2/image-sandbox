@@ -14,10 +14,10 @@ import static org.bytedeco.javacpp.opencv_imgproc.watershed;
 
 public class WatershedCenterCommand extends BaseCommand {
 
-	final IntParam r1 = intParam(0, 5, "0-100");
-	final IntParam r2 = intParam(1, 30, "0-100");
-	final EnumParam<MarkerType> mt = enumParam(MarkerType.class, 2, Circle);
-	final IntParam segment = intParam(3, 0, "0-2");
+	final IntParam r1 = intParam(5, "0-100");
+	final IntParam r2 = intParam(30, "0-100");
+	final EnumParam<MarkerType> mt = enumParam(MarkerType.class, Circle);
+	final IntParam segment = intParam(0, "0-2");
 	final Mat rm = new Mat();
 
 	public WatershedCenterCommand(String... args) {

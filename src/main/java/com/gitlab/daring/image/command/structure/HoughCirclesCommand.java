@@ -12,13 +12,13 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class HoughCirclesCommand extends BaseCommand {
 
-	final IntParam dp = intParam(0, 1, "0-10");
-	final IntParam minDist = intParam(1, 100, "0-1000");
-	final IntParam p1 = intParam(2, 200, "0-1000");
-	final IntParam p2 = intParam(3, 100, "0-1000");
-	final IntParam minRadius = intParam(4, 0, "0-1000");
-	final IntParam maxRadius = intParam(5, 0, "0-1000");
-	final IntParam limit = intParam(6, Integer.MAX_VALUE, "0-100");
+	final IntParam dp = intParam(1, "0-10");
+	final IntParam minDist = intParam(100, "0-1000");
+	final IntParam p1 = intParam(200, "0-1000");
+	final IntParam p2 = intParam(100, "0-1000");
+	final IntParam minRadius = intParam(0, "0-1000");
+	final IntParam maxRadius = intParam(0, "0-1000");
+	final IntParam limit = intParam(Integer.MAX_VALUE, "0-100");
 
 	final int method = CV_HOUGH_GRADIENT;
 

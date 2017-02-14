@@ -29,12 +29,8 @@ public abstract class BaseCommand implements Command {
 		return addParam(new DoubleParam(nextArg(dv), spec));
 	}
 
-	public IntParam intParam(int i, int dv, String spec) {
-		return addParam(new IntParam(arg(i, dv), spec));
-	}
-
 	public IntParam intParam(int dv, String spec) {
-		return intParam(params.size(), dv, spec);
+		return addParam(new IntParam(nextArg(dv), spec));
 	}
 
 	public BooleanParam boolParam(boolean dv) {

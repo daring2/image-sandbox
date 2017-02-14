@@ -7,9 +7,9 @@ import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
 class SURFCommand extends BaseCommand {
 
-	final IntParam hessianThreshold = intParam(0, 100,"20-200");
-	final IntParam nOctaves = intParam(1, 4,"0-10");
-	final IntParam nOctaveLayers = intParam(2, 3,"0-10");
+	final IntParam hessianThreshold = intParam(100,"20-200");
+	final IntParam nOctaves = intParam(4,"0-10");
+	final IntParam nOctaveLayers = intParam(3,"0-10");
 
 	final SURF detector = SURF.create();
 
