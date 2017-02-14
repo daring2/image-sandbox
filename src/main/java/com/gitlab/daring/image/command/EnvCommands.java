@@ -29,7 +29,10 @@ public class EnvCommands {
 	enum ReadFlag { Grey, Color }
 
 	public Command newWriteCommand(String... ps) {
-		return env -> imwrite(ps[0], env.getMat(ps[1]));
+		SimpleCommand c = new SimpleCommand(ps);
+		String file = c.arg(0, "");
+		String key = c.arg(1, "");
+		return env -> imwrite(file, env.getMat(key));
 	}
 
 	public Command newGetCommand(String... ps) {
