@@ -32,7 +32,7 @@ public class ThresholdCommands {
 		DoubleParam mv = c.doubleParam(0, 255, "0-255");
 		EnumParam<AdaptiveMethod> method = c.enumParam(AdaptiveMethod.class, 1, AdaptiveMethod.Mean);
 		EnumParam<ThresholdType> type = c.enumParam(ThresholdType.class, 2, ThresholdType.Bin);
-		IntParam bs = c.intParam(3, 1, "1-51");
+		IntParam bs = c.intParam(3, 1, "0-50");
 		IntParam cf = c.intParam(4, 0, "0-100");
 		return c.withFunc(m ->
 			adaptiveThreshold(m, m, mv.v, method.vi(), type.vi(), bs.v * 2 + 1, cf.v)
