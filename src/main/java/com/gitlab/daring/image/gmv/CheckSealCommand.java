@@ -9,7 +9,6 @@ import com.gitlab.daring.image.template.TemplateMatcher;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
-import org.bytedeco.javacpp.opencv_core.Size;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -17,10 +16,11 @@ import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.image.util.ImageUtils.showMat;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
+import static one.util.streamex.IntStreamEx.range;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_core.absdiff;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
-import static org.bytedeco.javacpp.opencv_imgproc.GaussianBlur;
+import static org.bytedeco.javacpp.opencv_imgproc.medianBlur;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
 @NotThreadSafe
@@ -64,8 +64,9 @@ public class CheckSealCommand extends BaseCommand {
 	}
 
 	Mat blur(Mat m) {
-		Size sp = new Size(5, 5);
-		return buildMat(r -> GaussianBlur(m, r, sp, 0));
+		Mat rm = m.clone();
+		range(5).forEach(i -> medianBlur(rm.clone(), rm, 5));
+		return rm;
 	}
 
 }
