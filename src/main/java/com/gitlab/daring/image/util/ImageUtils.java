@@ -4,8 +4,6 @@ import com.gitlab.daring.image.component.BaseCanvasFrame;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point2f;
 import org.bytedeco.javacpp.opencv_core.Size;
-import org.bytedeco.javacv.CanvasFrame;
-import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import java.util.function.Consumer;
 
@@ -30,9 +28,9 @@ public class ImageUtils {
 	}
 
 	public static void showMat(Mat m, String title) {
-		CanvasFrame frame = new BaseCanvasFrame(title);
+		BaseCanvasFrame frame = new BaseCanvasFrame(title);
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		frame.showImage(new ToMat().convert(m));
+		frame.showMat(m);
 	}
 
 	public static void flipMat(Mat mat, int code) {

@@ -1,18 +1,26 @@
 package com.gitlab.daring.image.component;
 
+import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.CanvasFrame;
+import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import java.awt.*;
 
+import static com.gitlab.daring.image.swing.SwingUtils.runInEdt;
 import static com.gitlab.daring.image.util.GeometryUtils.scaleToMax;
 
 public class BaseCanvasFrame extends CanvasFrame {
 
+	final ToMat converter = new ToMat();
 	final Dimension maxSize = new Dimension(1024, 768);
 
 	public BaseCanvasFrame(String title) {
 		super(title, 1);
 		setVisible(false);
+	}
+
+	public void showMat(Mat m) {
+		runInEdt(() -> showImage(converter.convert(m)));
 	}
 
 	@Override
