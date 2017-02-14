@@ -9,9 +9,9 @@ import org.bytedeco.javacpp.opencv_features2d.ORB;
 class ORBCommand extends BaseCommand {
 
 	//TODO support all params
-	final IntParam maxFeatures = intParam(0, 100, "0-100");
-	final DoubleParam scale = doubleParam(1, 12, "0-100");
-	final IntParam nlevels = intParam(2, 8, "0-100");
+	final IntParam maxFeatures = intParam(100, "0-100");
+	final DoubleParam scale = doubleParam(12, "0-100");
+	final IntParam nlevels = intParam(8, "0-100");
 	final ORB detector = ORB.create();
 
 	ORBCommand(String... args) {

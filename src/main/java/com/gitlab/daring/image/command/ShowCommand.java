@@ -7,7 +7,7 @@ import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
-	final String title = args[0];
+	final String title = nextArg("");
 	final BaseCanvasFrame frame = new BaseCanvasFrame(title);
 
 	public ShowCommand(String... params) {

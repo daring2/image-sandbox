@@ -14,11 +14,11 @@ import static java.util.stream.Collectors.toList;
 
 public class FilterContoursCommand extends BaseCommand {
 
-	final EnumParam<ContourMetric> metric = enumParam(ContourMetric.class, 0, ContourMetric.Length);
-	final DoubleParam minValue = doubleParam(1, NaN, "0-1000");
-	final DoubleParam maxValue = doubleParam(2, NaN, "0-1000");
-	final IntParam offset = intParam(3, 0, "0-100");
-	final IntParam maxSize = intParam(4, Integer.MAX_VALUE, "0-100");
+	final EnumParam<ContourMetric> metric = enumParam(ContourMetric.class, ContourMetric.Length);
+	final DoubleParam minValue = doubleParam(NaN, "0-1000");
+	final DoubleParam maxValue = doubleParam(NaN, "0-1000");
+	final IntParam offset = intParam(0, "0-100");
+	final IntParam maxSize = intParam(Integer.MAX_VALUE, "0-100");
 
 	public FilterContoursCommand(String... params) {
 		super(params);
