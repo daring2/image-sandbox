@@ -20,7 +20,6 @@ import static com.gitlab.daring.image.command.CommandUtils.splitScript;
 import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
@@ -51,8 +50,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 	}
 
 	public ScriptCommand parseScript(String script) {
-		List<String> ss = splitScript(script);
-		List<Command> cmds = ss.stream().map(this::getCommand).collect(toList());
+		List<Command> cmds = splitScript(script).map(this::getCommand).toList();
 		return new ScriptCommand(script, cmds);
 	}
 
@@ -66,7 +64,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 	}
 
 	private Command parseCommand(String cmdStr) {
-		List<String> ss = splitAndTrim(cmdStr, "()");
+		List<String> ss = splitAndTrim(cmdStr, "()").toList();
 		String name = ss.get(0);
 		String[] args = parseArgs(ss.size() > 1 ? ss.get(1) : "", getDefArgs(name));
 		Command.Factory cf = factories.get(name);

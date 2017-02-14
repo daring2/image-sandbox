@@ -14,9 +14,9 @@ public class CommandUtilsTest {
 
 	@Test
 	public void testSplitScript() {
-		assertEquals(emptyList(), splitScript(""));
-		assertEquals(asList("c1", "c2", "c3"), splitScript("c1; c2\n c3"));
-		assertEquals(asList("c1", "c3", "c6"), splitScript("c1; -c2; c3\n// c4, c5\nc6"));
+		assertEquals(emptyList(), splitScript("").toList());
+		assertEquals(asList("c1", "c2", "c3"), splitScript("c1; c2\n c3").toList());
+		assertEquals(asList("c1", "c3", "c6"), splitScript("c1; -c2; c3\n// c4, c5\nc6").toList());
 	}
 
 	@Test

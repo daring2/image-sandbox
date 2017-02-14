@@ -1,17 +1,14 @@
 package com.gitlab.daring.image.util;
 
-import java.util.Arrays;
-import java.util.List;
+import one.util.streamex.StreamEx;
 
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.split;
 
 public class ExtStringUtils {
 
-	public static List<String> splitAndTrim(String str, String sepChars) {
-		return Arrays.stream(split(str, sepChars))
-			.map(String::trim).filter(s -> !s.isEmpty())
-			.collect(toList());
+	public static StreamEx<String> splitAndTrim(String str, String sepChars) {
+		return StreamEx.of(split(str, sepChars))
+			.map(String::trim).remove(String::isEmpty);
 	}
 
 	private ExtStringUtils() {

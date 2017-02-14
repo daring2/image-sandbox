@@ -1,10 +1,9 @@
 package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.command.parameter.CommandParam;
+import one.util.streamex.StreamEx;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class ScriptCommand implements Command {
 
@@ -23,7 +22,7 @@ public class ScriptCommand implements Command {
 
 	@Override
 	public List<CommandParam<?>> getParams() {
-		return commands.stream().flatMap(c -> c.getParams().stream()).collect(toList());
+		return StreamEx.of(commands).toFlatList(Command::getParams);
 	}
 
 	@Override
