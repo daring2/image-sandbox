@@ -15,7 +15,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 @NotThreadSafe
 public class TemplateMatcher {
 
-	public MatchMethod method = MatchMethod.CCORR;
+	public MatchMethod method = MatchMethod.CCORR_NORMED;
 
 	final Mat resultMat = new Mat();
 	final DoublePointer valueRef = new DoublePointer(1);

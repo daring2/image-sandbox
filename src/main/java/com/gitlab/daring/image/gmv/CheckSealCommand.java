@@ -28,7 +28,6 @@ public class CheckSealCommand extends BaseCommand {
 	final IntParam scale = intParam(30, "0-100");
 
 	final TemplateMatcher tm = new TemplateMatcher();
-	Mat m1, m2;
 
 	public CheckSealCommand(String... args) {
 		super(args);
@@ -36,20 +35,28 @@ public class CheckSealCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		m1 = imread(f1.v, 0);
-		m2 = imread(f2.v, 0);
-		Rect cr = getCenterRect(m1.size(), scale.v * 0.01);
-		Mat cm = m1.apply(cr);
+		Mat m1 = imread(f1.v, 0);
+		Mat m2 = imread(f2.v, 0);
+		Mat dm1 = buildDiff(m1, m2);
+
+		Rect cr1 = getCenterRect(m1.size(), scale.v * 0.01);
+		Mat cm = m1.apply(cr1);
 		MatchResult mr = tm.findBest(m2, cm);
+		Rect cr2 = new Rect(toOpencv(mr.point), cr1.size());
+		Mat dm2 = buildDiff(cm, m2.apply(cr2));
+
+		rectangle(m1, cr1, Scalar.WHITE, 3, LINE_8, 0);
+		showMat(m1, "Sample");
+		rectangle(m2, cr2, Scalar.WHITE, 3, LINE_8, 0);
+		showMat(m2, "Image");
+		showMat(dm1, "Difference");
+		showMat(dm2, "Match");
+	}
+
+	Mat buildDiff(Mat m1, Mat m2) {
 		Mat rm = new Mat();
 		absdiff(m1, m2, rm);
-
-		rectangle(m1, cr, Scalar.WHITE, 3, LINE_8, 0);
-		showMat(m1, "Sample");
-		Rect mrect = new Rect(toOpencv(mr.point), cm.size());
-		rectangle(m2, mrect, Scalar.BLUE, 3, LINE_8, 0);
-		showMat(m1, "Image");
-		showMat(rm, "Difference");
+		return rm;
 	}
 
 }
