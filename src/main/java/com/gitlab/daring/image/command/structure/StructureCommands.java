@@ -26,10 +26,10 @@ public class StructureCommands {
 
 	public Command cannyCommand(String[] ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		DoubleParam th1 = c.doubleParam(0, 100, "0-500");
-		DoubleParam th2 = c.doubleParam(1, 200,"0-500");
-		IntParam sp = c.intParam(2, 1, "0-50");
-		BooleanParam l2g = c.boolParam(3, false);
+		DoubleParam th1 = c.doubleParam(100, "0-500");
+		DoubleParam th2 = c.doubleParam(200,"0-500");
+		IntParam sp = c.intParam(1, "0-50");
+		BooleanParam l2g = c.boolParam(false);
 		return c.withFunc(m -> Canny(m, m, th1.v, th2.v, sp.v * 2 + 1, l2g.v));
 	}
 

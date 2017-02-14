@@ -29,6 +29,10 @@ public abstract class BaseCommand implements Command {
 		return addParam(new DoubleParam(arg(i, dv), spec));
 	}
 
+	public DoubleParam doubleParam(double dv, String spec) {
+		return doubleParam(params.size(), dv, spec);
+	}
+
 	public IntParam intParam(int i, int dv, String spec) {
 		return addParam(new IntParam(arg(i, dv), spec));
 	}
@@ -39,6 +43,10 @@ public abstract class BaseCommand implements Command {
 
 	public BooleanParam boolParam(int i, boolean dv) {
 		return addParam(new BooleanParam(arg(i, dv)));
+	}
+
+	public BooleanParam boolParam(boolean dv) {
+		return boolParam(params.size(), dv);
 	}
 
 	public String arg(int i, Object dv) {
