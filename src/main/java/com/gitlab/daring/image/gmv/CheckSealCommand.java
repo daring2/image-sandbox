@@ -13,6 +13,7 @@ import org.bytedeco.javacpp.opencv_core.Scalar;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
+import static com.gitlab.daring.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.image.util.ImageUtils.showMat;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
@@ -37,11 +38,14 @@ public class CheckSealCommand extends BaseCommand {
 	public void execute(CommandEnv env) {
 		Mat m1 = imread(f1.v, 0);
 		Mat m2 = imread(f2.v, 0);
-		Mat dm1 = buildDiff(m1, m2);
 
 		Rect cr1 = getCenterRect(m1.size(), scale.v * 0.01);
 		Mat cm = m1.apply(cr1);
 		MatchResult mr = tm.findBest(m2, cm);
+
+		//TODO use getAffineTransform
+
+		Mat dm1 = buildDiff(m1, m2);
 		Rect cr2 = new Rect(toOpencv(mr.point), cr1.size());
 		Mat dm2 = buildDiff(cm, m2.apply(cr2));
 
@@ -54,9 +58,7 @@ public class CheckSealCommand extends BaseCommand {
 	}
 
 	Mat buildDiff(Mat m1, Mat m2) {
-		Mat rm = new Mat();
-		absdiff(m1, m2, rm);
-		return rm;
+		return buildMat(r -> absdiff(m1, m2, r));
 	}
 
 }
