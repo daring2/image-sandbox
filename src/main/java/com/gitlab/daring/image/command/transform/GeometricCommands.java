@@ -27,6 +27,7 @@ public class GeometricCommands {
 		EnumParam<InterMethod> method = c.enumParam(InterMethod.class, 1, InterMethod.Linear);
 		Size s0 = new Size();
 		return c.withFunc((m, d) -> {
+			if (sp.v == 100) return;
 			double f = Math.max(sp.v * 0.01, 0.005);
 			resize(m, d, s0, f, f, method.vi());
 		});
