@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
-import static com.gitlab.daring.image.command.CommandRegistry.parseCmdScript;
+import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
 import static com.gitlab.daring.image.util.CommonUtils.tryRun;
 
 public class CommandScript {
@@ -30,6 +30,7 @@ public class CommandScript {
 	}
 
 	public void execute() {
+		CommandEnv.local.set(env);
 		tryRun(() -> command.execute(env), errorEvent);
 	}
 
@@ -39,7 +40,7 @@ public class CommandScript {
 	}
 
 	public void setText(String text) {
-		tryRun(() -> command = parseCmdScript(text), errorEvent);
+		tryRun(() -> command = parseScript(text), errorEvent);
 	}
 
 	public void addParamChangeListener(Consumer<Void> l) {

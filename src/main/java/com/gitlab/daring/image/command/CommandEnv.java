@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class CommandEnv {
 
+	public static final ThreadLocal<CommandEnv> local = new ThreadLocal<>();
+
 	public Mat mat = new Mat();
 	public Map<String, Mat> mats = new HashMap<>();
 	public Map<String, Object> vars = new HashMap<>();

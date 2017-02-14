@@ -12,15 +12,12 @@ import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
+import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.buildMat;
-import static com.gitlab.daring.image.util.ImageUtils.showMat;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
-import static one.util.streamex.IntStreamEx.range;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_core.absdiff;
-import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
-import static org.bytedeco.javacpp.opencv_imgproc.medianBlur;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
 @NotThreadSafe
@@ -31,6 +28,7 @@ public class CheckSealCommand extends BaseCommand {
 	final IntParam scale = intParam(30, "0-100");
 
 	final TemplateMatcher tm = new TemplateMatcher();
+	CommandEnv env;
 
 	public CheckSealCommand(String... args) {
 		super(args);
@@ -38,8 +36,9 @@ public class CheckSealCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		Mat m1 = imread(f1.v, 0);
-		Mat m2 = imread(f2.v, 0);
+		this.env = env;
+		Mat m1 = runCommand("read", f1.v, "grey");
+		Mat m2 = runCommand("read", f2.v, "grey");
 
 		Rect cr1 = getCenterRect(m1.size(), scale.v * 0.01);
 		Mat cm = m1.apply(cr1);
@@ -64,9 +63,12 @@ public class CheckSealCommand extends BaseCommand {
 	}
 
 	Mat blur(Mat m) {
-		Mat rm = m.clone();
-		range(5).forEach(i -> medianBlur(rm.clone(), rm, 5));
-		return rm;
+		env.mat = m;
+		return runCommand("medianBlur", "2", "5");
+	}
+
+	void showMat(Mat m, String title) {
+		env.mat = m; runCommand("show", title);
 	}
 
 }

@@ -4,6 +4,7 @@ import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
 import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.EnumParam;
+import com.gitlab.daring.image.command.parameter.StringParam;
 
 public class CombineCommands {
 
@@ -15,8 +16,9 @@ public class CombineCommands {
 
 	public Command combineCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
-		EnumParam<CombineMethod> op = c.enumParam(CombineMethod.class, 1, null);
-		return c.withCombFunc(ps[0], (m1, m2) -> op.v.func.apply(m1, m2, m1));
+		StringParam mk = c.stringParam("");
+		EnumParam<CombineMethod> op = c.enumParam(CombineMethod.class, null);
+		return c.withCombFunc(mk.v, (m1, m2) -> op.v.func.apply(m1, m2, m1));
 	}
 
 }

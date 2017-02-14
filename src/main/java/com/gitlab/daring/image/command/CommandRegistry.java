@@ -26,10 +26,6 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 	//TODO move to main context
 	public static final CommandRegistry Instance = new CommandRegistry();
 
-	public static ScriptCommand parseCmdScript(String script) {
-		return Instance.parseScript(script);
-	}
-
 	final Config cmdConfig = getConfig("commands");
 	final Map<String, Command.Factory> factories = new HashMap<>();
 	final Cache<String, Command> cache = buildClosableCache(config.getString("cache"));
