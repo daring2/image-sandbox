@@ -9,6 +9,7 @@ import com.gitlab.daring.image.template.TemplateMatcher;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
+import org.bytedeco.javacpp.opencv_core.Size;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -19,6 +20,7 @@ import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_core.absdiff;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
+import static org.bytedeco.javacpp.opencv_imgproc.GaussianBlur;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
 @NotThreadSafe
@@ -45,7 +47,7 @@ public class CheckSealCommand extends BaseCommand {
 
 		//TODO use getAffineTransform
 
-		Mat dm1 = buildDiff(m1, m2);
+		Mat dm1 = buildDiff(cm, m2.apply(cr1));
 		Rect cr2 = new Rect(toOpencv(mr.point), cr1.size());
 		Mat dm2 = buildDiff(cm, m2.apply(cr2));
 
@@ -58,7 +60,12 @@ public class CheckSealCommand extends BaseCommand {
 	}
 
 	Mat buildDiff(Mat m1, Mat m2) {
-		return buildMat(r -> absdiff(m1, m2, r));
+		return buildMat(r -> absdiff(blur(m1), blur(m2), r));
+	}
+
+	Mat blur(Mat m) {
+		Size sp = new Size(5, 5);
+		return buildMat(r -> GaussianBlur(m, r, sp, 0));
 	}
 
 }
