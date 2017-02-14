@@ -1,6 +1,5 @@
 package com.gitlab.daring.image.template;
 
-import com.gitlab.daring.image.common.BaseComponent;
 import com.typesafe.config.Config;
 import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -14,15 +13,19 @@ import static org.bytedeco.javacpp.opencv_core.minMaxLoc;
 import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 
 @NotThreadSafe
-public class TemplateMatcher extends BaseComponent {
+public class TemplateMatcher {
+
+	public MatchMethod method = MatchMethod.CCORR;
 
 	final Mat resultMat = new Mat();
-	final MatchMethod method = findEnum(config, MatchMethod.class, "method");
 	final DoublePointer valueRef = new DoublePointer(1);
 	final Point pointRef = new Point();
 
-	public TemplateMatcher(Config config) {
-		super(config);
+	public TemplateMatcher() {
+	}
+
+	public TemplateMatcher(Config c) {
+		method = findEnum(c, MatchMethod.class, "method");
 	}
 
 	public MatchResult findBest(Mat mat, Mat templ) {
