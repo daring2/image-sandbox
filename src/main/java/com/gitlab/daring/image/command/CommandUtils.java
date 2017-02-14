@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.lang.Math.max;
 import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 public class CommandUtils {
 
@@ -15,6 +16,12 @@ public class CommandUtils {
 
 	public static Command newCommand(Consumer<Mat> c) {
 		return env -> c.accept(env.mat);
+	}
+
+	public static List<String> splitScript(String script) {
+		return splitAndTrim(script, "\n").stream().filter(l -> !l.startsWith("//"))
+			.flatMap(l -> splitAndTrim(l, ";").stream()).filter(c -> !c.startsWith("-"))
+			.collect(toList());
 	}
 
 	public static String[] parseArgs(String argStr, List<String> defArgs) {

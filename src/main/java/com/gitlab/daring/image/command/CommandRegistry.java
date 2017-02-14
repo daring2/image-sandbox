@@ -16,6 +16,7 @@ import java.util.Map;
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.cache.CacheUtils.buildClosableCache;
 import static com.gitlab.daring.image.command.CommandUtils.parseArgs;
+import static com.gitlab.daring.image.command.CommandUtils.splitScript;
 import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
@@ -50,7 +51,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 	}
 
 	public ScriptCommand parseScript(String script) {
-		List<String> ss = splitAndTrim(script, ";\n");
+		List<String> ss = splitScript(script);
 		List<Command> cmds = ss.stream().map(this::getCommand).collect(toList());
 		return new ScriptCommand(script, cmds);
 	}

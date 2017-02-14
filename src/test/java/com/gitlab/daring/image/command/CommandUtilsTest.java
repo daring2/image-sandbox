@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static com.gitlab.daring.image.command.CommandUtils.splitScript;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
@@ -12,7 +13,14 @@ import static org.junit.Assert.assertEquals;
 public class CommandUtilsTest {
 
 	@Test
-	public void testParseArgs() throws Exception {
+	public void testSplitScript() {
+		assertEquals(emptyList(), splitScript(""));
+		assertEquals(asList("c1", "c2", "c3"), splitScript("c1; c2\n c3"));
+		assertEquals(asList("c1", "c3", "c6"), splitScript("c1; -c2; c3\n// c4, c5\nc6"));
+	}
+
+	@Test
+	public void testParseArgs() {
 		assertEquals(emptyList(), parseArgs(""));
 		assertEquals(asList("p1", "p2", "p3"), parseArgs("p1, p2, p3"));
 		assertEquals(asList("d1", "d2", "d3"), parseArgs("", "d1", "d2", "d3"));
@@ -24,7 +32,7 @@ public class CommandUtilsTest {
 	}
 
 	@Test
-	public void testBuildArgs() throws Exception {
+	public void testBuildArgs() {
 		assertEquals(emptyList(), buildArgs(emptyList(), emptyList()));
 		List<String> args = asList("p1", "p2");
 		List<String> defArgs = asList("d1", "d2", "d3");
