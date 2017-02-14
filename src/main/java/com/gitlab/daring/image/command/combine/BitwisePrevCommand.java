@@ -9,8 +9,8 @@ import static java.lang.Integer.parseInt;
 
 public class BitwisePrevCommand extends BaseCommand {
 
-	final EnumParam<CombineMethod> op = enumParam(CombineMethod.class, 0, null);
-	final int histSize = parseInt(args[1]); //TODO convert to IntParam
+	final EnumParam<CombineMethod> op = enumParam(CombineMethod.class, null);
+	final int histSize = parseInt(nextArg(1)); //TODO convert to IntParam
 
 	final Mat[] hms = new Mat[histSize + 1];
 	int index;

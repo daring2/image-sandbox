@@ -49,12 +49,8 @@ public abstract class BaseCommand implements Command {
 		return arg(params.size(), dv);
 	}
 
-	public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, int i, T dv) {
-		return addParam(new EnumParam<>(cl, arg(i, dv)));
-	}
-
 	public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, T dv) {
-		return enumParam(cl, params.size(), dv);
+		return addParam(new EnumParam<>(cl, nextArg(dv)));
 	}
 
 	@Override

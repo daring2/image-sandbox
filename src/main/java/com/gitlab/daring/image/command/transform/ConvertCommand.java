@@ -11,7 +11,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 public class ConvertCommand extends BaseCommand {
 
-	final EnumParam<Target> target = enumParam(Target.class, 0, Target.Grey);
+	final EnumParam<Target> target = enumParam(Target.class, Target.Grey);
 
 	public ConvertCommand(String... params) {
 		super(params);
