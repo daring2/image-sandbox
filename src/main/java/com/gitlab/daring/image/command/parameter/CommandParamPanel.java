@@ -1,20 +1,32 @@
 package com.gitlab.daring.image.command.parameter;
 
+import com.gitlab.daring.image.event.VoidEvent;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.function.Consumer;
+
+import static java.util.Collections.emptyList;
 
 public class CommandParamPanel extends JPanel {
+
+	public final VoidEvent applyEvent = new VoidEvent();
+	List<CommandParam<?>> params = emptyList();
 
 	public CommandParamPanel() {
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 	}
 
 	public void setParams(List<CommandParam<?>> params) {
+		this.params = params;
 		removeAll();
 		params.forEach(this::addParam);
 		revalidate();
+	}
+
+	public void addParamChangeListener(Consumer<Void> l) {
+		params.forEach(p -> p.changeEvent.addListener(l));
 	}
 
 	void addParam(CommandParam<?> p) {
@@ -55,7 +67,9 @@ public class CommandParamPanel extends JPanel {
 
 	void addStringParam(StringParam p) {
 		JTextField f = new JTextField(p.v);
-		f.addActionListener(e -> p.setValue(f.getText()));
+		Runnable applyAction = () -> p.setValue(f.getText());
+		f.addActionListener(e -> applyAction.run());
+		applyEvent.onFire(applyAction);
 		addComponent(p.name, f);
 	}
 

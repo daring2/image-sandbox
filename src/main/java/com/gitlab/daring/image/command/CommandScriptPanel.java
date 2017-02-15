@@ -62,10 +62,11 @@ public class CommandScriptPanel extends JPanel {
 		applyEvent.fire();
 	}
 
-	void apply() {
+	public void apply() {
+		paramPanel.applyEvent.fire();
 		script.setText(scriptField.getText());
-		script.addParamChangeListener(changeListener);
 		paramPanel.setParams(buildParams());
+		paramPanel.addParamChangeListener(changeListener);
 	}
 
 	List<CommandParam<?>> buildParams() {

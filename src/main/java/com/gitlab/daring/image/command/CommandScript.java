@@ -6,7 +6,6 @@ import com.gitlab.daring.image.util.VoidCallable;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
 
@@ -47,10 +46,6 @@ public class CommandScript {
 		CommandEnv.local.set(env);
 		CommonUtils.tryRun(call, errorEvent);
 		CommandEnv.local.set(null);
-	}
-
-	public void addParamChangeListener(Consumer<Void> l) {
-		command.getParams().forEach(p -> p.changeEvent.addListener(l));
 	}
 
 }
