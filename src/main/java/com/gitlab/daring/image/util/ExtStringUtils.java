@@ -11,6 +11,11 @@ public class ExtStringUtils {
 			.map(String::trim).remove(String::isEmpty);
 	}
 
+	public static String[] trimAll(String[] ss) {
+		for (int i = 0; i < ss.length; i++) ss[i] = ss[i].trim();
+		return ss;
+	}
+
 	private ExtStringUtils() {
 	}
 }

@@ -4,6 +4,7 @@ import com.gitlab.daring.image.event.VoidEvent;
 
 import java.util.Objects;
 
+import static com.gitlab.daring.image.util.ExtStringUtils.trimAll;
 import static org.apache.commons.lang3.StringUtils.split;
 
 public abstract class CommandParam<T> {
@@ -16,7 +17,7 @@ public abstract class CommandParam<T> {
 	public volatile T v;
 
 	public CommandParam(String sv, String sp) {
-		args = split(sv, ":");
+		args = trimAll(split(" " + sv, ":"));
 		name = arg(1, "");
 		spec = arg(2, sp);
 		setValue(parseValue(arg(0, "")));
