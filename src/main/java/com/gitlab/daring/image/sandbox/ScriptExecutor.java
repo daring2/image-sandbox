@@ -6,13 +6,17 @@ import com.gitlab.daring.image.concurrent.TaskExecutor;
 import java.util.List;
 
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
+import static java.util.Collections.emptyList;
+import static org.apache.commons.lang3.StringUtils.replace;
 
 class ScriptExecutor implements AutoCloseable {
 
 	final ImageSandbox sb;
 	final CommandScript cmdScript;
 	final TaskExecutor executor = new TaskExecutor();
-	String script;
+
+	String script = "";
+	List<String> files = emptyList();
 
 	ScriptExecutor(ImageSandbox sb) {
 		this.sb = sb;
@@ -24,16 +28,22 @@ class ScriptExecutor implements AutoCloseable {
 	}
 
 	void execute() {
-		List<String> files = splitAndTrim(sb.mp.filesParam.v, ",").toList();
-		if (files.isEmpty()) files.add("");
 		script = cmdScript.getText();
-		files.forEach(this::execute);
+		files = splitAndTrim(sb.mp.filesParam.v, ",").toList();
+		if (files.isEmpty()) files.add("");
+		for (int i = 0; i < files.size(); i++) {
+			cmdScript.execute(buildScript(i));
+		}
 		cmdScript.setText(script);
 	}
 
-	void execute(String file) {
-		String readCmd = !file.isEmpty() ? "read(" + file + ")\n" : "";
-		cmdScript.execute(readCmd + script);
+	String buildScript(int i) {
+		String file = files.get(i);
+		String rc = script;
+		if (!file.isEmpty()) rc = "read(" + file + ")\n" + rc;
+		rc = replace(rc, "$file", file);
+		rc = replace(rc, "$fileIndex", "" + i);
+		return rc;
 	}
 
 	@Override
