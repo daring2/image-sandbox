@@ -6,21 +6,19 @@ import com.typesafe.config.Config;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
 import static com.gitlab.daring.image.swing.SwingUtils.addWindowClosedListener;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
 	static final String ConfigPath = "gmv.ImageSandbox";
 
 	final MainPanel mp = new MainPanel(this);
+	final ScriptExecutor scriptExecutor = new ScriptExecutor(this);
 	final JFrame frame = mp.showFrame();
-	final ExecutorService executor = newSingleThreadExecutor();
 
 	public ImageSandbox() {
 		super(ConfigPath);
@@ -36,12 +34,13 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	}
 
 	void executeScript() {
-		mp.script.executeAsync(executor);
+		scriptExecutor.execute();
 	}
 
 	void saveConfig() {
 		Map<String, Object> m = new HashMap<>();
 		m.put("script", mp.script.getText());
+		m.put("files", mp.filesParam.v);
 		Config c = configFromMap(m).atPath(ConfigPath);
 		saveDiffConfig(c, "conf/application.conf");
 	}
@@ -49,7 +48,7 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	@Override
 	public void close() {
 		frame.dispose();
-		executor.shutdownNow();
+		scriptExecutor.close();
 		mainContext().close();
 	}
 
