@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.gmv;
+package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
