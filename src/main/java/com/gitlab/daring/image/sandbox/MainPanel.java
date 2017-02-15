@@ -11,6 +11,7 @@ class MainPanel extends CommandScriptPanel {
 	MainPanel(ImageSandbox sb) {
 		this.sb = sb;
 		filesParam = createFilesParam();
+		setScript(sb.config.getString("script"));
 	}
 
 	StringParam createFilesParam() {

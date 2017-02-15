@@ -1,7 +1,6 @@
 package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.CommandRegistry;
-import com.gitlab.daring.image.command.CommandScriptPanel;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.concurrent.TaskExecutor;
 import com.gitlab.daring.image.swing.BaseFrame;
@@ -18,14 +17,14 @@ public class CheckSealSandbox extends BaseComponent implements AutoCloseable {
 
 	static final String ConfigPath = "gmv.CheckSealSandbox";
 
-	final CommandScriptPanel sp = new CommandScriptPanel();
+	final MainPanel sp = new MainPanel(this);
 	final TaskExecutor executor = new TaskExecutor();
 
 	public CheckSealSandbox() {
 		super(ConfigPath);
 		sp.applyEvent.onFire(this::apply);
 		sp.changeEvent.onFire(this::executeScript);
-		sp.setScript(config.getString("script"));
+		executeScript();
 	}
 
 	void showFrame() {

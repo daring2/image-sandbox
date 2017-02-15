@@ -22,7 +22,7 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 		super(ConfigPath);
 		mp.applyEvent.onFire(this::apply);
 		mp.changeEvent.onFire(this::executeScript);
-		mp.setScript(config.getString("script"));
+		executeScript();
 	}
 
 	void showFrame() {
