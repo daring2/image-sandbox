@@ -1,13 +1,14 @@
 package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.event.ValueEvent;
+import com.gitlab.daring.image.util.CommonUtils;
+import com.gitlab.daring.image.util.VoidCallable;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
-import static com.gitlab.daring.image.util.CommonUtils.tryRun;
 
 public class CommandScript {
 
@@ -29,9 +30,12 @@ public class CommandScript {
 		return command;
 	}
 
+	public void setText(String text) {
+		tryRun(() -> command = parseScript(text));
+	}
+
 	public void execute() {
-		CommandEnv.local.set(env);
-		tryRun(() -> command.execute(env), errorEvent);
+		tryRun(() -> command.execute(env));
 	}
 
 	public void executeAsync(ExecutorService exec) {
@@ -39,8 +43,10 @@ public class CommandScript {
 		exec.execute(() -> { if (taskIds.get() == id) execute(); });
 	}
 
-	public void setText(String text) {
-		tryRun(() -> command = parseScript(text), errorEvent);
+	void tryRun(VoidCallable call) {
+		CommandEnv.local.set(env);
+		CommonUtils.tryRun(call, errorEvent);
+		CommandEnv.local.set(null);
 	}
 
 	public void addParamChangeListener(Consumer<Void> l) {
