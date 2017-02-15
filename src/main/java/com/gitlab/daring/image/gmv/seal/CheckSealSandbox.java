@@ -13,7 +13,6 @@ import java.util.Map;
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
-import static com.gitlab.daring.image.swing.SwingUtils.addWindowClosedListener;
 
 public class CheckSealSandbox extends BaseComponent implements AutoCloseable {
 
@@ -31,9 +30,8 @@ public class CheckSealSandbox extends BaseComponent implements AutoCloseable {
 
 	void showFrame() {
 		BaseFrame frame = new BaseFrame("CheckSealSandbox", sp);
-		frame.setSize(800, 600);
-		frame.setVisible(true);
-		addWindowClosedListener(frame, this::close);
+		frame.addCloseListener(this::close);
+		frame.show(800, 600);
 	}
 
 	void apply() {
