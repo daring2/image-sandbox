@@ -4,15 +4,11 @@ import com.gitlab.daring.image.event.ValueEvent;
 import com.gitlab.daring.image.util.CommonUtils;
 import com.gitlab.daring.image.util.VoidCallable;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicLong;
-
 import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
 
 public class CommandScript {
 
 	public final CommandEnv env = new CommandEnv();
-	final AtomicLong taskIds = new AtomicLong();
 	final ValueEvent<Exception> errorEvent = new ValueEvent<>();
 
 	volatile ScriptCommand command;
@@ -40,15 +36,6 @@ public class CommandScript {
 	public void execute(String script) {
 		setText(script);
 		execute();
-	}
-
-	public void executeAsync(ExecutorService exec, Runnable task) {
-		long id = taskIds.incrementAndGet();
-		exec.execute(() -> { if (taskIds.get() == id) task.run(); });
-	}
-
-	public void executeAsync(ExecutorService exec) {
-		executeAsync(exec, this::execute);
 	}
 
 	void tryRun(VoidCallable call) {

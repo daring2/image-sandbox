@@ -1,19 +1,17 @@
 package com.gitlab.daring.image.sandbox;
 
 import com.gitlab.daring.image.command.CommandScript;
+import com.gitlab.daring.image.concurrent.TaskExecutor;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 class ScriptExecutor implements AutoCloseable {
 
 	final ImageSandbox sb;
 	final CommandScript cmdScript;
-
-	final ExecutorService executor = newSingleThreadExecutor();
+	final TaskExecutor executor = new TaskExecutor();
 	String script;
 
 	ScriptExecutor(ImageSandbox sb) {
@@ -22,7 +20,7 @@ class ScriptExecutor implements AutoCloseable {
 	}
 
 	void executeAsync() {
-		cmdScript.executeAsync(executor, this::execute);
+		executor.executeAsync(this::execute);
 	}
 
 	void execute() {
@@ -40,7 +38,7 @@ class ScriptExecutor implements AutoCloseable {
 
 	@Override
 	public void close() {
-		executor.shutdownNow();
+		executor.close();
 	}
 
 }
