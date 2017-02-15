@@ -25,6 +25,8 @@ public class CommandParamPanel extends JPanel {
 			addEnumParam((EnumParam<?>) p);
 		} else if (p instanceof BooleanParam) {
 			addBooleanParam((BooleanParam) p);
+		} else if (p instanceof StringParam) {
+			addStringParam((StringParam) p);
 		}
 	}
 
@@ -49,6 +51,12 @@ public class CommandParamPanel extends JPanel {
 		JCheckBox b = new JCheckBox("", p.v);
 		b.addItemListener(e -> p.setValue(b.isSelected()));
 		addComponent(p.name, b);
+	}
+
+	void addStringParam(StringParam p) {
+		JTextField f = new JTextField(p.v);
+		f.addActionListener(e -> p.setValue(f.getText()));
+		addComponent(p.name, f);
 	}
 
 	void addComponent(String label, JComponent comp) {
