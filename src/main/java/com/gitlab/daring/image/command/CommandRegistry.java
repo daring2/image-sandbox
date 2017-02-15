@@ -2,6 +2,7 @@ package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.command.combine.CombineCommands;
 import com.gitlab.daring.image.command.drawing.DrawCommands;
+import com.gitlab.daring.image.command.env.EnvCommands;
 import com.gitlab.daring.image.command.feature.FeaturesCommands;
 import com.gitlab.daring.image.command.structure.StructureCommands;
 import com.gitlab.daring.image.command.transform.TransformCommands;

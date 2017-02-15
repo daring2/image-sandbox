@@ -1,5 +1,7 @@
-package com.gitlab.daring.image.command;
+package com.gitlab.daring.image.command.env;
 
+import com.gitlab.daring.image.command.BaseCommand;
+import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.component.BaseCanvasFrame;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;

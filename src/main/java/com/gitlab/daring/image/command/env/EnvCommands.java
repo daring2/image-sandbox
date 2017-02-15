@@ -1,32 +1,21 @@
-package com.gitlab.daring.image.command;
+package com.gitlab.daring.image.command.env;
 
-import com.gitlab.daring.image.command.parameter.EnumParam;
-import com.gitlab.daring.image.command.parameter.StringParam;
+import com.gitlab.daring.image.command.Command;
+import com.gitlab.daring.image.command.CommandRegistry;
+import com.gitlab.daring.image.command.SimpleCommand;
 
-import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
 
 public class EnvCommands {
 
 	public static void register(CommandRegistry r) {
 		EnvCommands f = new EnvCommands();
-		r.register("read", f::newReadCommand);
 		r.register("write", f::newWriteCommand);
 		r.register("get", f::newGetCommand);
 		r.register("put", f::newPutCommand);
+		r.register("read", ReadCommand::new);
 		r.register("show", ShowCommand::new);
 	}
-
-	public Command newReadCommand(String... ps) {
-		SimpleCommand c = new SimpleCommand(ps);
-		StringParam file = c.stringParam("");
-		EnumParam<ReadFlag> flags = c.enumParam(ReadFlag.class, ReadFlag.None);
-		StringParam key = c.stringParam("");
-		c.func = env -> env.setMat(key.v, imread(file.v, flags.vi() + 1));
-		return c;
-	}
-
-	enum ReadFlag { None, Grey, Color }
 
 	public Command newWriteCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
