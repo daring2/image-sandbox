@@ -7,6 +7,7 @@ import java.util.List;
 
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
+import static one.util.streamex.IntStreamEx.range;
 import static org.apache.commons.lang3.StringUtils.replace;
 
 class ScriptExecutor implements AutoCloseable {
@@ -28,22 +29,23 @@ class ScriptExecutor implements AutoCloseable {
 	}
 
 	void execute() {
-		script = cmdScript.getText();
 		files = splitAndTrim(sb.mp.filesParam.v, ",").toList();
-		if (files.isEmpty()) files.add("");
-		for (int i = 0; i < files.size(); i++) {
-			cmdScript.execute(buildScript(i));
+		if (files.isEmpty()) {
+			cmdScript.execute();
+			return;
 		}
+		script = cmdScript.getText();
+		range(files.size()).forEach(this::runScript);
 		cmdScript.setText(script);
 	}
 
-	String buildScript(int i) {
+	void runScript(int i) {
 		String file = files.get(i);
-		String rc = script;
-		if (!file.isEmpty()) rc = "read(" + file + ")\n" + rc;
-		rc = replace(rc, "$file", file);
-		rc = replace(rc, "$fileIndex", "" + i);
-		return rc;
+		String sc = script;
+		if (!file.isEmpty()) sc = "read(" + file + ")\n" + sc;
+		sc = replace(sc, "$fileIndex", "" + i);
+		sc = replace(sc, "$file", file);
+		cmdScript.execute(sc);
 	}
 
 	@Override
