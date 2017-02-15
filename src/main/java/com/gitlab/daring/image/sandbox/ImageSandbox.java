@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.sandbox;
 
 import com.gitlab.daring.image.common.BaseComponent;
+import com.gitlab.daring.image.swing.BaseFrame;
 import com.typesafe.config.Config;
 
 import javax.swing.*;
@@ -18,13 +19,18 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
 	final MainPanel mp = new MainPanel(this);
 	final ScriptExecutor scriptExecutor = new ScriptExecutor(this);
-	final JFrame frame = mp.showFrame();
 
 	public ImageSandbox() {
 		super(ConfigPath);
 		mp.applyEvent.onFire(this::apply);
 		mp.changeEvent.onFire(this::executeScript);
 		mp.setScript(config.getString("script"));
+	}
+
+	void showFrame() {
+		JFrame frame = new BaseFrame("ImageSandbox", mp);
+		frame.setSize(800, 600);
+		frame.setVisible(true);
 		addWindowClosedListener(frame, this::close);
 	}
 
@@ -47,13 +53,12 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
 	@Override
 	public void close() {
-		frame.dispose();
 		scriptExecutor.close();
 		mainContext().close();
 	}
 
 	public static void main(String[] args) {
-		new ImageSandbox();
+		new ImageSandbox().showFrame();
 	}
 
 }
