@@ -37,9 +37,18 @@ public class CommandScript {
 		tryRun(() -> command.execute(env));
 	}
 
-	public void executeAsync(ExecutorService exec) {
+	public void execute(String script) {
+		setText(script);
+		execute();
+	}
+
+	public void executeAsync(ExecutorService exec, Runnable task) {
 		long id = taskIds.incrementAndGet();
-		exec.execute(() -> { if (taskIds.get() == id) execute(); });
+		exec.execute(() -> { if (taskIds.get() == id) task.run(); });
+	}
+
+	public void executeAsync(ExecutorService exec) {
+		executeAsync(exec, this::execute);
 	}
 
 	void tryRun(VoidCallable call) {

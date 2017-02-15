@@ -7,30 +7,35 @@ import java.util.concurrent.ExecutorService;
 
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
-import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 
 class ScriptExecutor implements AutoCloseable {
 
 	final ImageSandbox sb;
-	final CommandScript script;
+	final CommandScript cmdScript;
 
 	final ExecutorService executor = newSingleThreadExecutor();
+	String script;
 
 	ScriptExecutor(ImageSandbox sb) {
 		this.sb = sb;
-		script = sb.mp.script;
+		cmdScript = sb.mp.script;
+	}
+
+	void executeAsync() {
+		cmdScript.executeAsync(executor, this::execute);
 	}
 
 	void execute() {
 		List<String> files = splitAndTrim(sb.mp.filesParam.v, ",").toList();
 		if (files.isEmpty()) files.add("");
+		script = cmdScript.getText();
 		files.forEach(this::execute);
+		cmdScript.setText(script);
 	}
 
 	void execute(String file) {
-		script.env.mat = imread(file);
-		script.setText(script.getText()); //TODO refactor
-		script.executeAsync(executor);
+		String readCmd = !file.isEmpty() ? "read(" + file + ")\n" : "";
+		cmdScript.execute(readCmd + script);
 	}
 
 	@Override

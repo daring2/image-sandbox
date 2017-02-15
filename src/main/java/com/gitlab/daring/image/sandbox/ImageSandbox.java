@@ -34,7 +34,7 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	}
 
 	void executeScript() {
-		scriptExecutor.execute();
+		scriptExecutor.executeAsync();
 	}
 
 	void saveConfig() {

@@ -20,13 +20,13 @@ public class EnvCommands {
 	public Command newReadCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
 		StringParam file = c.stringParam("");
-		EnumParam<ReadFlag> flags = c.enumParam(ReadFlag.class, ReadFlag.Color);
+		EnumParam<ReadFlag> flags = c.enumParam(ReadFlag.class, ReadFlag.None);
 		StringParam key = c.stringParam("");
-		c.func = env -> env.setMat(key.v, imread(file.v, flags.vi()));
+		c.func = env -> env.setMat(key.v, imread(file.v, flags.vi() + 1));
 		return c;
 	}
 
-	enum ReadFlag { Grey, Color }
+	enum ReadFlag { None, Grey, Color }
 
 	public Command newWriteCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
