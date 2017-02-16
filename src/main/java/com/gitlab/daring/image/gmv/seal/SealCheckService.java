@@ -19,7 +19,7 @@ import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_core.absdiff;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
-class CheckSealService extends BaseComponent {
+class SealCheckService extends BaseComponent {
 
 	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
 	final StringParam targetFile = newStringParam("targetFile", "Снимок");
@@ -28,7 +28,7 @@ class CheckSealService extends BaseComponent {
 	final CommandEnv cmdEnv = new CommandEnv();
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 
-	public CheckSealService(Config c) {
+	public SealCheckService(Config c) {
 		super(c);
 	}
 

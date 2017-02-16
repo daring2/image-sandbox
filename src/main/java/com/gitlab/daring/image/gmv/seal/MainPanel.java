@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.CommandScriptPanel;
 class MainPanel extends CommandScriptPanel {
 
 	final SealCheckSandbox cb;
-	final CheckSealService srv;
+	final SealCheckService srv;
 
 	public MainPanel(SealCheckSandbox cb) {
 		this.cb = cb;

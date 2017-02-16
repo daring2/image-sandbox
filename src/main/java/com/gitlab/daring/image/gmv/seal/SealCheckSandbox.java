@@ -9,7 +9,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
 	static final String ConfigPath = "gmv.SealCheckSandbox";
 
-	final CheckSealService service = new CheckSealService(config);
+	final SealCheckService service = new SealCheckService(config);
 	final MainPanel sp = new MainPanel(this);
 
 	public SealCheckSandbox() {
