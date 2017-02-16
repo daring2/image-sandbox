@@ -1,8 +1,10 @@
-package com.gitlab.daring.image.util;
+package com.gitlab.daring.image.video;
 
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_videoio.*;
+
 import java.nio.ByteBuffer;
+
 import static java.nio.ByteOrder.LITTLE_ENDIAN;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.bytedeco.javacpp.opencv_videoio.*;

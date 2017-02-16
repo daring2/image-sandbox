@@ -54,10 +54,6 @@ public class ConfigUtils {
 		return c.hasPath(path) ? c.getInt(path) : defValue;
 	}
 
-	public static int getPercent(Config c, String path) {
-		return (int) (c.getDouble(path) * 100);
-	}
-
 	private ConfigUtils() {
 	}
 

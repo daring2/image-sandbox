@@ -2,15 +2,11 @@ package com.gitlab.daring.image.assistant;
 
 import com.gitlab.daring.image.command.CommandScriptPanel;
 import com.gitlab.daring.image.swing.BaseFrame;
-import com.typesafe.config.Config;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
-import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
-import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
+import static com.gitlab.daring.image.sandbox.SandboxUtils.saveCompConfig;
 
 class ConfigPanel extends CommandScriptPanel {
 
@@ -37,16 +33,13 @@ class ConfigPanel extends CommandScriptPanel {
 
 	void save() {
 		tb.buildCmd = script.getCommand();
-		saveDiffConfig(buildConfig(), "conf/application.conf");
-	}
-
-	Config buildConfig() {
-		Map<String, Object> m = new HashMap<>();
-		m.put("position.limits.minValue", pc.minValue.v);
-		m.put("display.sampleOpacity", db.sampleOpacity.v);
-		m.put("display.templateOpacity", db.templateOpacity.v);
-		m.put("template.script", script.getText());
-		return configFromMap(m).atPath(ShotAssistant.ConfigPath);
+		
+		saveCompConfig(ShotAssistant.ConfigPath, m -> {
+			m.put("position.limits.minValue", pc.minValue.v);
+			m.put("display.sampleOpacity", db.sampleOpacity.v);
+			m.put("display.templateOpacity", db.templateOpacity.v);
+			m.put("template.script", script.getText());
+		});
 	}
 
 	void showFrame() {

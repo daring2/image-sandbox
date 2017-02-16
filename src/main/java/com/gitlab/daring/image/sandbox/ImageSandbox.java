@@ -2,14 +2,9 @@ package com.gitlab.daring.image.sandbox;
 
 import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.swing.BaseFrame;
-import com.typesafe.config.Config;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
-import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
-import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
+import static com.gitlab.daring.image.sandbox.SandboxUtils.saveCompConfig;
 
 public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
@@ -41,11 +36,10 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 	}
 
 	void saveConfig() {
-		Map<String, Object> m = new HashMap<>();
-		m.put("script", mp.script.getText());
-		m.put("files", mp.filesParam.v);
-		Config c = configFromMap(m).atPath(ConfigPath);
-		saveDiffConfig(c, "conf/application.conf");
+		saveCompConfig(ConfigPath, m -> {
+			m.put("script", mp.script.getText());
+			m.put("files", mp.filesParam.v);
+		});
 	}
 
 	@Override
