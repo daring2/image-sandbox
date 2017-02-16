@@ -21,7 +21,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	final boolean flipInput = config.getBoolean("flipInput");
 
 	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
-	final PositionControl control = new PositionControl(this);
+	final PositionControl positionControl = new PositionControl(this);
 	final DisplayBuilder displayBuilder = new DisplayBuilder(this);
 	final ConfigPanel configPanel = new ConfigPanel(this);
 
@@ -50,7 +50,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	protected void processFrame() {
 		if (flipInput)
 			flipMat(inputMat, 1);
-		checkResult = control.check(inputMat);
+		checkResult = positionControl.check(inputMat);
 		displayBuilder.build(inputMat);
 		if (writer.isOpened()) writer.write(displayMat);
 		showImage(displayMat);
@@ -59,7 +59,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	void saveSample() {
 		inputMat.copyTo(sampleMat);
 		Mat m = templateBuilder.build(sampleMat);
-		control.setTemplate(m);
+		positionControl.setTemplate(m);
 		cvtColor(m, templateMat, COLOR_GRAY2BGR);
 	}
 

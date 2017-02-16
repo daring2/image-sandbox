@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.assistant;
 
+import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
@@ -21,11 +22,12 @@ class PositionControl extends BaseComponent {
 	final double rectSize = config.getDouble("rectSize");
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 	final PositionLimits limits = new PositionLimits(getConfig("limits"));
+	final IntParam minValue = new IntParam(limits.minValue + ":Совпадение:0-100");
 
 	final Rect roi;
 	final Rectangle pos;
 	final Mat template = new Mat();
-	double minValue = limits.minValue;
+	double templateLimit;
 
 	PositionControl(ShotAssistant a) {
 		super(a.config.getConfig("position"));
@@ -38,7 +40,7 @@ class PositionControl extends BaseComponent {
 		new Mat(mat, roi).copyTo(template);
 		MatchResult r1 = findMatch(resizeMat(mat, limits.scale));
 		MatchResult r2 = findMatch(rotateMat(mat, limits.angle));
-		minValue = Doubles.min(limits.minValue, r1.value, r2.value);
+		templateLimit = Doubles.min(r1.value, r2.value);
 	}
 
 	MatchResult findMatch(Mat mat) {
@@ -49,8 +51,9 @@ class PositionControl extends BaseComponent {
 	boolean check(Mat mat) {
 		if (template.empty()) return false;
 		MatchResult mr = findMatch(mat);
-		assistant.statusField.setText("result: " + mr.value); //TODO refactor
-		return mr.value > minValue && pos.contains(mr.point);
+		assistant.statusField.setText("Совпадение: " + mr.value); //TODO refactor
+		double mv = Double.min(minValue.v * 0.01, templateLimit);
+		return mr.value > mv && pos.contains(mr.point);
 	}
 
 }
