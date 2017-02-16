@@ -64,30 +64,28 @@ class SealCheckService extends BaseComponent {
 		Mat dm2 = buildDiff(cm, m2.apply(cr2));
 
 		rectangle(m1, cr1, Scalar.WHITE, 3, LINE_8, 0);
-		showMat(m1, "Sample");
+		showMat(m1, "Образец");
 		rectangle(m2, cr2, Scalar.WHITE, 3, LINE_8, 0);
-		showMat(m2, "Image");
+		showMat(m2, "Снимок");
 		showMat(dm1, "Difference");
 		showMat(dm2, "Match");
 	}
 
 	Mat loadMat(String file, int i) {
-		Mat m = runCommand("read", file, "grey");
-		env.putMat("m" + i, m);
-		return m;
+		return runCommand("read", file, "grey");
 	}
 
 	Mat buildDiff(Mat m1, Mat m2) {
 		runPreDiff(m1, 1);
 		runPreDiff(m2, 2);
 		script.runTask("buildDiff");
-		return env.mat;
+		return env.mat.clone();
 	}
 
 	void runPreDiff(Mat m, int i) {
 		env.mat = m.clone();
 		script.runTask("preDiff");
-		env.putMat("d" + i, env.mat);
+		env.putMat("dm" + i, env.mat);
 	}
 
 	void showMat(Mat m, String title) {

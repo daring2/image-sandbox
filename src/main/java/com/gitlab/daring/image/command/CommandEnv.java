@@ -26,8 +26,8 @@ public class CommandEnv {
 	}
 
 	public void putMat(String key, Mat m) {
-		m = m.clone();
-		if (key.isEmpty()) mat = m; else mats.put(key, m);
+		Mat cm = m.clone();
+		if (key.isEmpty()) mat = cm; else mats.put(key, cm);
 	}
 
 	public <T> T getVar(String key) {

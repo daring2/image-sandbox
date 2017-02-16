@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.common.BaseComponent;
+import com.gitlab.daring.image.concurrent.TaskExecutor;
 import com.gitlab.daring.image.swing.BaseFrame;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
@@ -11,6 +12,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
 	final SealCheckService service = new SealCheckService(config);
 	final MainPanel sp = new MainPanel(this);
+	final TaskExecutor taskExec = new TaskExecutor();
 
 	public SealCheckSandbox() {
 		super(ConfigPath);
@@ -31,7 +33,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 	}
 
 	void runCheck() {
-		service.check();
+		taskExec.executeAsync(service::check);
 	}
 
 	void saveConfig() {
@@ -40,6 +42,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
 	@Override
 	public void close() {
+		taskExec.close();
 		mainContext().close();
 	}
 

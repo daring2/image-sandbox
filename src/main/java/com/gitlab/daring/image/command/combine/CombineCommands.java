@@ -12,6 +12,7 @@ public class CombineCommands {
 		CombineCommands f = new CombineCommands();
 		r.register("combine", f::combineCommand);
 		r.register("addWeighted", AddWeightedCommand::new);
+		r.register("relativeDiff", RelativeDiffCommand::new);
 	}
 
 	public Command combineCommand(String... ps) {
