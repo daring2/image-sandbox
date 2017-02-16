@@ -16,10 +16,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
-import static com.gitlab.daring.image.util.ImageUtils.buildMat;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
-import static org.bytedeco.javacpp.opencv_core.absdiff;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
 @NotThreadSafe
@@ -30,7 +28,9 @@ class SealCheckService extends BaseComponent {
 	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
 
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
+
 	CommandScript script;
+	CommandEnv env;
 
 	public SealCheckService(Config c) {
 		super(c);
@@ -47,10 +47,11 @@ class SealCheckService extends BaseComponent {
 	//TODO refactor
 
 	public void check() {
-		CommandEnv.local.set(script.env);
+		env = script.env;
+		CommandEnv.local.set(env);
 
-		Mat m1 = runCommand("read", sampleFile.v, "grey");
-		Mat m2 = runCommand("read", targetFile.v, "grey");
+		Mat m1 = loadMat(sampleFile.v, 1);
+		Mat m2 = loadMat(targetFile.v, 2);
 
 		Rect cr1 = getCenterRect(m1.size(), objSize.v * 0.01);
 		Mat cm = m1.apply(cr1);
@@ -70,13 +71,23 @@ class SealCheckService extends BaseComponent {
 		showMat(dm2, "Match");
 	}
 
-	Mat buildDiff(Mat m1, Mat m2) {
-		return buildMat(r -> absdiff(blur(m1), blur(m2), r));
+	Mat loadMat(String file, int i) {
+		Mat m = runCommand("read", file, "grey");
+		env.putMat("m" + i, m);
+		return m;
 	}
 
-	Mat blur(Mat m) {
-		script.env.mat = m;
-		return runCommand("medianBlur", "2", "5");
+	Mat buildDiff(Mat m1, Mat m2) {
+		runPreDiff(m1, 1);
+		runPreDiff(m2, 2);
+		script.runTask("buildDiff");
+		return env.mat;
+	}
+
+	void runPreDiff(Mat m, int i) {
+		env.mat = m.clone();
+		script.runTask("preDiff");
+		env.putMat("d" + i, env.mat);
 	}
 
 	void showMat(Mat m, String title) {
