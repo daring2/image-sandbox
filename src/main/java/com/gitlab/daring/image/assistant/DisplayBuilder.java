@@ -21,8 +21,8 @@ class DisplayBuilder extends BaseComponent {
 	DisplayBuilder(ShotAssistant a) {
 		super(a.config.getConfig("display"));
 		this.a = a;
-		sampleOpacity.v = config.getInt("sampleOpacity");
-		templateOpacity.v = config.getInt("templateOpacity");
+		sampleOpacity.bind(config, "sampleOpacity");
+		templateOpacity.bind(config, "templateOpacity");
 	}
 
 	void build(Mat inputMat) {

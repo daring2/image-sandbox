@@ -10,7 +10,6 @@ class PositionLimits extends BaseComponent {
 	final int offset = config.getInt("offset");
 	final double scale = config.getDouble("scale");
 	final double angle = config.getDouble("angle");
-	final int minValue = config.getInt("minValue");
 
 	PositionLimits(Config config) {
 		super(config);

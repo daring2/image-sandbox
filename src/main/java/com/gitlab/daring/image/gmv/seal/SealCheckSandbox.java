@@ -4,7 +4,6 @@ import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.swing.BaseFrame;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
-import static com.gitlab.daring.image.sandbox.SandboxUtils.saveCompConfig;
 
 public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
@@ -35,12 +34,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 	}
 
 	void saveConfig() {
-		saveCompConfig(ConfigPath, m -> {
-			m.put("sampleFile", service.sampleFile.v);
-			m.put("targetFile", service.targetFile.v);
-			m.put("objSize", service.objSize.v);
-			m.put("script", sp.script.getText());
-		});
+		sp.saveConfig(ConfigPath);
 	}
 
 	@Override

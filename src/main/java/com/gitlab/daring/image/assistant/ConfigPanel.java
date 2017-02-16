@@ -6,8 +6,6 @@ import com.gitlab.daring.image.swing.BaseFrame;
 import javax.swing.*;
 import java.awt.*;
 
-import static com.gitlab.daring.image.sandbox.SandboxUtils.saveCompConfig;
-
 class ConfigPanel extends CommandScriptPanel {
 
 	final ShotAssistant assistant;
@@ -33,13 +31,7 @@ class ConfigPanel extends CommandScriptPanel {
 
 	void save() {
 		tb.buildCmd = script.getCommand();
-		
-		saveCompConfig(ShotAssistant.ConfigPath, m -> {
-			m.put("position.limits.minValue", pc.minValue.v);
-			m.put("display.sampleOpacity", db.sampleOpacity.v);
-			m.put("display.templateOpacity", db.templateOpacity.v);
-			m.put("template.script", script.getText());
-		});
+		saveConfig(ShotAssistant.ConfigPath);
 	}
 
 	void showFrame() {

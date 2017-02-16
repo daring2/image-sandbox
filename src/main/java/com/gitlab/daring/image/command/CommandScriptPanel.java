@@ -4,14 +4,18 @@ import com.gitlab.daring.image.command.parameter.CommandParam;
 import com.gitlab.daring.image.command.parameter.CommandParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
+import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 import org.slf4j.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
+import static com.gitlab.daring.image.command.parameter.CommandParamUtils.buildParamConfig;
+import static com.gitlab.daring.image.config.ConfigUtils.*;
 import static com.gitlab.daring.image.swing.NotificationUtils.showErrorDialog;
 import static java.util.Arrays.asList;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -84,6 +88,18 @@ public class CommandScriptPanel extends JPanel {
 	void onError(Exception e) {
 		logger.error("Script error", e);
 		showErrorDialog(this, "Ошибка выполнения:\n" + e);
+	}
+
+	protected Map<String, Object> buildConfigMap() {
+		Map<String, Object> m = buildParamConfig(staticParams);
+		m.put("script", script.getText());
+		return m;
+	}
+
+	public void saveConfig(String path) {
+		Map<String, Object> m = buildConfigMap();
+		Config c = configFromMap(m).atPath(path);
+		saveDiffConfig(c, AppConfigFile);
 	}
 
 }

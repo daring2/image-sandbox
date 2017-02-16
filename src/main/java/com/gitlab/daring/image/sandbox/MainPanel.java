@@ -15,8 +15,7 @@ class MainPanel extends CommandScriptPanel {
 	}
 
 	StringParam createFilesParam() {
-		String sv = sb.config.getString("files") + ":Файлы";
-		return addStaticParam(new StringParam(sv));
+		return addStaticParam(new StringParam(":Файлы").bind(sb.config, "files"));
 	}
 
 }

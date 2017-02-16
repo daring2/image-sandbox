@@ -22,7 +22,7 @@ class PositionControl extends BaseComponent {
 	final double rectSize = config.getDouble("rectSize");
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 	final PositionLimits limits = new PositionLimits(getConfig("limits"));
-	final IntParam minValue = new IntParam(limits.minValue + ":Совпадение:0-100");
+	final IntParam minValue = new IntParam("0:Совпадение:0-100");
 
 	final Rect roi;
 	final Rectangle pos;
@@ -32,6 +32,7 @@ class PositionControl extends BaseComponent {
 	PositionControl(ShotAssistant a) {
 		super(a.config.getConfig("position"));
 		assistant = a;
+		minValue.bind(limits.config, "minValue");
 		roi = getCenterRect(a.getSize(), rectSize);
 		pos = limits.buildPositionRect(roi.x(), roi.y());
 	}

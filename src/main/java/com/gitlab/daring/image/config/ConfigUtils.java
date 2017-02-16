@@ -13,6 +13,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ConfigUtils {
 
+	public static final String AppConfigFile = "conf/application.conf";
+
 	public static Config defaultConfig() {
 		return ConfigFactory.load();
 	}

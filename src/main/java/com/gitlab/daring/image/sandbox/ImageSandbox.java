@@ -4,7 +4,6 @@ import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.swing.BaseFrame;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
-import static com.gitlab.daring.image.sandbox.SandboxUtils.saveCompConfig;
 
 public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
@@ -28,18 +27,11 @@ public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
 	void apply() {
 		executeScript();
-		saveConfig();
+		mp.saveConfig(ConfigPath);
 	}
 
 	void executeScript() {
 		scriptExecutor.executeAsync();
-	}
-
-	void saveConfig() {
-		saveCompConfig(ConfigPath, m -> {
-			m.put("script", mp.script.getText());
-			m.put("files", mp.filesParam.v);
-		});
 	}
 
 	@Override

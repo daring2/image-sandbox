@@ -23,7 +23,7 @@ class CheckSealService extends BaseComponent {
 
 	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
 	final StringParam targetFile = newStringParam("targetFile", "Снимок");
-	final IntParam objSize = new IntParam(config.getInt("objSize") + ":Размер:0-100");
+	final IntParam objSize = new IntParam("0:Размер:0-100").bind(config, "objSize");
 
 	final CommandEnv cmdEnv = new CommandEnv();
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
@@ -33,7 +33,7 @@ class CheckSealService extends BaseComponent {
 	}
 
 	StringParam newStringParam(String path, String name) {
-		return new StringParam(config.getString(path) + ":" + name);
+		return new StringParam(":" + name).bind(config, path);
 	}
 
 	//TODO refactor
