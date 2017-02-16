@@ -17,7 +17,7 @@ class ScriptExecutor implements AutoCloseable {
 	final ImageSandbox sb;
 	final CommandScript cmdScript;
 	final CommandEnv cmdEnv;
-	final TaskExecutor executor = new TaskExecutor();
+	final TaskExecutor taskExec = new TaskExecutor();
 
 	String script = "";
 	List<String> files = emptyList();
@@ -29,7 +29,7 @@ class ScriptExecutor implements AutoCloseable {
 	}
 
 	void executeAsync() {
-		executor.executeAsync(this::execute);
+		taskExec.executeAsync(this::execute);
 	}
 
 	void execute() {
@@ -56,7 +56,7 @@ class ScriptExecutor implements AutoCloseable {
 
 	@Override
 	public void close() {
-		executor.close();
+		taskExec.close();
 	}
 
 }
