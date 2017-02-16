@@ -68,9 +68,8 @@ public class CommandParamPanel extends JPanel {
 
 	void addStringParam(StringParam p) {
 		JTextField f = new JTextField(p.v);
-		Runnable applyAction = () -> p.setValue(f.getText());
-		f.addActionListener(e -> applyAction.run());
-		applyEvent.onFire(applyAction);
+		f.addActionListener(e -> p.setValue(f.getText()));
+		applyEvent.onFire(() -> p.v = f.getText());
 		addComponent(p.name, f);
 	}
 

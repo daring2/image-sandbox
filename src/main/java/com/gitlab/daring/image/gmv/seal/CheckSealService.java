@@ -1,16 +1,15 @@
 package com.gitlab.daring.image.gmv.seal;
 
-import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
+import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
+import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
-
-import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
@@ -20,29 +19,34 @@ import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_core.absdiff;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
-@NotThreadSafe
-public class CheckSealCommand extends BaseCommand {
+class CheckSealService extends BaseComponent {
 
-	final StringParam f1 = stringParam("");
-	final StringParam f2 = stringParam("");
-	final IntParam scale = intParam(30, "0-100");
+	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
+	final StringParam targetFile = newStringParam("targetFile", "Снимок");
+	final IntParam objSize = new IntParam(config.getInt("objSize") + ":Размер:0-100");
 
-	final TemplateMatcher tm = new TemplateMatcher();
-	CommandEnv env;
+	final CommandEnv cmdEnv = new CommandEnv();
+	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 
-	public CheckSealCommand(String... args) {
-		super(args);
+	public CheckSealService(Config c) {
+		super(c);
 	}
 
-	@Override
-	public void execute(CommandEnv env) {
-		this.env = env;
-		Mat m1 = runCommand("read", f1.v, "grey");
-		Mat m2 = runCommand("read", f2.v, "grey");
+	StringParam newStringParam(String path, String name) {
+		return new StringParam(config.getString(path) + ":" + name);
+	}
 
-		Rect cr1 = getCenterRect(m1.size(), scale.v * 0.01);
+	//TODO refactor
+
+	public void check() {
+		CommandEnv.local.set(cmdEnv);
+
+		Mat m1 = runCommand("read", sampleFile.v, "grey");
+		Mat m2 = runCommand("read", targetFile.v, "grey");
+
+		Rect cr1 = getCenterRect(m1.size(), objSize.v * 0.01);
 		Mat cm = m1.apply(cr1);
-		MatchResult mr = tm.findBest(m2, cm);
+		MatchResult mr = matcher.findBest(m2, cm);
 
 		//TODO use getAffineTransform
 
@@ -63,12 +67,12 @@ public class CheckSealCommand extends BaseCommand {
 	}
 
 	Mat blur(Mat m) {
-		env.mat = m;
+		cmdEnv.mat = m;
 		return runCommand("medianBlur", "2", "5");
 	}
 
 	void showMat(Mat m, String title) {
-		env.mat = m; runCommand("show", title);
+		cmdEnv.mat = m; runCommand("show", title);
 	}
 
 }

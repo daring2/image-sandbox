@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.swing.NotificationUtils.showErrorDialog;
+import static java.util.Arrays.asList;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class CommandScriptPanel extends JPanel {
@@ -57,6 +58,10 @@ public class CommandScriptPanel extends JPanel {
 	public <T extends CommandParam> T addStaticParam(T p) {
 		staticParams.add(p);
 		return p;
+	}
+
+	public void addStaticParams(CommandParam<?>... ps) {
+		staticParams.addAll(asList(ps));
 	}
 
 	public void setScript(String script) {
