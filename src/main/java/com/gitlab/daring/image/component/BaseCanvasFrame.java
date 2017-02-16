@@ -2,6 +2,7 @@ package com.gitlab.daring.image.component;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacv.CanvasFrame;
+import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat;
 
 import java.awt.*;
@@ -20,7 +21,8 @@ public class BaseCanvasFrame extends CanvasFrame {
 	}
 
 	public void showMat(Mat m) {
-		runInEdt(() -> showImage(converter.convert(m)));
+		Frame cm = converter.convert(m);
+		runInEdt(() -> showImage(cm));
 	}
 
 	@Override
