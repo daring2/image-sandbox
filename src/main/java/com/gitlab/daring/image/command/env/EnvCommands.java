@@ -30,7 +30,7 @@ public class EnvCommands {
 	}
 
 	public Command newPutCommand(String... ps) {
-		return env -> env.mats.put(ps[0], env.mat.clone());
+		return env -> env.putMat(ps[0], env.mat);
 	}
 
 }

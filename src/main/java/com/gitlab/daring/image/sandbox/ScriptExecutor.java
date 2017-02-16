@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.sandbox;
 
+import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.concurrent.TaskExecutor;
 
@@ -15,6 +16,7 @@ class ScriptExecutor implements AutoCloseable {
 
 	final ImageSandbox sb;
 	final CommandScript cmdScript;
+	final CommandEnv cmdEnv;
 	final TaskExecutor executor = new TaskExecutor();
 
 	String script = "";
@@ -23,6 +25,7 @@ class ScriptExecutor implements AutoCloseable {
 	ScriptExecutor(ImageSandbox sb) {
 		this.sb = sb;
 		cmdScript = sb.mp.script;
+		cmdEnv = cmdScript.env;
 	}
 
 	void executeAsync() {
@@ -48,6 +51,7 @@ class ScriptExecutor implements AutoCloseable {
 		sc = replace(sc, "$file", file);
 		sc = replace(sc, "$i", "" + i);
 		cmdScript.execute(sc, "");
+		cmdEnv.putMat("" + i, cmdEnv.mat);
 	}
 
 	@Override
