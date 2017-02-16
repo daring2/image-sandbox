@@ -16,6 +16,7 @@ public class NormalizeCommand extends BaseCommand {
 	final EnumParam<NormType> normType = enumParam(NormType.class, NormType.MinMax);
 	final IntParam dtype = intParam(CV_8U, "0-10");
 
+	final Mat rm = new Mat();
 	final Mat mask = new Mat();
 
 	public NormalizeCommand(String... args) {
@@ -24,7 +25,6 @@ public class NormalizeCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		Mat rm = new Mat();
 		int nt = normType.v.code;
 		normalize(env.mat, rm, alpha.v, beta.v, nt, dtype.v, mask);
 		env.mat = rm;
