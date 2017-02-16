@@ -4,9 +4,9 @@ import com.gitlab.daring.image.command.CommandScriptPanel;
 
 class MainPanel extends CommandScriptPanel {
 
-	final CheckSealSandbox cb;
+	final SealCheckSandbox cb;
 
-	public MainPanel(CheckSealSandbox cb) {
+	public MainPanel(SealCheckSandbox cb) {
 		this.cb = cb;
 		setScript(cb.config.getString("script"));
 	}

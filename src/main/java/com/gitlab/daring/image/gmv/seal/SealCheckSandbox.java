@@ -13,14 +13,14 @@ import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.config.ConfigUtils.configFromMap;
 import static com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig;
 
-public class CheckSealSandbox extends BaseComponent implements AutoCloseable {
+public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
 	static final String ConfigPath = "gmv.CheckSealSandbox";
 
 	final MainPanel sp = new MainPanel(this);
 	final TaskExecutor executor = new TaskExecutor();
 
-	public CheckSealSandbox() {
+	public SealCheckSandbox() {
 		super(ConfigPath);
 		sp.applyEvent.onFire(this::apply);
 		sp.changeEvent.onFire(this::executeScript);
@@ -57,7 +57,7 @@ public class CheckSealSandbox extends BaseComponent implements AutoCloseable {
 	public static void main(String[] args) {
 		CommandRegistry cr = CommandRegistry.Instance;
 		cr.register("checkSeal", CheckSealCommand::new);
-		new CheckSealSandbox().showFrame();
+		new SealCheckSandbox().showFrame();
 	}
 
 }

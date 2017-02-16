@@ -18,10 +18,11 @@ public class CommandParamPanel extends JPanel {
 		setLayout(new MigLayout("fill, wrap 2", "[right][grow,fill]", "[center]"));
 	}
 
-	public void setParams(List<CommandParam<?>> params) {
-		this.params = params;
+	public void setParams(List<CommandParam<?>> ps) {
+		if (params.equals(ps)) return;
+		params = ps;
 		removeAll();
-		params.forEach(this::addParam);
+		ps.forEach(this::addParam);
 		revalidate();
 	}
 
