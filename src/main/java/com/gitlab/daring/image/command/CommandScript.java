@@ -29,7 +29,7 @@ public class CommandScript {
 		tryRun(() -> command = parseScript(text));
 	}
 
-	public void executeTask(String task) {
+	public void runTask(String task) {
 		env.task = task; env.curTask = "";
 		CommandEnv.local.set(env);
 		tryRun(() -> command.execute(env));
@@ -37,12 +37,12 @@ public class CommandScript {
 	}
 
 	public void execute() {
-		executeTask("");
+		runTask("");
 	}
 
 	public void execute(String script, String task) {
 		setText(script);
-		executeTask(task);
+		runTask(task);
 	}
 
 	void tryRun(VoidCallable call) {

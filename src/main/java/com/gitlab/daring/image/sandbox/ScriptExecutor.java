@@ -37,7 +37,7 @@ class ScriptExecutor implements AutoCloseable {
 		}
 		script = cmdScript.getText();
 		range(files.size()).forEach(this::runScript);
-		cmdScript.executeTask("combine");
+		cmdScript.runTask("combine");
 		cmdScript.setText(script);
 	}
 
