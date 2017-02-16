@@ -22,18 +22,21 @@ public class CommandScriptPanel extends JPanel {
 	public final VoidEvent applyEvent = new VoidEvent();
 	public final VoidEvent changeEvent = new VoidEvent();
 	public final CommandScript script = new CommandScript();
+	public final List<CommandParam<?>> staticParams = new ArrayList<>();
 
 	final JTextArea scriptField;
+	final CommandParamPanel staticParamPanel = new CommandParamPanel();
 	final CommandParamPanel paramPanel = new CommandParamPanel();
-	final List<CommandParam<?>> staticParams = new ArrayList<>();
 	final Consumer<Void> changeListener = e -> changeEvent.fire();
 
 	public CommandScriptPanel() {
 		setLayout(new MigLayout("fill, wrap 1", "[fill]", "[center]"));
+		add(staticParamPanel);
+		add(new JSeparator());
 		scriptField = createScriptField();
 		createButtons();
-		add(new JSeparator(), "w 100%");
-		add(paramPanel, "w 100%");
+		add(new JSeparator());
+		add(paramPanel);
 		applyEvent.onFire(this::apply);
 		script.errorEvent.addListener(this::onError);
 	}
@@ -62,16 +65,15 @@ public class CommandScriptPanel extends JPanel {
 	}
 
 	public void apply() {
-		paramPanel.applyEvent.fire();
 		script.setText(scriptField.getText());
-		paramPanel.setParams(buildParams());
-		paramPanel.addParamChangeListener(changeListener);
+		apply(staticParamPanel, staticParams);
+		apply(paramPanel, script.command.getParams());
 	}
 
-	List<CommandParam<?>> buildParams() {
-		List<CommandParam<?>> ps = new ArrayList<>(staticParams);
-		ps.addAll(script.command.getParams());
-		return ps;
+	public void apply(CommandParamPanel p, List<CommandParam<?>> ps) {
+		p.applyEvent.fire();
+		p.setParams(ps);
+		p.addParamChangeListener(changeListener);
 	}
 
 	void onError(Exception e) {
