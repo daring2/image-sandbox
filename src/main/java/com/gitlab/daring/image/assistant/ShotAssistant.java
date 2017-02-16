@@ -30,7 +30,8 @@ class ShotAssistant extends BaseVideoProcessor {
 	final Mat displayMat = new Mat();
 
 	final JLabel statusField = new JLabel();
-	boolean checkResult;
+	volatile boolean saveSample;
+	volatile boolean checkResult;
 
 	public ShotAssistant() {
 		super(ConfigPath);
@@ -41,7 +42,7 @@ class ShotAssistant extends BaseVideoProcessor {
 	private void initFrame() {
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(statusField, CENTER);
-		p.add(newButton("Снимок", this::saveSample), EAST);
+		p.add(newButton("Снимок", () -> saveSample = true), EAST);
 		frame.add(p, SOUTH);
 		frame.validate();
 	}
@@ -50,6 +51,10 @@ class ShotAssistant extends BaseVideoProcessor {
 	protected void processFrame() {
 		if (flipInput)
 			flipMat(inputMat, 1);
+		if (saveSample) {
+			saveSample();
+			saveSample = false;
+		}
 		checkResult = positionControl.check(inputMat);
 		displayBuilder.build(inputMat);
 		if (writer.isOpened()) writer.write(displayMat);

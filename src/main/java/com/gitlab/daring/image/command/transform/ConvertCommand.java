@@ -6,8 +6,7 @@ import com.gitlab.daring.image.command.parameter.EnumParam;
 
 import static com.gitlab.daring.image.command.transform.ConvertCommand.Target.Grey;
 import static com.gitlab.daring.image.util.ImageUtils.buildMat;
-import static org.bytedeco.javacpp.opencv_imgproc.COLOR_BGR2GRAY;
-import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
+import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ConvertCommand extends BaseCommand {
 
@@ -20,7 +19,7 @@ public class ConvertCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		if ((env.mat.channels() == 1) != (target.v == Grey)) {
-			int code = target.v == Grey ? COLOR_BGR2GRAY : COLOR_BGR2GRAY;
+			int code = target.v == Grey ? COLOR_BGR2GRAY : COLOR_GRAY2BGR;
 			env.mat = buildMat(m -> cvtColor(env.mat, m, code));
 		}
 	}
