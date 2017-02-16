@@ -17,7 +17,9 @@ public class ScriptCommand implements Command {
 
 	@Override
 	public void execute(CommandEnv env) {
-		commands.forEach(c -> c.execute(env));
+		for (Command cmd : commands) {
+			if (cmd.isEnabled(env)) cmd.execute(env);
+		}
 	}
 
 	@Override

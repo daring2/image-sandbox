@@ -2,7 +2,7 @@ package com.gitlab.daring.image.command;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
 
-import static java.lang.String.join;
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class CommandScriptUtils {
 
@@ -14,8 +14,12 @@ public class CommandScriptUtils {
 		parseScript(script).execute(localEnv());
 	}
 
-	public static Mat runCommand(String cmd, String... args) {
-		runScript(cmd + "(" + join(", ", args) + ")");
+	public static String cmdStr(String cmd, Object... args) {
+		return cmd + "(" + join(args, ", ") + ");";
+	}
+
+	public static Mat runCommand(String cmd, Object... args) {
+		runScript(cmdStr(cmd, args));
 		return localEnv().mat;
 	}
 

@@ -5,6 +5,7 @@ import com.gitlab.daring.image.concurrent.TaskExecutor;
 
 import java.util.List;
 
+import static com.gitlab.daring.image.command.CommandScriptUtils.cmdStr;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static one.util.streamex.IntStreamEx.range;
@@ -36,16 +37,17 @@ class ScriptExecutor implements AutoCloseable {
 		}
 		script = cmdScript.getText();
 		range(files.size()).forEach(this::runScript);
+		cmdScript.executeTask("combine");
 		cmdScript.setText(script);
 	}
 
 	void runScript(int i) {
 		String file = files.get(i);
 		String sc = script;
-		if (!file.isEmpty()) sc = "read(" + file + ")\n" + sc;
-		sc = replace(sc, "$fileIndex", "" + i);
+		sc = cmdStr("read", file) + sc;
 		sc = replace(sc, "$file", file);
-		cmdScript.execute(sc);
+		sc = replace(sc, "$i", "" + i);
+		cmdScript.execute(sc, "");
 	}
 
 	@Override

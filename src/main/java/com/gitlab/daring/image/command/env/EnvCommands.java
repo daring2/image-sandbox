@@ -15,6 +15,7 @@ public class EnvCommands {
 		r.register("put", f::newPutCommand);
 		r.register("read", ReadCommand::new);
 		r.register("show", ShowCommand::new);
+		r.register("task", SetTaskCommand::new);
 	}
 
 	public Command newWriteCommand(String... ps) {

@@ -9,7 +9,7 @@ import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
 public class CommandScript {
 
 	public final CommandEnv env = new CommandEnv();
-	final ValueEvent<Exception> errorEvent = new ValueEvent<>();
+	public final ValueEvent<Exception> errorEvent = new ValueEvent<>();
 
 	volatile ScriptCommand command;
 
@@ -29,19 +29,24 @@ public class CommandScript {
 		tryRun(() -> command = parseScript(text));
 	}
 
-	public void execute() {
+	public void executeTask(String task) {
+		env.task = task; env.curTask = "";
+		CommandEnv.local.set(env);
 		tryRun(() -> command.execute(env));
+		CommandEnv.local.set(null);
 	}
 
-	public void execute(String script) {
+	public void execute() {
+		executeTask("");
+	}
+
+	public void execute(String script, String task) {
 		setText(script);
-		execute();
+		executeTask(task);
 	}
 
 	void tryRun(VoidCallable call) {
-		CommandEnv.local.set(env);
 		CommonUtils.tryRun(call, errorEvent);
-		CommandEnv.local.set(null);
 	}
 
 }

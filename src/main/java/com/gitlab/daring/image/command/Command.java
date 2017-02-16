@@ -15,6 +15,10 @@ public interface Command extends AutoCloseable {
 		return emptyList();
 	}
 
+	default boolean isEnabled(CommandEnv env) {
+		return env.task.equals(env.curTask);
+	}
+
 	default boolean isCacheable() {
 		return true;
 	}
