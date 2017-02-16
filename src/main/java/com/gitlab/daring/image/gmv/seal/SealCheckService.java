@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.CommandEnv;
+import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
 import com.gitlab.daring.image.common.BaseComponent;
@@ -11,6 +12,8 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
+import javax.annotation.concurrent.NotThreadSafe;
+
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.buildMat;
@@ -19,27 +22,32 @@ import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_core.absdiff;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
+@NotThreadSafe
 class SealCheckService extends BaseComponent {
 
 	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
 	final StringParam targetFile = newStringParam("targetFile", "Снимок");
-	final IntParam objSize = new IntParam("0:Размер:0-100").bind(config, "objSize");
+	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
 
-	final CommandEnv cmdEnv = new CommandEnv();
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
+	CommandScript script;
 
 	public SealCheckService(Config c) {
 		super(c);
 	}
 
-	StringParam newStringParam(String path, String name) {
+	private StringParam newStringParam(String path, String name) {
 		return new StringParam(":" + name).bind(config, path);
+	}
+
+	public void setScript(CommandScript script) {
+		this.script = script;
 	}
 
 	//TODO refactor
 
 	public void check() {
-		CommandEnv.local.set(cmdEnv);
+		CommandEnv.local.set(script.env);
 
 		Mat m1 = runCommand("read", sampleFile.v, "grey");
 		Mat m2 = runCommand("read", targetFile.v, "grey");
@@ -67,12 +75,13 @@ class SealCheckService extends BaseComponent {
 	}
 
 	Mat blur(Mat m) {
-		cmdEnv.mat = m;
+		script.env.mat = m;
 		return runCommand("medianBlur", "2", "5");
 	}
 
 	void showMat(Mat m, String title) {
-		cmdEnv.mat = m; runCommand("show", title);
+		script.env.mat = m;
+		runCommand("show", title);
 	}
 
 }

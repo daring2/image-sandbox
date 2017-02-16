@@ -14,6 +14,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
 	public SealCheckSandbox() {
 		super(ConfigPath);
+		service.setScript(sp.script);
 		sp.applyEvent.onFire(this::apply);
 		sp.changeEvent.onFire(this::runCheck);
 	}
