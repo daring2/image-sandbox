@@ -27,7 +27,7 @@ public enum ContourMetric {
 			return Math.max(r.width, r.height);
 		} else if (this == Diameter) {
 			Rectangle r = toJava(boundingRect(m));
-			return sqrt(pow(r.width, 2)  + pow(r.height, 2));
+			return sqrt(pow(r.width, 2) + pow(r.height, 2));
 		} else {
 			throw new IllegalArgumentException("metric=" + m);
 		}

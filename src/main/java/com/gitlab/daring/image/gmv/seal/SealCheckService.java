@@ -10,18 +10,18 @@ import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
 import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.awt.*;
 import java.util.List;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
-import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
+import static com.gitlab.daring.image.util.ImageUtils.cropMat;
+import static com.gitlab.daring.image.util.ImageUtils.drawRect;
+import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static java.util.Arrays.asList;
-import static org.bytedeco.javacpp.opencv_core.LINE_8;
-import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
 @NotThreadSafe
 class SealCheckService extends BaseComponent {
@@ -35,6 +35,8 @@ class SealCheckService extends BaseComponent {
 
 	CommandScript script;
 	CommandEnv env;
+	Mat m1, m2, tm1;
+	Rectangle objRect;
 
 	public SealCheckService(Config c) {
 		super(c);
@@ -45,7 +47,7 @@ class SealCheckService extends BaseComponent {
 	}
 
 	List<CommandParam<?>> getParams() {
-		return asList(sampleFile, targetFile, objSize, diffBuilder.winSize);
+		return asList(sampleFile, targetFile, objSize, diffBuilder.winOffset);
 	}
 
 	public void setScript(CommandScript script) {
@@ -57,33 +59,33 @@ class SealCheckService extends BaseComponent {
 	public void check() {
 		env = script.env;
 
-		Mat m1 = loadMat(sampleFile.v, 1);
-		Mat m2 = loadMat(targetFile.v, 2);
+		loadMats();
+		MatchResult mr = findMatch();
 
-		Rect cr1 = getCenterRect(m1.size(), objSize.v * 0.01);
-		Mat cm = m1.apply(cr1);
-		MatchResult mr = matcher.findBest(m2, cm);
+		Mat dm1 = diffBuilder.build(objRect);
+		Mat dm2 = diffBuilder.build(mr.rect);
 
-		//TODO refactor
-		int w = diffBuilder.winSize.v;
-		mr.point.translate(-w/2, -w/2);
-
-		//TODO use getAffineTransform
-
-		Mat dm1 = diffBuilder.build(cm, m2.apply(cr1));
-		Rect cr2 = new Rect(toOpencv(mr.point), cr1.size());
-		Mat dm2 = diffBuilder.build(cm, m2.apply(cr2));
-
-		rectangle(m1, cr1, Scalar.WHITE, 3, LINE_8, 0);
+		drawRect(m1, objRect, Scalar.WHITE, 3);
 		showMat(m1, "Образец");
-		rectangle(m2, cr2, Scalar.WHITE, 3, LINE_8, 0);
+		drawRect(m2, mr.rect, Scalar.WHITE, 3);
 		showMat(m2, "Снимок");
 		showMat(dm1, "Difference");
 		showMat(dm2, "Различия");
 	}
 
-	Mat loadMat(String file, int i) {
+	void loadMats() {
+		m1 = loadMat(sampleFile.v);
+		m2 = loadMat(targetFile.v);
+		objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
+	}
+
+	Mat loadMat(String file) {
 		return runCommand(env, "read", file, "grey");
+	}
+
+	MatchResult findMatch() {
+		tm1 = cropMat(m1, objRect);
+		return matcher.findBest(m2, tm1);
 	}
 
 	void showMat(Mat m, String title) {
