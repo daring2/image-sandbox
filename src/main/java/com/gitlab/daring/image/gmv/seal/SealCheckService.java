@@ -16,7 +16,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
 import java.util.List;
 
-import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.cropMat;
 import static com.gitlab.daring.image.util.ImageUtils.drawRect;
@@ -82,7 +81,7 @@ class SealCheckService extends BaseComponent {
 	}
 
 	Mat loadMat(String file) {
-		return runCommand(env, "read", file, "grey");
+		return script.runCommand("read", file, "grey");
 	}
 
 	MatchResult findMatch() {
@@ -92,7 +91,7 @@ class SealCheckService extends BaseComponent {
 
 	void showMat(Mat m, String title) {
 		script.env.mat = m;
-		runCommand(env, "show", title);
+		script.runCommand("show", title);
 	}
 
 }

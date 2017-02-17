@@ -5,7 +5,7 @@ import com.gitlab.daring.image.util.CommonUtils;
 import com.gitlab.daring.image.util.VoidCallable;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
-import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
+import static com.gitlab.daring.image.command.CommandScriptUtils.*;
 
 public class CommandScript {
 
@@ -43,6 +43,11 @@ public class CommandScript {
 
 	public void execute() {
 		runTask("");
+	}
+
+	public Mat runCommand(String cmd, Object... args) {
+		tryRun(() -> runScript(env, cmdStr(cmd, args)));
+		return env.mat;
 	}
 
 	void tryRun(VoidCallable call) {
