@@ -62,6 +62,8 @@ class SealCheckService extends BaseComponent {
 		loadMats();
 		MatchResult mr = findMatch();
 
+		//TODO use getAffineTransform
+
 		Mat dm1 = diffBuilder.build(objRect);
 		Mat dm2 = diffBuilder.build(mr.rect);
 
