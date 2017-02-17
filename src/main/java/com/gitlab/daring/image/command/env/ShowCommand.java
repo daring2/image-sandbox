@@ -4,6 +4,7 @@ import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.component.BaseCanvasFrame;
 
+import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
@@ -24,7 +25,12 @@ public class ShowCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		frame.showMat(env.mat);
+		String tv = env.eval(title);
+		if (title.equals(tv)) {
+			frame.showMat(env.mat);
+		} else {
+			runCommand(env, "show", tv);
+		}
 	}
 
 	@Override

@@ -30,17 +30,12 @@ public class CommandScript {
 	}
 
 	public void runTask(String task) {
-		env.task = task; env.curTask = "";
+		env.setTask(task);
 		tryRun(() -> command.execute(env));
 	}
 
 	public void execute() {
 		runTask("");
-	}
-
-	public void execute(String script, String task) {
-		setText(script);
-		runTask(task);
 	}
 
 	void tryRun(VoidCallable call) {

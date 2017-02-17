@@ -32,7 +32,11 @@ public class ReadCommand extends BaseCommand {
 			fileMat = imread(file.v, flags.vi() + 1);
 			fileTime = ft;
 		}
-		env.putMat(key.v, fileMat);
+		if (key.v.isEmpty()) {
+			env.mat = fileMat;
+		} else {
+			env.putMat(key.v, fileMat);
+		}
 	}
 
 	enum ReadFlag { None, Grey, Color }

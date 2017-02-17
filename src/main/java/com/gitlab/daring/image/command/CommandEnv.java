@@ -19,17 +19,21 @@ public class CommandEnv {
 	public KeyPointVector keyPoints = new KeyPointVector();
 	public List<Contour> contours;
 
+	public void setTask(String task) {
+		this.task = task; curTask = "";
+	}
+
 	public Mat getMat(String key) {
-		return key.isEmpty() ? mat : mats.get(key);
+		return mats.get(eval(key));
 	}
 
 	public void putMat(String key, Mat m) {
-		Mat cm = m.clone();
-		if (key.isEmpty()) mat = cm; else mats.put(key, cm);
+		mats.put(eval(key), m.clone());
 	}
 
-	public <T> T getVar(String key) {
-		return (T) vars.get(key);
+	public String eval(String exp) {
+		String vn = exp.startsWith("$") ? exp.substring(1) : "";
+		return vn.isEmpty() ? exp: "" + vars.get(vn);
 	}
 
 }

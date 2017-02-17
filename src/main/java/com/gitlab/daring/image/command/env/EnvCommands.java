@@ -22,7 +22,7 @@ public class EnvCommands {
 		SimpleCommand c = new SimpleCommand(ps);
 		String file = c.arg(0, "");
 		String key = c.arg(1, "");
-		return env -> imwrite(file, env.getMat(key));
+		return env -> imwrite(env.eval(file), env.getMat(key));
 	}
 
 	public Command newGetCommand(String... ps) {
