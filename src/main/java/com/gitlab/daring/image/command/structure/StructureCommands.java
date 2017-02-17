@@ -19,6 +19,7 @@ public class StructureCommands {
 		r.register("findContours", FindContoursCommand::new);
 		r.register("filterContours", FilterContoursCommand::new);
 		r.register("drawContours", DrawContoursCommand::new);
+		r.register("showContours", ShowContoursCommand::new);
 		r.register("watershedCenter", WatershedCenterCommand::new);
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
 		r.register("grubCutCenter", GrubCutCenterCommand::new);
