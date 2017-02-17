@@ -48,7 +48,6 @@ class SealCheckService extends BaseComponent {
 
 	public void check() {
 		env = script.env;
-		CommandEnv.local.set(env);
 
 		Mat m1 = loadMat(sampleFile.v, 1);
 		Mat m2 = loadMat(targetFile.v, 2);
@@ -72,7 +71,7 @@ class SealCheckService extends BaseComponent {
 	}
 
 	Mat loadMat(String file, int i) {
-		return runCommand("read", file, "grey");
+		return runCommand(env, "read", file, "grey");
 	}
 
 	Mat buildDiff(Mat m1, Mat m2) {
@@ -90,7 +89,7 @@ class SealCheckService extends BaseComponent {
 
 	void showMat(Mat m, String title) {
 		script.env.mat = m;
-		runCommand("show", title);
+		runCommand(env, "show", title);
 	}
 
 }

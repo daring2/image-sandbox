@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class CommandEnv {
 
-	public static final ThreadLocal<CommandEnv> local = new ThreadLocal<>();
-
 	public String task = "";
 	public String curTask = "";
 

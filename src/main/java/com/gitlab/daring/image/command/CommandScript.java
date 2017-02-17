@@ -31,7 +31,6 @@ public class CommandScript {
 
 	public void runTask(String task) {
 		env.task = task; env.curTask = "";
-		CommandEnv.local.set(env);
 		tryRun(() -> command.execute(env));
 	}
 

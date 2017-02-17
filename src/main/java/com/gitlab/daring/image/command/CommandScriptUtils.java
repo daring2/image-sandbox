@@ -10,21 +10,17 @@ public class CommandScriptUtils {
 		return CommandRegistry.Instance.parseScript(script);
 	}
 
-	public static void runScript(String script) {
-		parseScript(script).execute(localEnv());
+	public static void runScript(CommandEnv env, String script) {
+		parseScript(script).execute(env);
 	}
 
 	public static String cmdStr(String cmd, Object... args) {
 		return cmd + "(" + join(args, ", ") + ");";
 	}
 
-	public static Mat runCommand(String cmd, Object... args) {
-		runScript(cmdStr(cmd, args));
-		return localEnv().mat;
-	}
-
-	public static CommandEnv localEnv() {
-		return CommandEnv.local.get();
+	public static Mat runCommand(CommandEnv env, String cmd, Object... args) {
+		runScript(env, cmdStr(cmd, args));
+		return env.mat;
 	}
 
 	private CommandScriptUtils() {
