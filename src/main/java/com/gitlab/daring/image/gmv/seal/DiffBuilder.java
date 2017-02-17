@@ -1,13 +1,28 @@
 package com.gitlab.daring.image.gmv.seal;
 
+import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.Rect;
+import org.bytedeco.javacpp.opencv_core.Scalar;
 
+import javax.annotation.concurrent.NotThreadSafe;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static one.util.streamex.IntStreamEx.range;
+import static org.bytedeco.javacpp.opencv_core.min;
+
+@NotThreadSafe
 class DiffBuilder extends BaseComponent {
 
-	final IntParam winSize = new IntParam("0:Точность:0-10").bind(config, "winSize");
+	final IntParam winSize = new IntParam("0:Смещение:0-10").bind(config, "winSize");
 	final SealCheckService srv;
+
+	Mat dm1, dm2;
+	CommandEnv env;
 
 	public DiffBuilder(SealCheckService srv) {
 		super(srv.config.getConfig("diffBuilder"));
@@ -15,16 +30,33 @@ class DiffBuilder extends BaseComponent {
 	}
 
 	Mat build(Mat m1, Mat m2) {
-		runPreDiff(m1, 1);
-		runPreDiff(m2, 2);
-		srv.script.runTask("buildDiff");
-		return srv.env.mat.clone();
+		env = srv.env;
+		dm1 = runPreDiff(m1, 1);
+		dm2 = runPreDiff(m2, 2);
+		return runBuildDiff();
 	}
 
-	void runPreDiff(Mat m, int i) {
-		srv.env.mat = m.clone();
+	Mat runPreDiff(Mat m, int i) {
+		env.mat = m.clone();
 		srv.script.runTask("preDiff");
-		srv.env.putMat("dm" + i, srv.env.mat);
+		return env.mat.clone();
+	}
+
+	Mat runBuildDiff() {
+		int w = winSize.v;
+		Dimension d = new Dimension(dm1.cols() - w, dm1.rows() - w);
+		Rect r1 = new Rect(0, 0, d.width, d.height);
+		env.putMat("dm1", dm1.apply(r1));
+		List<Mat> dms = new ArrayList<>();
+		range(w + 1).forEach(x -> range(w + 1).forEach(y -> {
+			Rect r2 = new Rect(x, y, d.width, d.height);
+			env.putMat("dm2", dm2.apply(r2));
+			srv.script.runTask("buildDiff");
+			dms.add(env.mat.clone());
+		}));
+		Mat rm = new Mat(r1.size(), dm1.type(), Scalar.WHITE);
+		dms.forEach(m -> min(rm, m, rm));
+		return rm;
 	}
 
 }
