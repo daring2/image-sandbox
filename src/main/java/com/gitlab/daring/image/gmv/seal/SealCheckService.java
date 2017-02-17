@@ -2,6 +2,7 @@ package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.CommandScript;
+import com.gitlab.daring.image.command.parameter.CommandParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
 import com.gitlab.daring.image.common.BaseComponent;
@@ -13,10 +14,12 @@ import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.List;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
+import static java.util.Arrays.asList;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
@@ -28,6 +31,7 @@ class SealCheckService extends BaseComponent {
 	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
 
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
+	final DiffBuilder diffBuilder = new DiffBuilder(this);
 
 	CommandScript script;
 	CommandEnv env;
@@ -38,6 +42,10 @@ class SealCheckService extends BaseComponent {
 
 	private StringParam newStringParam(String path, String name) {
 		return new StringParam(":" + name).bind(config, path);
+	}
+
+	List<CommandParam<?>> getParams() {
+		return asList(sampleFile, targetFile, objSize, diffBuilder.winSize);
 	}
 
 	public void setScript(CommandScript script) {
@@ -58,33 +66,20 @@ class SealCheckService extends BaseComponent {
 
 		//TODO use getAffineTransform
 
-		Mat dm1 = buildDiff(cm, m2.apply(cr1));
+		Mat dm1 = diffBuilder.build(cm, m2.apply(cr1));
 		Rect cr2 = new Rect(toOpencv(mr.point), cr1.size());
-		Mat dm2 = buildDiff(cm, m2.apply(cr2));
+		Mat dm2 = diffBuilder.build(cm, m2.apply(cr2));
 
 		rectangle(m1, cr1, Scalar.WHITE, 3, LINE_8, 0);
 		showMat(m1, "Образец");
 		rectangle(m2, cr2, Scalar.WHITE, 3, LINE_8, 0);
 		showMat(m2, "Снимок");
 		showMat(dm1, "Difference");
-		showMat(dm2, "Match");
+		showMat(dm2, "Различия");
 	}
 
 	Mat loadMat(String file, int i) {
 		return runCommand(env, "read", file, "grey");
-	}
-
-	Mat buildDiff(Mat m1, Mat m2) {
-		runPreDiff(m1, 1);
-		runPreDiff(m2, 2);
-		script.runTask("buildDiff");
-		return env.mat.clone();
-	}
-
-	void runPreDiff(Mat m, int i) {
-		env.mat = m.clone();
-		script.runTask("preDiff");
-		env.putMat("dm" + i, env.mat);
 	}
 
 	void showMat(Mat m, String title) {
