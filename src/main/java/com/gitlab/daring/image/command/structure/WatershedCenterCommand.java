@@ -7,7 +7,7 @@ import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_core.*;
 
 import static com.gitlab.daring.image.command.structure.MarkerType.Circle;
-import static com.gitlab.daring.image.util.ImageUtils.newScalarMat;
+import static com.gitlab.daring.image.util.ImageUtils.smat;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLACK;
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgproc.watershed;
@@ -31,7 +31,7 @@ public class WatershedCenterCommand extends BaseCommand {
 		drawMarker(m, r2, 2);
 		watershed(env.mat, m);
 		max(m, 0).asMat().convertTo(rm, CV_8U);
-		Mat si = newScalarMat(segment.v);
+		Mat si = smat(segment.v);
 		inRange(rm, si, si, rm);
 		env.mat = rm;
 	}

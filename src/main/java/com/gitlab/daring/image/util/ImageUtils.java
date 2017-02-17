@@ -58,7 +58,7 @@ public class ImageUtils {
 		rectangle(m, toOpencv(r), c, th, LINE_8, 0);
 	}
 
-	public static Mat newScalarMat(int v) {
+	public static Mat smat(int v) {
 		return new Mat(new byte[] {(byte) v});
 	}
 

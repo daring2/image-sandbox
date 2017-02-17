@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.CommandEnv;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_imgproc.LineSegmentDetector;
 
-import static com.gitlab.daring.image.util.ImageUtils.newScalarMat;
+import static com.gitlab.daring.image.util.ImageUtils.smat;
 import static org.bytedeco.javacpp.opencv_imgproc.createLineSegmentDetector;
 
 public class DetectLinesCommand extends BaseCommand {
@@ -22,7 +22,7 @@ public class DetectLinesCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		detector.detect(env.mat, lines);
-		env.mat.setTo(newScalarMat(0));
+		env.mat.setTo(smat(0));
 		detector.drawSegments(env.mat, lines);
 	}
 

@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.opencv_core.Point;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import static com.gitlab.daring.image.util.CollectionUtils.mapList;
-import static com.gitlab.daring.image.util.ImageUtils.newScalarMat;
+import static com.gitlab.daring.image.util.ImageUtils.smat;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static org.bytedeco.javacpp.opencv_core.LINE_8;
 import static org.bytedeco.javacpp.opencv_imgproc.CV_FILLED;
@@ -30,7 +30,7 @@ public class DrawContoursCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		env.mat.setTo(newScalarMat(0));
+		env.mat.setTo(smat(0));
 		if (index.v > env.contours.size()) return;
 		MatVector cs = toOpencv(mapList(env.contours, c -> c.mat));
 		int th = thickness.posVal(CV_FILLED);
