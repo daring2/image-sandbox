@@ -62,6 +62,7 @@ class DiffBuilder extends BaseComponent {
 		}));
 		Mat rm = new Mat(wr.height, wr.width, dm1.type(), Scalar.WHITE);
 		dms.forEach(m -> min(rm, m, rm));
+		env.putMat("dr", rm);
 		return srv.script.runTask("postDiff", rm);
 	}
 
