@@ -7,6 +7,8 @@ import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 
+import static com.gitlab.daring.image.util.ImageUtils.smat;
+import static org.bytedeco.javacpp.opencv_core.inRange;
 import static org.bytedeco.javacpp.opencv_imgproc.adaptiveThreshold;
 import static org.bytedeco.javacpp.opencv_imgproc.threshold;
 
@@ -16,6 +18,7 @@ public class ThresholdCommands {
 		ThresholdCommands f = new ThresholdCommands();
 		r.register("threshold", f::thresholdCommand);
 		r.register("adaptiveThreshold", f::adaptiveThresholdCommand);
+		r.register("inRange", f::inRangeCommand);
 	}
 
 	public Command thresholdCommand(String... ps) {
@@ -37,6 +40,13 @@ public class ThresholdCommands {
 		return c.withFunc(m ->
 			adaptiveThreshold(m, m, mv.v, method.vi(), type.vi(), bs.v * 2 + 1, cf.v)
 		);
+	}
+
+	public Command inRangeCommand(String... ps) {
+		SimpleCommand c = new SimpleCommand(ps);
+		IntParam lb = c.intParam(0, "0-255");
+		IntParam ub = c.intParam(255, "0-255");
+		return c.withFunc(m -> inRange(m, smat(lb.v), smat(ub.v), m));
 	}
 
 	enum ThresholdType { Bin, BinInv, Trunc, ToZero, ToZeroInv }
