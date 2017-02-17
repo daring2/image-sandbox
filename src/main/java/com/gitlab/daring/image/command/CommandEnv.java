@@ -24,7 +24,8 @@ public class CommandEnv {
 	}
 
 	public Mat getMat(String key) {
-		return mats.get(eval(key));
+		String k = eval(key);
+		return k.isEmpty() ? mat : mats.get(k);
 	}
 
 	public void putMat(String key, Mat m) {

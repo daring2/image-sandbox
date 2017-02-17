@@ -10,7 +10,6 @@ import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
 import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.cropMat;
-import static com.gitlab.daring.image.util.ImageUtils.drawRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static java.util.Arrays.asList;
 
@@ -66,22 +64,20 @@ class SealCheckService extends BaseComponent {
 		Mat dm1 = diffBuilder.build(objRect);
 		Mat dm2 = diffBuilder.build(mr.rect);
 
-		drawRect(m1, objRect, Scalar.WHITE, 3);
-		showMat(m1, "Образец");
-		drawRect(m2, mr.rect, Scalar.WHITE, 3);
-		showMat(m2, "Снимок");
 		showMat(dm1, "Difference");
 		showMat(dm2, "Различия");
 	}
 
 	void loadMats() {
-		m1 = loadMat(sampleFile.v);
-		m2 = loadMat(targetFile.v);
+		m1 = loadMat(sampleFile.v, "m1");
+		m2 = loadMat(targetFile.v, "m2");
 		objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
 	}
 
-	Mat loadMat(String file) {
-		return script.runCommand("read", file, "grey");
+	Mat loadMat(String file, String name) {
+		Mat m = script.runCommand("read", file, "grey");
+		env.putMat(name, m);
+		return m;
 	}
 
 	MatchResult findMatch() {

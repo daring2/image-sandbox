@@ -10,7 +10,8 @@ import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
-	final String title = nextArg("");
+	final String title = arg(0, "");
+	final String key = arg(1, "");
 	final BaseCanvasFrame frame = new BaseCanvasFrame(title);
 
 	public ShowCommand(String... params) {
@@ -27,9 +28,9 @@ public class ShowCommand extends BaseCommand {
 	public void execute(CommandEnv env) {
 		String tv = env.eval(title);
 		if (title.equals(tv)) {
-			frame.showMat(env.mat);
+			frame.showMat(env.getMat(key));
 		} else {
-			runCommand(env, "show", tv);
+			runCommand(env, "show", tv, key);
 		}
 	}
 
