@@ -5,8 +5,10 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Point2f;
 import org.bytedeco.javacpp.opencv_core.Size;
 
+import java.awt.*;
 import java.util.function.Consumer;
 
+import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_core.addWeighted;
 import static org.bytedeco.javacpp.opencv_core.flip;
@@ -39,6 +41,10 @@ public class ImageUtils {
 
 	public static Mat resizeMat(Mat m, double scale) {
 		return buildMat(r -> resize(m, r, new Size(), scale, scale, INTER_LINEAR));
+	}
+
+	public static Mat cropMat(Mat m, Rectangle r) {
+		return m.apply(toOpencv(r));
 	}
 
 	public static Mat rotateMat(Mat m, double angle) {

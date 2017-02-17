@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.opencv_core.Point;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.gitlab.daring.image.util.EnumUtils.findEnum;
-import static com.gitlab.daring.image.util.OpencvConverters.toJava;
+import static com.gitlab.daring.image.util.OpencvConverters.newRect;
 import static org.bytedeco.javacpp.opencv_core.minMaxLoc;
 import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 
@@ -28,14 +28,14 @@ public class TemplateMatcher {
 		method = findEnum(c, MatchMethod.class, "method");
 	}
 
-	public MatchResult findBest(Mat mat, Mat templ) {
-		matchTemplate(mat, templ, resultMat, method.ordinal());
+	public MatchResult findBest(Mat mat, Mat tm) {
+		matchTemplate(mat, tm, resultMat, method.ordinal());
 		if (method.isMinBest()) {
 			minMaxLoc(resultMat, valueRef, null, pointRef, null, new Mat());
 		} else {
 			minMaxLoc(resultMat, null, valueRef, null, pointRef, new Mat());
 		}
-		return new MatchResult(toJava(pointRef), valueRef.get());
+		return new MatchResult(newRect(pointRef, tm.size()), valueRef.get());
 	}
 
 }

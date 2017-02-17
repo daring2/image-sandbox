@@ -36,6 +36,10 @@ public class OpencvConverters {
 		return new Rectangle(rect.x(), rect.y(), rect.width(), rect.height());
 	}
 
+	public static Rectangle newRect(opencv_core.Point p, Size size) {
+		return new Rectangle(toJava(p), toJava(size));
+	}
+
 	public static Rect toOpencv(Rectangle r) {
 		return new Rect(r.x, r.y, r.width, r.height);
 	}
