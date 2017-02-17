@@ -3,6 +3,7 @@ package com.gitlab.daring.image.command;
 import com.gitlab.daring.image.event.ValueEvent;
 import com.gitlab.daring.image.util.CommonUtils;
 import com.gitlab.daring.image.util.VoidCallable;
+import org.bytedeco.javacpp.opencv_core.Mat;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.parseScript;
 
@@ -32,6 +33,12 @@ public class CommandScript {
 	public void runTask(String task) {
 		env.setTask(task);
 		tryRun(() -> command.execute(env));
+	}
+
+	public Mat runTask(String task, Mat mat) {
+		env.mat = mat.clone();
+		runTask(task);
+		return env.mat.clone();
 	}
 
 	public void execute() {

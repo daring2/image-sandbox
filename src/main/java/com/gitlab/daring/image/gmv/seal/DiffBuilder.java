@@ -31,18 +31,17 @@ class DiffBuilder extends BaseComponent {
 
 	Mat build(Mat m1, Mat m2) {
 		env = srv.env;
-		dm1 = runPreDiff(m1, 1);
-		dm2 = runPreDiff(m2, 2);
+		dm1 = runPreDiff(m1);
+		dm2 = runPreDiff(m2);
 		return runBuildDiff();
 	}
 
-	Mat runPreDiff(Mat m, int i) {
-		env.mat = m.clone();
-		srv.script.runTask("preDiff");
-		return env.mat.clone();
+	Mat runPreDiff(Mat m) {
+		return srv.script.runTask("preDiff", m);
 	}
 
 	Mat runBuildDiff() {
+		//TODO simplify
 		int w = winSize.v;
 		Dimension d = new Dimension(dm1.cols() - w, dm1.rows() - w);
 		Rect r1 = new Rect(0, 0, d.width, d.height);
@@ -56,7 +55,7 @@ class DiffBuilder extends BaseComponent {
 		}));
 		Mat rm = new Mat(r1.size(), dm1.type(), Scalar.WHITE);
 		dms.forEach(m -> min(rm, m, rm));
-		return rm;
+		return srv.script.runTask("postDiff", rm);
 	}
 
 }
