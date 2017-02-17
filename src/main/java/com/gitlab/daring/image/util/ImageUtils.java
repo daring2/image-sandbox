@@ -1,17 +1,14 @@
 package com.gitlab.daring.image.util;
 
 import com.gitlab.daring.image.component.BaseCanvasFrame;
-import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Point2f;
-import org.bytedeco.javacpp.opencv_core.Size;
+import org.bytedeco.javacpp.opencv_core.*;
 
 import java.awt.*;
 import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import static org.bytedeco.javacpp.opencv_core.addWeighted;
-import static org.bytedeco.javacpp.opencv_core.flip;
+import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -55,6 +52,10 @@ public class ImageUtils {
 
 	public static void addWeightedMat(Mat m1, Mat m2, Mat dm, double f) {
 		if (f > 0) addWeighted(m1, 1 - f, m2, f, 0, dm);
+	}
+
+	public static void drawRect(Mat m, Rectangle r, Scalar c, int th) {
+		rectangle(m, toOpencv(r), c, th, LINE_8, 0);
 	}
 
 	public static Mat newScalarMat(int v) {
