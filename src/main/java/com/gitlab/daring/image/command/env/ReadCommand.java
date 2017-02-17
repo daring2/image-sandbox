@@ -33,7 +33,7 @@ public class ReadCommand extends BaseCommand {
 			fileTime = ft;
 		}
 		if (key.v.isEmpty()) {
-			env.mat = fileMat;
+			env.mat = fileMat.clone();
 		} else {
 			env.putMat(key.v, fileMat);
 		}

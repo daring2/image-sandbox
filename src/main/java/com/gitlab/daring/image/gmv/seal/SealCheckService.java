@@ -64,6 +64,10 @@ class SealCheckService extends BaseComponent {
 		Mat cm = m1.apply(cr1);
 		MatchResult mr = matcher.findBest(m2, cm);
 
+		//TODO refactor
+		int w = diffBuilder.winSize.v;
+		mr.point.translate(-w/2, -w/2);
+
 		//TODO use getAffineTransform
 
 		Mat dm1 = diffBuilder.build(cm, m2.apply(cr1));
