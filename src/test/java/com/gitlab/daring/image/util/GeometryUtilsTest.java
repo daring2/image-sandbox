@@ -10,6 +10,13 @@ import static org.junit.Assert.assertEquals;
 public class GeometryUtilsTest {
 
 	@Test
+	public void testCenterRect() {
+		Rectangle r1 = new Rectangle(10, 5, 40, 20);
+		assertEquals(r1, getCenterRect(r1, 1));
+		assertEquals(new Rectangle(25, 13, 10, 5), getCenterRect(r1, 0.25));
+	}
+
+	@Test
 	public void testScale() {
 		Dimension d1 = new Dimension(40, 20);
 		assertEquals(d1, scale(d1, 1));
@@ -25,13 +32,6 @@ public class GeometryUtilsTest {
 		assertEquals(d1, scaleToMax(d1, new Dimension(40, 20)));
 		assertEquals(new Dimension(10, 5), scaleToMax(d1, new Dimension(10, 20)));
 		assertEquals(new Dimension(10, 5), scaleToMax(d1, new Dimension(40, 5)));
-	}
-
-	@Test
-	public void testCenterRect() {
-		Dimension d1 = new Dimension(40, 20);
-		assertEquals(new Rectangle(0, 0, 40, 20), getCenterRect(d1, 1));
-		assertEquals(new Rectangle(15, 8, 10, 5), getCenterRect(d1, 0.25));
 	}
 
 }
