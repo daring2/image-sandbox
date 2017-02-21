@@ -7,10 +7,8 @@ import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Size;
 
 import java.awt.*;
-import java.util.Collection;
 import java.util.List;
 
-import static com.google.common.collect.Iterables.toArray;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.LongStream.range;
 
@@ -46,10 +44,6 @@ public class OpencvConverters {
 
 	public static List<Mat> toJava(MatVector ms) {
 		return range(0, ms.size()).mapToObj(ms::get).collect(toList());
-	}
-
-	public static MatVector toOpencv(Collection<Mat> ms) {
-		return new MatVector(toArray(ms, Mat.class));
 	}
 
 	private OpencvConverters() {
