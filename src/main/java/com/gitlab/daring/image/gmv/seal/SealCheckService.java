@@ -33,7 +33,6 @@ class SealCheckService extends BaseComponent {
 	CommandScript script;
 	CommandEnv env;
 	Mat m1, m2, tm1;
-	Rectangle objRect;
 
 	public SealCheckService(Config c) {
 		super(c);
@@ -59,8 +58,6 @@ class SealCheckService extends BaseComponent {
 
 		//TODO use getAffineTransform
 
-//		Mat dm1 = diffBuilder.build(objRect);
-//		showMat(dm1, "Difference");
 		Mat dm2 = diffBuilder.build(mr.rect);
 		showMat(dm2, "Различия");
 	}
@@ -68,7 +65,7 @@ class SealCheckService extends BaseComponent {
 	void loadMats() {
 		m1 = loadMat(sampleFile.v, "m1");
 		m2 = loadMat(targetFile.v, "m2");
-		objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
+		Rectangle objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
 		tm1 = cropMat(m1, objRect);
 	}
 

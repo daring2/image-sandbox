@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gitlab.daring.image.util.ImageUtils.cropMat;
+import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static one.util.streamex.IntStreamEx.range;
 import static org.bytedeco.javacpp.opencv_core.min;
 
@@ -50,8 +51,8 @@ class DiffBuilder extends BaseComponent {
 	}
 
 	Mat runBuildDiff() {
-		Rectangle wr = new Rectangle(srv.objRect);
-		wr.setBounds(0, 0, wr.width - wo, wr.height - wo);
+		Dimension d = toJava(dm1.size());
+		Rectangle wr = new Rectangle(0, 0, d.width - wo, d.height - wo);
 		env.putMat("dm1", cropMat(dm1, wr));
 		List<Mat> dms = new ArrayList<>();
 		range(wo + 1).forEach(x -> range(wo + 1).forEach(y -> {
