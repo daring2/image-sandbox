@@ -76,7 +76,7 @@ public class ImageUtils {
 			Point p = ps.get(i);
 			rp.position(i).x(p.x).y(p.y);
 		}
-		return rp;
+		return rp.position(0);
 	}
 
 	private ImageUtils() {
