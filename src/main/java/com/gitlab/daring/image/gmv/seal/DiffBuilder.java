@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.CommandEnv;
+import com.gitlab.daring.image.command.CommandScript;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
@@ -18,34 +19,29 @@ import static org.bytedeco.javacpp.opencv_core.min;
 class DiffBuilder {
 
 	final CheckTask task;
-	final SealCheckService srv;
+	final CommandScript script;
+	final CommandEnv env;
 
-	CommandEnv env;
 	int wo;
 	Mat dm1, dm2;
 
 	public DiffBuilder(CheckTask task) {
 		this.task = task;
-		srv = task.srv;
+		script = task.script;
+		env = script.env;
 	}
 
-	Mat build(Rectangle mr) {
-		env = task.script.env;
-		wo = srv.winOffset.v;
-		dm1 = runPreDiff(task.tm1);
-		Mat m2 = buildMat2(mr);
-		dm2 = runPreDiff(m2);
+	Mat build(Mat m2) {
+		wo = task.srv.winOffset.v;
+		Rectangle r = new Rectangle(task.objRect);
+		dm1 = runPreDiff(task.m1, r);
+		r.translate(-wo / 2, -wo / 2);
+		dm2 = runPreDiff(m2, r);
 		return runBuildDiff();
 	}
 
-	private Mat buildMat2(Rectangle mr) {
-		Rectangle r = new Rectangle(mr);
-		r.translate(-wo / 2, -wo / 2);
-		return cropMat(task.m2, r);
-	}
-
-	Mat runPreDiff(Mat m) {
-		return task.script.runTask("preDiff", m);
+	Mat runPreDiff(Mat m, Rectangle r) {
+		return script.runTask("preDiff", cropMat(m, r));
 	}
 
 	Mat runBuildDiff() {
@@ -56,13 +52,13 @@ class DiffBuilder {
 		range(wo + 1).forEach(x -> range(wo + 1).forEach(y -> {
 			wr.setLocation(x, y);
 			env.putMat("dm2", cropMat(dm2, wr));
-			task.script.runTask("buildDiff");
+			script.runTask("buildDiff");
 			dms.add(env.mat.clone());
 		}));
 		Mat rm = new Mat(wr.height, wr.width, dm1.type(), Scalar.WHITE);
 		dms.forEach(m -> min(rm, m, rm));
 		env.putMat("dr", rm);
-		return task.script.runTask("postDiff", rm);
+		return script.runTask("postDiff", rm);
 	}
 
 }

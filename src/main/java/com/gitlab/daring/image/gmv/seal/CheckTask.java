@@ -3,7 +3,6 @@ package com.gitlab.daring.image.gmv.seal;
 import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.template.MatchResult;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
@@ -22,7 +21,7 @@ class CheckTask {
 	final SealCheckService srv;
 	final CommandScript script;
 
-	final Mat m1, m2, tm1;
+	final Mat m1, m2;
 	final Rectangle objRect;
 
 	final List<MatchResult> mrs = new ArrayList<>();
@@ -35,7 +34,6 @@ class CheckTask {
 		m1 = loadMat(srv.sampleFile.v, "m1");
 		m2 = loadMat(srv.targetFile.v, "m2");
 		objRect = getCenterRect(toJava(m2.size()), srv.objSize.v * 0.01);
-		tm1 = cropMat(m1, objRect);
 	}
 
 	Mat loadMat(String file, String name) {
@@ -46,16 +44,13 @@ class CheckTask {
 
 	void run() {
 		findMatches();
-		Mat m3 = transformTarget();
-
-		DiffBuilder db = new DiffBuilder(this);
-		Mat dm2 = db.build(mrs.get(0).rect);
-		showMat(dm2, "Различия");
-
+		Mat tm2 = transformTarget();
+		Mat dm = new DiffBuilder(this).build(tm2);
+		showMat(dm, "Различия");
 		// debug
-		showMat(tm1, "tm1");
-		showMat(cropMat(m2, objRect), "tm2");
-		showMat(cropMat(m3, objRect), "tm3");
+//		showMat(cropMat(m1, objRect), "cm1");
+//		showMat(cropMat(m2, objRect), "cm2");
+//		showMat(cropMat(tm2, objRect), "cm3");
 	}
 
 	void findMatches() {
@@ -72,12 +67,12 @@ class CheckTask {
 		ps1.add(r.getLocation());
 		ps2.add(mr.point.getLocation());
 		// debug
-		drawRect(m1, r, Scalar.WHITE, 1);
-		drawRect(m2, mr.rect, Scalar.WHITE, 1);
+//		drawRect(m1, r, Scalar.WHITE, 1);
+//		drawRect(m2, mr.rect, Scalar.WHITE, 1);
 	}
 
 	Mat transformTarget() {
-		Mat tm = getAffineTransform(newPointArray(ps1), newPointArray(ps2));
+		Mat tm = getAffineTransform(newPointArray(ps2), newPointArray(ps1));
 		return buildMat(r -> warpAffine(m2, r, tm, m2.size()));
 	}
 
