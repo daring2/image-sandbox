@@ -9,17 +9,20 @@ import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
 import com.typesafe.config.Config;
-import one.util.streamex.StreamEx;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
-import static com.gitlab.daring.image.util.ImageUtils.cropMat;
+import static com.gitlab.daring.image.util.ImageUtils.*;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static java.util.Arrays.asList;
+import static org.bytedeco.javacpp.opencv_imgproc.getAffineTransform;
+import static org.bytedeco.javacpp.opencv_imgproc.warpAffine;
 
 @NotThreadSafe
 class SealCheckService extends BaseComponent {
@@ -33,8 +36,11 @@ class SealCheckService extends BaseComponent {
 
 	CommandScript script;
 	CommandEnv env;
+
 	Mat m1, m2, tm1;
 	Rectangle objRect;
+	List<MatchResult> mrs;
+	List<Point> ps1, ps2;
 
 	public SealCheckService(Config c) {
 		super(c);
@@ -56,12 +62,16 @@ class SealCheckService extends BaseComponent {
 		env = script.env;
 
 		loadMats();
-		List<MatchResult> mrs = findMatches();
-
-		//TODO use getAffineTransform
+		findMatches();
+		Mat m3 = transformTarget();
 
 		Mat dm2 = diffBuilder.build(mrs.get(0).rect);
 		showMat(dm2, "Различия");
+
+		// debug
+		showMat(tm1, "tm1");
+		showMat(cropMat(m2, objRect), "tm2");
+		showMat(cropMat(m3, objRect), "tm3");
 	}
 
 	void loadMats() {
@@ -77,13 +87,26 @@ class SealCheckService extends BaseComponent {
 		return m;
 	}
 
-	List<MatchResult> findMatches() {
-		return StreamEx.of(1.0, 0.6, 0.3).map(this::findMatch).toList();
+	void findMatches() {
+		mrs = new ArrayList<>();
+		ps1 = new ArrayList<>();
+		ps2 = new ArrayList<>();
+		for (double f: asList(1.0, 0.6, 0.3)) {
+			Rectangle r = getCenterRect(objRect, f);
+			MatchResult mr = matcher.findBest(m2, cropMat(m1, r));
+			mrs.add(mr);
+			ps1.add(r.getLocation());
+			ps2.add(mr.point.getLocation());
+			// debug
+			drawRect(m1, r, Scalar.WHITE, 1);
+			drawRect(m2, mr.rect, Scalar.WHITE, 1);
+		};
 	}
 
-	MatchResult findMatch(double size) {
-		Rectangle r = getCenterRect(objRect, size);
-		return matcher.findBest(m2, cropMat(m1, r));
+	Mat transformTarget() {
+		Mat tm = getAffineTransform(newPointArray(ps1), newPointArray(ps2));
+		System.out.println("affine transform: " + tm.createIndexer().toString());
+		return buildMat(r -> warpAffine(m2, r, tm, m2.size()));
 	}
 
 	void showMat(Mat m, String title) {
