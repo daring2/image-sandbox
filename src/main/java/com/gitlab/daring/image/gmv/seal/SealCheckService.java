@@ -9,6 +9,7 @@ import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
 import com.typesafe.config.Config;
+import one.util.streamex.StreamEx;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -33,6 +34,7 @@ class SealCheckService extends BaseComponent {
 	CommandScript script;
 	CommandEnv env;
 	Mat m1, m2, tm1;
+	Rectangle objRect;
 
 	public SealCheckService(Config c) {
 		super(c);
@@ -54,18 +56,18 @@ class SealCheckService extends BaseComponent {
 		env = script.env;
 
 		loadMats();
-		MatchResult mr = findMatch();
+		List<MatchResult> mrs = findMatches();
 
 		//TODO use getAffineTransform
 
-		Mat dm2 = diffBuilder.build(mr.rect);
+		Mat dm2 = diffBuilder.build(mrs.get(0).rect);
 		showMat(dm2, "Различия");
 	}
 
 	void loadMats() {
 		m1 = loadMat(sampleFile.v, "m1");
 		m2 = loadMat(targetFile.v, "m2");
-		Rectangle objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
+		objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
 		tm1 = cropMat(m1, objRect);
 	}
 
@@ -75,8 +77,13 @@ class SealCheckService extends BaseComponent {
 		return m;
 	}
 
-	MatchResult findMatch() {
-		return matcher.findBest(m2, tm1);
+	List<MatchResult> findMatches() {
+		return StreamEx.of(1.0, 0.6, 0.3).map(this::findMatch).toList();
+	}
+
+	MatchResult findMatch(double size) {
+		Rectangle r = getCenterRect(objRect, size);
+		return matcher.findBest(m2, cropMat(m1, r));
 	}
 
 	void showMat(Mat m, String title) {
