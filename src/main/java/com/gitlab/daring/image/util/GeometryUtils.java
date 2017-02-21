@@ -11,6 +11,7 @@ import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 public class GeometryUtils {
 
 	public static Rectangle getCenterRect(Rectangle r, double rectSize) {
+		if (rectSize == 1.0) return new Rectangle(r);
 		Point p = getCenter(r);
 		Dimension sd = scale(r.getSize(), rectSize);
 		return new Rectangle(p.x - sd.width / 2, p.y - sd.height / 2, sd.width, sd.height);
