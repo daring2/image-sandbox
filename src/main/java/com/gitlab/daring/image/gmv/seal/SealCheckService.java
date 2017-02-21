@@ -69,6 +69,7 @@ class SealCheckService extends BaseComponent {
 		m1 = loadMat(sampleFile.v, "m1");
 		m2 = loadMat(targetFile.v, "m2");
 		objRect = getCenterRect(toJava(m2.size()), objSize.v * 0.01);
+		tm1 = cropMat(m1, objRect);
 	}
 
 	Mat loadMat(String file, String name) {
@@ -78,7 +79,6 @@ class SealCheckService extends BaseComponent {
 	}
 
 	MatchResult findMatch() {
-		tm1 = cropMat(m1, objRect);
 		return matcher.findBest(m2, tm1);
 	}
 
