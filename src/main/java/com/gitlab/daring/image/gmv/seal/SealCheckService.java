@@ -51,8 +51,6 @@ class SealCheckService extends BaseComponent {
 		this.script = script;
 	}
 
-	//TODO refactor
-
 	public void check() {
 		env = script.env;
 
@@ -61,10 +59,9 @@ class SealCheckService extends BaseComponent {
 
 		//TODO use getAffineTransform
 
-		Mat dm1 = diffBuilder.build(objRect);
+//		Mat dm1 = diffBuilder.build(objRect);
+//		showMat(dm1, "Difference");
 		Mat dm2 = diffBuilder.build(mr.rect);
-
-		showMat(dm1, "Difference");
 		showMat(dm2, "Различия");
 	}
 
