@@ -73,8 +73,8 @@ public class ImageUtils {
 	public static Point2f newPointArray(List<Point> ps) {
 		Point2f rp = new Point2f(ps.size());
 		for (int i = 0; i < ps.size(); i++) {
-			rp.position(i).x(ps.get(i).x);
-			rp.position(i).y(ps.get(i).y);
+			Point p = ps.get(i);
+			rp.position(i).x(p.x).y(p.y);
 		}
 		return rp;
 	}
