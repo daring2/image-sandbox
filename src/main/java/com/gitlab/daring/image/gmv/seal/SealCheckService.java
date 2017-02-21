@@ -34,6 +34,8 @@ class SealCheckService extends BaseComponent {
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 	final DiffBuilder diffBuilder = new DiffBuilder(this);
 
+	//TODO extract CheckTask
+
 	CommandScript script;
 	CommandEnv env;
 
@@ -91,16 +93,21 @@ class SealCheckService extends BaseComponent {
 		mrs = new ArrayList<>();
 		ps1 = new ArrayList<>();
 		ps2 = new ArrayList<>();
-		for (double f: asList(1.0, 0.6, 0.3)) {
-			Rectangle r = getCenterRect(objRect, f);
-			MatchResult mr = matcher.findBest(m2, cropMat(m1, r));
-			mrs.add(mr);
-			ps1.add(r.getLocation());
-			ps2.add(mr.point.getLocation());
-			// debug
-			drawRect(m1, r, Scalar.WHITE, 1);
-			drawRect(m2, mr.rect, Scalar.WHITE, 1);
-		};
+		Rectangle r = new Rectangle(objRect);
+		findMatch(r);
+		r.setSize(r.width / 3, r.height / 3);
+		r.translate(r.width, 0); findMatch(r);
+		r.translate(0, r.height); findMatch(r);
+	}
+
+	void findMatch(Rectangle r) {
+		MatchResult mr = matcher.findBest(m2, cropMat(m1, r));
+		mrs.add(mr);
+		ps1.add(r.getLocation());
+		ps2.add(mr.point.getLocation());
+		// debug
+		drawRect(m1, r, Scalar.WHITE, 1);
+		drawRect(m2, mr.rect, Scalar.WHITE, 1);
 	}
 
 	Mat transformTarget() {
