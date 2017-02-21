@@ -49,7 +49,10 @@ public class CommandParamPanel extends JPanel {
 		sl.setMajorTickSpacing(range > 15 ? range / 10 : 1);
 		sl.setPaintLabels(true);
 		sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
-		addComponent(p.name, sl);
+		JTextField f = new JTextField("" + p.v,5);
+		f.setEditable(false);
+		p.changeEvent.onFire(() -> f.setText("" + p.v));
+		add(new JLabel(p.name)); add(f, "split 2, growx 0"); add(sl);
 	}
 
 	<T extends Enum<T>> void addEnumParam(EnumParam<T> p) {
