@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.CommandScript;
+import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.CommandParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
@@ -19,6 +20,7 @@ class SealCheckService extends BaseComponent {
 	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
 	final StringParam targetFile = newStringParam("targetFile", "Снимок");
 	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
+	final BooleanParam transform = new BooleanParam("true:Преобразование").bind(config, "transform");
 	final IntParam winOffset = new IntParam("0:Смещение:0-10").bind(config, "winOffset");
 
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
@@ -34,7 +36,7 @@ class SealCheckService extends BaseComponent {
 	}
 
 	List<CommandParam<?>> getParams() {
-		return asList(sampleFile, targetFile, objSize, winOffset);
+		return asList(sampleFile, targetFile, objSize, transform, winOffset);
 	}
 
 	public void setScript(CommandScript script) {

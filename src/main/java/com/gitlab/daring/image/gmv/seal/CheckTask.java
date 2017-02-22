@@ -3,6 +3,7 @@ package com.gitlab.daring.image.gmv.seal;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.template.MatchResult;
+import one.util.streamex.StreamEx;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -22,10 +23,9 @@ class CheckTask {
 	final SealCheckService srv;
 	final CommandScript script;
 	final CommandEnv env;
-
+	final boolean buildTransform;
 	final Mat m1, m2;
 	final Rectangle objRect;
-
 	final List<MatchResult> mrs = new ArrayList<>();
 	final List<Point> ps1 = new ArrayList<>();
 	final List<Point> ps2 = new ArrayList<>();
@@ -34,6 +34,7 @@ class CheckTask {
 		this.srv = srv;
 		script = srv.script;
 		env = script.env;
+		buildTransform = srv.transform.v;
 		m1 = loadMat(srv.sampleFile.v, "m1");
 		m2 = loadMat(srv.targetFile.v, "m2");
 		objRect = getCenterRect(toJava(m2.size()), srv.objSize.v * 0.01);
@@ -61,9 +62,17 @@ class CheckTask {
 	void findMatches() {
 		Rectangle r = new Rectangle(objRect);
 		findMatch(r);
-		r.setSize(r.width / 3, r.height / 3);
-		r.translate(r.width, 0); findMatch(r);
-		r.translate(0, r.height); findMatch(r);
+		if (buildTransform) {
+			r.setSize(r.width / 3, r.height / 3);
+			r.translate(r.width, 0); findMatch(r);
+			r.translate(0, r.height); findMatch(r);
+		} else {
+			StreamEx.of(ps1, ps2).forEach(ps -> {
+				Point p = ps.get(0);
+				ps.add(new Point(p.x + r.width, p.y));
+				ps.add(new Point(p.x, p.y + r.height));
+			});
+		}
 	}
 
 	void findMatch(Rectangle r) {
@@ -78,6 +87,7 @@ class CheckTask {
 
 	Mat transformTarget() {
 		Mat tm = getAffineTransform(newPointArray(ps2), newPointArray(ps1));
+//		System.out.println("tm = " + tm.createIndexer());
 		return buildMat(r -> warpAffine(m2, r, tm, m2.size()));
 	}
 
