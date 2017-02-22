@@ -85,7 +85,7 @@ class CheckTask {
 			Point p1 = ps1.get(0), p2 = ps2.get(0);
 			tm = newMat(new float[][]{{1, 0, p1.x - p2.x}, {0, 1, p1.y - p2.y}});
 		}
-		System.out.println("tm = " + tm.createIndexer());
+//		System.out.println("tm = " + tm.createIndexer());
 		return buildMat(r -> warpAffine(m2, r, tm, m2.size()));
 	}
 
