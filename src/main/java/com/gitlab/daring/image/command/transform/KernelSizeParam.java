@@ -12,7 +12,7 @@ class KernelSizeParam {
 	volatile Size v;
 
 	KernelSizeParam(BaseCommand cmd) {
-		p = cmd.intParam(1,"0-20");
+		p = cmd.intParam(1,"0-10");
 		p.changeEvent.onFire(this::update);
 		update();
 	}
