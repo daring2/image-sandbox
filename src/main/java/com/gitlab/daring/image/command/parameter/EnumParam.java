@@ -21,4 +21,8 @@ public class EnumParam<T extends Enum<T>>  extends CommandParam<T> {
 		return enumClass != null ? findEnum(enumClass, sv) : null;
 	}
 
+	@Override
+	public Object configValue() {
+		return "" + v;
+	}
 }

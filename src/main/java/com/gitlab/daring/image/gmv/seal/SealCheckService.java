@@ -1,8 +1,8 @@
 package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.command.CommandScript;
-import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.CommandParam;
+import com.gitlab.daring.image.command.parameter.EnumParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
 import com.gitlab.daring.image.common.BaseComponent;
@@ -17,11 +17,13 @@ import static java.util.Arrays.asList;
 @NotThreadSafe
 class SealCheckService extends BaseComponent {
 
+	final Config c = config;
 	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
 	final StringParam targetFile = newStringParam("targetFile", "Снимок");
-	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
-	final BooleanParam transform = new BooleanParam("true:Преобразование").bind(config, "transform");
-	final IntParam winOffset = new IntParam("0:Смещение:0-10").bind(config, "winOffset");
+	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(c, "objSize");
+	final EnumParam<FindMethod> findMethod = new EnumParam<>(FindMethod.class, "simple:Метод").bind(c, "findMethod");
+	final boolean fullAffine = c.getBoolean("fullAffine");
+	final IntParam winOffset = new IntParam("0:Смещение:0-10").bind(c, "winOffset");
 
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 
@@ -32,11 +34,11 @@ class SealCheckService extends BaseComponent {
 	}
 
 	private StringParam newStringParam(String path, String name) {
-		return new StringParam(":" + name).bind(config, path);
+		return new StringParam(":" + name).bind(c, path);
 	}
 
 	List<CommandParam<?>> getParams() {
-		return asList(sampleFile, targetFile, objSize, transform, winOffset);
+		return asList(sampleFile, targetFile, objSize, findMethod, winOffset);
 	}
 
 	public void setScript(CommandScript script) {

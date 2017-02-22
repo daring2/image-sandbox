@@ -67,7 +67,7 @@ public class ImageUtils {
 		return new Mat(new byte[] {(byte) v});
 	}
 
-	public static Mat newMat(float[][] vs) {
+	public static Mat newFloatMat(float[][] vs) {
 		Mat m = new Mat(vs.length, vs[0].length, CV_32F);
 		FloatIndexer ind = m.createIndexer();
 		for (int y = 0; y < vs.length; y++) ind.put(y, vs[y]);

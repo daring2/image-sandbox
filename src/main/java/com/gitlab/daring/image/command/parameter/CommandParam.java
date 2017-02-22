@@ -52,4 +52,8 @@ public abstract class CommandParam<T> {
 		return (P) this;
 	}
 
+	public Object configValue() {
+		return v;
+	}
+
 }
