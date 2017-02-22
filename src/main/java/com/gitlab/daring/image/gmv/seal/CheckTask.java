@@ -25,7 +25,6 @@ class CheckTask {
 	final boolean buildTransform;
 	final Mat m1, m2;
 	final Rectangle objRect;
-	final List<MatchResult> mrs = new ArrayList<>();
 	final List<Point> ps1 = new ArrayList<>();
 	final List<Point> ps2 = new ArrayList<>();
 
@@ -69,7 +68,6 @@ class CheckTask {
 
 	void findMatch(Rectangle r) {
 		MatchResult mr = srv.matcher.findBest(m2, cropMat(m1, r));
-		mrs.add(mr);
 		ps1.add(r.getLocation());
 		ps2.add(mr.point.getLocation());
 		// debug
