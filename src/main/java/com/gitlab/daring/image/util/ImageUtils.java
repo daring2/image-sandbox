@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.util;
 
 import com.gitlab.daring.image.component.BaseCanvasFrame;
+import org.bytedeco.javacpp.indexer.FloatIndexer;
 import org.bytedeco.javacpp.opencv_core.*;
 
 import java.awt.Point;
@@ -64,6 +65,13 @@ public class ImageUtils {
 
 	public static Mat smat(int v) {
 		return new Mat(new byte[] {(byte) v});
+	}
+
+	public static Mat newMat(float[][] vs) {
+		Mat m = new Mat(vs.length, vs[0].length, CV_32F);
+		FloatIndexer ind = m.createIndexer();
+		for (int y = 0; y < vs.length; y++) ind.put(y, vs[y]);
+		return m;
 	}
 
 	public static MatVector newMatVector(Collection<Mat> ms) {

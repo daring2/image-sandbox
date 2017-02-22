@@ -3,7 +3,6 @@ package com.gitlab.daring.image.gmv.seal;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.template.MatchResult;
-import one.util.streamex.StreamEx;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -62,17 +61,10 @@ class CheckTask {
 	void findMatches() {
 		Rectangle r = new Rectangle(objRect);
 		findMatch(r);
-		if (buildTransform) {
-			r.setSize(r.width / 3, r.height / 3);
-			r.translate(r.width, 0); findMatch(r);
-			r.translate(0, r.height); findMatch(r);
-		} else {
-			StreamEx.of(ps1, ps2).forEach(ps -> {
-				Point p = ps.get(0);
-				ps.add(new Point(p.x + r.width, p.y));
-				ps.add(new Point(p.x, p.y + r.height));
-			});
-		}
+		if (!buildTransform) return;
+		r.setSize(r.width / 3, r.height / 3);
+		r.translate(r.width, 0); findMatch(r);
+		r.translate(0, r.height); findMatch(r);
 	}
 
 	void findMatch(Rectangle r) {
@@ -86,8 +78,14 @@ class CheckTask {
 	}
 
 	Mat transformTarget() {
-		Mat tm = getAffineTransform(newPointArray(ps2), newPointArray(ps1));
-//		System.out.println("tm = " + tm.createIndexer());
+		Mat tm;
+		if (buildTransform) {
+			tm = getAffineTransform(newPointArray(ps2), newPointArray(ps1));
+		} else {
+			Point p1 = ps1.get(0), p2 = ps2.get(0);
+			tm = newMat(new float[][]{{1, 0, p1.x - p2.x}, {0, 1, p1.y - p2.y}});
+		}
+		System.out.println("tm = " + tm.createIndexer());
 		return buildMat(r -> warpAffine(m2, r, tm, m2.size()));
 	}
 
