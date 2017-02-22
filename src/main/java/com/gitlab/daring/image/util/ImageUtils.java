@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static com.google.common.collect.Iterables.toArray;
+import static java.lang.Math.min;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
@@ -47,6 +48,11 @@ public class ImageUtils {
 
 	public static Mat cropMat(Mat m, Rectangle r) {
 		return m.apply(toOpencv(r));
+	}
+
+	public static Mat[] cropToMin(Mat m1, Mat m2) {
+		Rectangle r = new Rectangle(min(m1.cols(), m2.cols()), min(m1.rows(), m2.rows()));
+		return new Mat[]{cropMat(m1, r), cropMat(m2, r)};
 	}
 
 	public static Mat rotateMat(Mat m, double angle) {
