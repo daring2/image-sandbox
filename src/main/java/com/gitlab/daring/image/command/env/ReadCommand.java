@@ -27,9 +27,10 @@ public class ReadCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		long ft = new File(file.v).lastModified();
+		String fn = env.eval(file.v);
+		long ft = new File(fn).lastModified();
 		if (ft != fileTime || !cache.v) {
-			fileMat = imread(file.v, flags.vi() + 1);
+			fileMat = imread(fn, flags.vi() + 1);
 			fileTime = ft;
 		}
 		if (key.v.isEmpty()) {

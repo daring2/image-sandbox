@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.gmv.seal;
 
+import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.template.MatchResult;
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -20,6 +21,7 @@ class CheckTask {
 
 	final SealCheckService srv;
 	final CommandScript script;
+	final CommandEnv env;
 
 	final Mat m1, m2;
 	final Rectangle objRect;
@@ -31,14 +33,17 @@ class CheckTask {
 	CheckTask(SealCheckService srv) {
 		this.srv = srv;
 		script = srv.script;
+		env = script.env;
 		m1 = loadMat(srv.sampleFile.v, "m1");
 		m2 = loadMat(srv.targetFile.v, "m2");
 		objRect = getCenterRect(toJava(m2.size()), srv.objSize.v * 0.01);
 	}
 
 	Mat loadMat(String file, String name) {
-		Mat m = script.runCommand("read", file, "grey");
-		script.env.putMat(name, m);
+		env.vars.put("file", file);
+		env.vars.put("name", name);
+		Mat m = script.runTask("load", env.mat);
+		env.putMat(name, m);
 		return m;
 	}
 
@@ -77,7 +82,7 @@ class CheckTask {
 	}
 
 	void showMat(Mat m, String title) {
-		script.env.mat = m;
+		env.mat = m;
 		script.runCommand("show", title);
 	}
 
