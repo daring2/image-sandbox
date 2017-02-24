@@ -14,7 +14,7 @@ allprojects {
 
 	repositories {
 		mavenLocal()
-		maven { url 'http://192.168.100.181:9999/artifactory/repo' }
+		jcenter()
 	}
 
 	dependencies {
@@ -54,6 +54,6 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '3.3'
+	gradleVersion = '3.4'
 }
 
