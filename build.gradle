@@ -9,7 +9,7 @@ allprojects {
 	apply plugin: 'maven'
 
 	group = 'com.gitlab.daring.sandbox'
-	version = '0.1-SNAPSHOT'
+	version = '0.2-SNAPSHOT'
 	buildDir = 'target'
 	
 	compileJava.options.encoding = 'UTF-8'
