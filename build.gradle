@@ -40,7 +40,7 @@ allprojects {
 	}
 
 	task copyDeps(type: Sync, dependsOn: build) {
-		from(configurations.runtime, jar)
+		from(configurations.compile, jar)
 		into "$buildDir/dependency"
 	}
 
