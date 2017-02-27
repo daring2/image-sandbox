@@ -11,6 +11,8 @@ allprojects {
 	group = 'com.gitlab.daring.sandbox'
 	version = '0.1-SNAPSHOT'
 	buildDir = 'target'
+	
+	compileJava.options.encoding = 'UTF-8'
 
 	repositories {
 		mavenLocal()
