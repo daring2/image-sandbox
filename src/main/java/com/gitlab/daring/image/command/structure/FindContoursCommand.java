@@ -21,7 +21,7 @@ public class FindContoursCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		MatVector mv = new MatVector();
-		findContours(env.mat, mv, mode.vi(), method.vi() + 1);
+		findContours(env.mat.clone(), mv, mode.vi(), method.vi() + 1);
 		env.contours = mapList(toJava(mv), Contour::new);
 	}
 
