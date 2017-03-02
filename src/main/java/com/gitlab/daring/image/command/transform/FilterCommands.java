@@ -8,7 +8,6 @@ import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
 
-import static java.lang.Double.parseDouble;
 import static org.bytedeco.javacpp.opencv_core.addWeighted;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
@@ -33,9 +32,9 @@ public class FilterCommands {
 	public Command gaussianBlurCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
 		KernelSizeParam sp = new KernelSizeParam(c);
-		double sigma = parseDouble(c.nextArg(0));
+		DoubleParam sigma = c.doubleParam(0, "0-10");
 		IntParam n = c.intParam(1, "0-10");
-		return c.withFunc(n, m -> GaussianBlur(m, m, sp.v, sigma));
+		return c.withFunc(n, m -> GaussianBlur(m, m, sp.v, sigma.v));
 	}
 
 	public Command medianBlurCommand(String... ps) {
