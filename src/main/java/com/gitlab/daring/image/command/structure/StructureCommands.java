@@ -24,6 +24,7 @@ public class StructureCommands {
 		r.register("watershedMarker", WatershedMarkerCommand::new);
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
 		r.register("grubCutCenter", GrubCutCenterCommand::new);
+		r.register("grubCutMarker", GrubCutMarkerCommand::new);
 		r.register("houghCircles", HoughCirclesCommand::new);
 		r.register("detectLines", DetectLinesCommand::new);
 	}
