@@ -20,7 +20,7 @@ class SIFTCommand extends BaseCommand {
 
 	@Override
 	public void execute(CommandEnv env) {
-		SIFT detector = SIFT.create(maxFeatures.v, nOctaveLayers.v, contrastThreshold.v * 0.01, edgeThreshold.v, sigma.v);
+		SIFT detector = SIFT.create(maxFeatures.v, nOctaveLayers.v, contrastThreshold.pv(), edgeThreshold.v, sigma.v);
 		detector.detect(env.mat, env.keyPoints);
 	}
 

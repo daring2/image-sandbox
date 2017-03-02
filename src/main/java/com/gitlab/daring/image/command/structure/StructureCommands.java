@@ -42,7 +42,7 @@ public class StructureCommands {
 		IntParam b = c.intParam(2, "0-10");
 		IntParam ksp = c.intParam(1, "0-10");
 		DoubleParam k = c.doubleParam(4, "0-100");
-		return c.withFunc((m, d) -> cornerHarris(m, d, b.v, ksp.v * 2 + 1, k.v * 0.01));
+		return c.withFunc((m, d) -> cornerHarris(m, d, b.v, ksp.v * 2 + 1, k.pv()));
 	}
 
 }

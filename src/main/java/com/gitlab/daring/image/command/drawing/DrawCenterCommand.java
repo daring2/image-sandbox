@@ -31,7 +31,7 @@ public class DrawCenterCommand extends BaseCommand {
 	public void execute(CommandEnv env) {
 		Mat m = env.mat;
 		Dimension d = toJava(m.size());
-		Rectangle cr = getCenterRect(d, scale.v * 0.01);
+		Rectangle cr = getCenterRect(d, scale.pv());
 		Scalar c = Scalar.all(color.v);
 		int th = thickness.posVal(CV_FILLED);
 		Shape sh = shape.v;

@@ -20,4 +20,8 @@ public abstract class NumberParam<T extends Number> extends CommandParam<T> {
 
 	public abstract void setNumValue(Number v);
 
+	public double pv() {
+		return v.doubleValue() * 0.01;
+	}
+
 }

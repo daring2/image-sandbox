@@ -21,7 +21,7 @@ class GFTTCommand extends BaseCommand {
 	@Override
 	public void execute(CommandEnv env) {
 		detector.setMaxFeatures(maxFeatures.v);
-		detector.setQualityLevel(qualityLevel.v * 0.01);
+		detector.setQualityLevel(qualityLevel.pv());
 		detector.setMinDistance(minDistance.v);
 		detector.setBlockSize(blockSize.v);
 		detector.detect(env.mat, env.keyPoints);

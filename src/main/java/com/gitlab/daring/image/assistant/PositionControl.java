@@ -53,7 +53,7 @@ class PositionControl extends BaseComponent {
 		if (template.empty()) return false;
 		MatchResult mr = findMatch(mat);
 		assistant.statusField.setText("Совпадение: " + mr.value); //TODO refactor
-		double mv = Double.min(minValue.v * 0.01, templateLimit);
+		double mv = Double.min(minValue.pv(), templateLimit);
 		return mr.value > mv && pos.contains(mr.point);
 	}
 

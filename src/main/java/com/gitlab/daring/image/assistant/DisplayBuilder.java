@@ -29,8 +29,8 @@ class DisplayBuilder extends BaseComponent {
 		Mat dm = a.displayMat;
 		inputMat.copyTo(dm);
 		if (!a.templateMat.empty()) {
-			addWeightedMat(dm, a.sampleMat, dm, sampleOpacity.v * 0.01);
-			MatExpr dt = multiply(a.templateMat, templateOpacity.v * 0.01);
+			addWeightedMat(dm, a.sampleMat, dm, sampleOpacity.pv());
+			MatExpr dt = multiply(a.templateMat, templateOpacity.pv());
 			max(dm, dt.asMat(), dm);
 		} else {
 			inputMat.copyTo(dm);

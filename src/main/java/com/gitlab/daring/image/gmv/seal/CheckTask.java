@@ -27,7 +27,7 @@ class CheckTask {
 		env = script.env;
 		m1 = loadMat(srv.sampleFile.v, "m1");
 		m2 = loadMat(srv.targetFile.v, "m2");
-		objRect = getCenterRect(toJava(m2.size()), srv.objSize.v * 0.01);
+		objRect = getCenterRect(toJava(m2.size()), srv.objSize.pv());
 	}
 
 	Mat loadMat(String file, String name) {
@@ -43,10 +43,6 @@ class CheckTask {
 		Mat tm2 = transformTarget(tm);
 		Mat dm = new DiffBuilder(this).build(tm2);
 		showMat(dm, "Различия");
-		// debug
-//		showMat(cropMat(m1, objRect), "cm1");
-//		showMat(cropMat(m2, objRect), "cm2");
-//		showMat(cropMat(tm2, objRect), "cm3");
 	}
 
 	Mat transformTarget(Mat tm) {

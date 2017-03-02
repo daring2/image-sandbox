@@ -28,7 +28,7 @@ public class GeometricCommands {
 		EnumParam<InterMethod> method = c.enumParam(InterMethod.class, InterMethod.Linear);
 		Size s0 = new Size();
 		return c.withFunc((m, d) -> {
-			double f = Math.max(sp.v * 0.01, 0.005);
+			double f = Math.max(sp.pv(), 0.005);
 			resize(m, d, s0, f, f, method.vi());
 		});
 	}
@@ -43,7 +43,7 @@ public class GeometricCommands {
 	public Command cropCenterCommand(String... ps) {
 		SimpleCommand c = new SimpleCommand(ps);
 		IntParam sp = c.intParam(100, "0-100");
-		return c.withSetFunc(m -> m.apply(getCenterRect(m.size(), sp.v * 0.01)));
+		return c.withSetFunc(m -> m.apply(getCenterRect(m.size(), sp.pv())));
 	}
 
 	enum InterMethod { Nearest, Linear, Cubic, Area, Lanczos4 }
