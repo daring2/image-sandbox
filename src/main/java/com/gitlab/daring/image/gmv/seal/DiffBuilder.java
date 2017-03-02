@@ -42,6 +42,7 @@ class DiffBuilder {
 
 	Mat runPreDiff(Mat m, Rectangle r, String name) {
 		env.vars.put("name", name);
+		env.vars.put("rect", r);
 		return script.runTask("preDiff", cropMat(m, r));
 	}
 

@@ -19,6 +19,7 @@ public class GeometricCommands {
 		r.register("scale", f::scaleCommand);
 		r.register("cropRect", f::cropRectCommand);
 		r.register("cropCenter", f::cropCenterCommand);
+		r.register("cropRectVar", CropRectVarCommand::new);
 	}
 
 	public Command scaleCommand(String... ps) {

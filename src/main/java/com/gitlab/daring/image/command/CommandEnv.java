@@ -29,7 +29,9 @@ public class CommandEnv {
 	}
 
 	public void putMat(String key, Mat m) {
-		mats.put(eval(key), m.clone());
+		String k = eval(key);
+		Mat mc = m.clone();
+		if (k.isEmpty()) mat = mc; else mats.put(k, mc);
 	}
 
 	public String eval(String exp) {
