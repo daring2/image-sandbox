@@ -21,7 +21,7 @@ public class StructureCommands {
 		r.register("drawContours", DrawContoursCommand::new);
 		r.register("showContours", ShowContoursCommand::new);
 		r.register("watershedCenter", WatershedCenterCommand::new);
-		r.register("watershedMask", WatershedMaskCommand::new);
+		r.register("watershedMarker", WatershedMarkerCommand::new);
 		r.register("pyrMeanShiftFilter", PyrMeanShiftFilterCommand::new);
 		r.register("grubCutCenter", GrubCutCenterCommand::new);
 		r.register("houghCircles", HoughCirclesCommand::new);
