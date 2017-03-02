@@ -34,9 +34,9 @@ class DiffBuilder {
 	Mat build(Mat m2) {
 		wo = task.srv.winOffset.v;
 		Rectangle r = new Rectangle(task.objRect);
-		dm1 = runPreDiff(task.m1, r, "m1");
+		dm1 = runPreDiff(task.m1, r, "dm1");
 		r.translate(-wo / 2, -wo / 2);
-		dm2 = runPreDiff(m2, r, "m2");
+		dm2 = runPreDiff(m2, r, "dm2");
 		return runBuildDiff();
 	}
 
