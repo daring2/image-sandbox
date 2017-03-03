@@ -25,16 +25,12 @@ public class CommonUtils {
 		}
 	}
 
-	public static void runQuietly(VoidCallable call) {
+	public static void closeQuietly(AutoCloseable c) {
 		try {
-			call.call();
+			if (c != null) c.close();
 		} catch (Exception e) {
 			// ignore
 		}
-	}
-
-	public static void closeQuietly(AutoCloseable c) {
-		if (c != null) runQuietly(c::close);
 	}
 
 	private CommonUtils() {
