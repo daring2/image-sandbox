@@ -4,7 +4,7 @@ import static java.lang.Integer.parseInt;
 
 public class FileParam extends StringParam {
 
-	public int maxCount;
+	public int maxCount = 1;
 
 	public FileParam(String sv) {
 		super(sv);

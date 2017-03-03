@@ -3,8 +3,8 @@ package com.gitlab.daring.image.gmv.seal;
 import com.gitlab.daring.image.command.CommandScript;
 import com.gitlab.daring.image.command.parameter.CommandParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
+import com.gitlab.daring.image.command.parameter.FileParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
-import com.gitlab.daring.image.command.parameter.StringParam;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.template.TemplateMatcher;
 import com.typesafe.config.Config;
@@ -18,8 +18,8 @@ import static java.util.Arrays.asList;
 class SealCheckService extends BaseComponent {
 
 	final Config c = config;
-	final StringParam sampleFile = newStringParam("sampleFile", "Образец");
-	final StringParam targetFile = newStringParam("targetFile", "Снимок");
+	final FileParam sampleFile = newFileParam("sampleFile", "Образец");
+	final FileParam targetFile = newFileParam("targetFile", "Снимок");
 	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(c, "objSize");
 	final EnumParam<FindMethod> findMethod = new EnumParam<>(FindMethod.class, "simple:Метод").bind(c, "findMethod");
 	final boolean fullAffine = c.getBoolean("fullAffine");
@@ -33,8 +33,8 @@ class SealCheckService extends BaseComponent {
 		super(c);
 	}
 
-	private StringParam newStringParam(String path, String name) {
-		return new StringParam(":" + name).bind(c, path);
+	private FileParam newFileParam(String path, String name) {
+		return new FileParam(":" + name).bind(c, path);
 	}
 
 	List<CommandParam<?>> getParams() {
