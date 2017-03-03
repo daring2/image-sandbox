@@ -7,7 +7,7 @@ import static com.gitlab.daring.image.MainContext.mainContext;
 
 public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
-	static final String ConfigPath = "gmv.ImageSandbox";
+	static final String ConfigPath = "isb.ImageSandbox";
 
 	final MainPanel mp = new MainPanel(this);
 	final ScriptExecutor scriptExecutor = new ScriptExecutor(this);

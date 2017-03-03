@@ -32,7 +32,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 	final Cache<String, Command> cache = buildClosableCache(config.getString("cache"));
 
 	public CommandRegistry() {
-		super("gmv.CommandRegistry");
+		super("isb.CommandRegistry");
 		EnvCommands.register(this);
 		TransformCommands.register(this);
 		CombineCommands.register(this);

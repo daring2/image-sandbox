@@ -8,7 +8,7 @@ import static com.gitlab.daring.image.MainContext.mainContext;
 
 public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
 
-	static final String ConfigPath = "gmv.SealCheckSandbox";
+	static final String ConfigPath = "isb.SealCheckSandbox";
 
 	final SealCheckService service = new SealCheckService(config);
 	final MainPanel sp = new MainPanel(this);

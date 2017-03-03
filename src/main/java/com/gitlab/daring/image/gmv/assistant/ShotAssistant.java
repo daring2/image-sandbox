@@ -16,7 +16,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 class ShotAssistant extends BaseVideoProcessor {
 
-	static final String ConfigPath = "gmv.ShotAssistant";
+	static final String ConfigPath = "isb.ShotAssistant";
 
 	final boolean flipInput = config.getBoolean("flipInput");
 
