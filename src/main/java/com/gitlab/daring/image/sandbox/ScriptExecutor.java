@@ -6,7 +6,6 @@ import com.gitlab.daring.image.concurrent.TaskExecutor;
 
 import java.util.List;
 
-import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
 import static one.util.streamex.IntStreamEx.range;
@@ -45,7 +44,7 @@ class ScriptExecutor implements AutoCloseable {
 		env.vars.put("i", i);
 		env.vars.put("file", file);
 		env.setTask("");
-		runCommand(env, "read", file);
+		script.runCommand("read", file);
 		script.execute();
 		env.putMat("$i", env.mat);
 	}

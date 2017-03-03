@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.sandbox;
 
 import com.gitlab.daring.image.command.CommandScriptPanel;
+import com.gitlab.daring.image.command.parameter.FileParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
 
 class MainPanel extends CommandScriptPanel {
@@ -15,7 +16,8 @@ class MainPanel extends CommandScriptPanel {
 	}
 
 	StringParam createFilesParam() {
-		return addStaticParam(new StringParam(":Файлы").bind(sb.config, "files"));
+		FileParam p = new FileParam(":Файлы:0").bind(sb.config, "files");
+		return addStaticParam(p);
 	}
 
 }

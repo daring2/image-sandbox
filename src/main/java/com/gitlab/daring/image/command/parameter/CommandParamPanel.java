@@ -38,6 +38,8 @@ public class CommandParamPanel extends JPanel {
 			addEnumParam((EnumParam<?>) p);
 		} else if (p instanceof BooleanParam) {
 			addBooleanParam((BooleanParam) p);
+		} else if (p instanceof FileParam) {
+			addFileParam((FileParam) p);
 		} else if (p instanceof StringParam) {
 			addStringParam((StringParam) p);
 		}
@@ -66,6 +68,13 @@ public class CommandParamPanel extends JPanel {
 		JCheckBox b = new JCheckBox("", p.v);
 		b.addItemListener(e -> p.setValue(b.isSelected()));
 		addComponent(p.name, b, "");
+	}
+
+	void addFileParam(FileParam p) {
+		JTextField f = newValueField(p, true);
+		ParamFileChooser fc = new ParamFileChooser(p, f);
+		addComponent(p.name, f, "split 2");
+		add(fc.openButton, "growx 0");
 	}
 
 	void addStringParam(StringParam p) {
