@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.assistant;
+package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;

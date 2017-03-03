@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.assistant;
+package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandEnv;

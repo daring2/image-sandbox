@@ -1,4 +1,4 @@
-package com.gitlab.daring.image.assistant;
+package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.common.BaseComponent;
