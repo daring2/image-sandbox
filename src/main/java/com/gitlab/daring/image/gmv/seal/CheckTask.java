@@ -18,7 +18,7 @@ class CheckTask {
 	final SealCheckService srv;
 	final CommandScript script;
 	final CommandEnv env;
-	final Mat m1, m2;
+	final Mat m1, m2, marker;
 	final Rectangle objRect;
 
 	CheckTask(SealCheckService srv) {
@@ -27,6 +27,7 @@ class CheckTask {
 		env = script.env;
 		m1 = loadMat(srv.sampleFile.v, "m1");
 		m2 = loadMat(srv.targetFile.v, "m2");
+		marker = loadMarkerMat(srv.markerFile.v);
 		objRect = getCenterRect(toJava(m2.size()), srv.objSize.pv());
 	}
 
@@ -36,6 +37,13 @@ class CheckTask {
 		Mat m = script.runTask("load", env.mat);
 		env.putMat(name, m);
 		return m;
+	}
+
+	Mat loadMarkerMat(String file) {
+		env.vars.put("file", file);
+		env.mat = new Mat();
+		if (!file.isEmpty()) script.runTask("loadMarker");
+		return env.mat;
 	}
 
 	void run() {

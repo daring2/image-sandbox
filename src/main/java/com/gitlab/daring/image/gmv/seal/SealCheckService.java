@@ -20,6 +20,7 @@ class SealCheckService extends BaseComponent {
 	final Config c = config;
 	final FileParam sampleFile = newFileParam("sampleFile", "Образец");
 	final FileParam targetFile = newFileParam("targetFile", "Снимок");
+	final FileParam markerFile = newFileParam("markerFile", "Маркер");
 	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(c, "objSize");
 	final EnumParam<FindMethod> findMethod = new EnumParam<>(FindMethod.class, "simple:Метод").bind(c, "findMethod");
 	final boolean fullAffine = c.getBoolean("fullAffine");
@@ -38,7 +39,7 @@ class SealCheckService extends BaseComponent {
 	}
 
 	List<CommandParam<?>> getParams() {
-		return asList(sampleFile, targetFile, objSize, findMethod, winOffset);
+		return asList(sampleFile, targetFile, markerFile, objSize, findMethod, winOffset);
 	}
 
 	public void setScript(CommandScript script) {
