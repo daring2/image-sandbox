@@ -49,10 +49,8 @@ public class CommandParamPanel extends JPanel {
 		sl.setMajorTickSpacing(range > 15 ? range / 10 : 1);
 		sl.setPaintLabels(true);
 		sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
-		JTextField f = new JTextField("" + p.v,5);
-		f.setEditable(false);
-		p.changeEvent.onFire(() -> f.setText("" + p.v));
-		add(new JLabel(p.name)); add(f, "split 2, growx 0"); add(sl);
+		JTextField f = newValueField(p);
+		addComponent(p.name, f, "split 2, growx 0"); add(sl);
 	}
 
 	<T extends Enum<T>> void addEnumParam(EnumParam<T> p) {
@@ -60,25 +58,32 @@ public class CommandParamPanel extends JPanel {
 		JComboBox<T> cb = new JComboBox<T>(vs);
 		cb.setSelectedItem(p.v);
 		cb.addActionListener(e -> p.setValue(vs[cb.getSelectedIndex()]));
-		addComponent(p.name, cb);
+		addComponent(p.name, cb, "");
 	}
 
 	void addBooleanParam(BooleanParam p){
 		JCheckBox b = new JCheckBox("", p.v);
 		b.addItemListener(e -> p.setValue(b.isSelected()));
-		addComponent(p.name, b);
+		addComponent(p.name, b, "");
 	}
 
 	void addStringParam(StringParam p) {
 		JTextField f = new JTextField(p.v);
 		f.addActionListener(e -> p.setValue(f.getText()));
 		applyEvent.onFire(() -> p.v = f.getText());
-		addComponent(p.name, f);
+		addComponent(p.name, f, "");
 	}
 
-	void addComponent(String label, JComponent comp) {
+	JTextField newValueField(CommandParam<?> p) {
+		JTextField f = new JTextField("" + p.v, 5);
+		f.setEditable(false);
+		p.changeEvent.onFire(() -> f.setText("" + p.v));
+		return f;
+	}
+
+	void addComponent(String label, JComponent comp, String spec) {
 		add(new JLabel(label));
-		add(comp);
+		add(comp, spec);
 	}
 
 }
