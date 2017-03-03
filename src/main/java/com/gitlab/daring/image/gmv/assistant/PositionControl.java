@@ -19,21 +19,25 @@ import static com.gitlab.daring.image.util.ImageUtils.rotateMat;
 class PositionControl extends BaseComponent {
 
 	final ShotAssistant assistant;
-	final double rectSize = config.getDouble("rectSize");
+	final IntParam rectSize = new IntParam("0:Размер объекта:0-100").bind(config, "rectSize");
 	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 	final PositionLimits limits = new PositionLimits(getConfig("limits"));
-	final IntParam minValue = new IntParam("0:Совпадение:0-100");
+	final IntParam minValue = new IntParam("0:Совпадение:0-100").bind(limits.config, "minValue");
 
-	final Rect roi;
-	final Rectangle pos;
 	final Mat template = new Mat();
+	Rect roi;
+	Rectangle pos;
 	double templateLimit;
 
 	PositionControl(ShotAssistant a) {
 		super(a.config.getConfig("position"));
 		assistant = a;
-		minValue.bind(limits.config, "minValue");
-		roi = getCenterRect(a.getSize(), rectSize);
+		rectSize.changeEvent.onFire(this::updateRectSize);
+		updateRectSize();
+	}
+
+	void updateRectSize() {
+		roi = getCenterRect(assistant.getSize(), rectSize.pv());
 		pos = limits.buildPositionRect(roi.x(), roi.y());
 	}
 

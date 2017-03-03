@@ -18,15 +18,9 @@ class ConfigPanel extends CommandScriptPanel {
 		this.tb = a.templateBuilder;
 		this.pc = a.positionControl;
 		this.db = a.displayBuilder;
-		addStaticParams();
+		addStaticParams(pc.rectSize, db.sampleOpacity, db.templateOpacity, pc.minValue);
 		applyEvent.onFire(this::save);
 		setScript(tb.config.getString("script"));
-	}
-
-	void addStaticParams() {
-		addStaticParam(db.sampleOpacity);
-		addStaticParam(db.templateOpacity);
-		addStaticParam(pc.minValue);
 	}
 
 	void save() {

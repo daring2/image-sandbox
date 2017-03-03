@@ -2,14 +2,12 @@ package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.parameter.IntParam;
 import com.gitlab.daring.image.common.BaseComponent;
-import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.MatExpr;
+import org.bytedeco.javacpp.opencv_core.*;
 
 import static com.gitlab.daring.image.util.ImageUtils.addWeightedMat;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.BLUE;
 import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
-import static org.bytedeco.javacpp.opencv_core.max;
-import static org.bytedeco.javacpp.opencv_core.multiply;
+import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 
 class DisplayBuilder extends BaseComponent {
@@ -35,7 +33,8 @@ class DisplayBuilder extends BaseComponent {
 		} else {
 			inputMat.copyTo(dm);
 		}
-		rectangle(dm, a.positionControl.roi, a.checkResult ? GREEN : BLUE);
+		Scalar rc = a.checkResult ? GREEN : BLUE;
+		rectangle(dm, a.positionControl.roi, rc, 2, LINE_8, 0);
 	}
 
 }
