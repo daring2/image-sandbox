@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gitlab.daring.image.util.ImageUtils.convertToGrey;
 import static com.gitlab.daring.image.util.ImageUtils.cropMat;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static one.util.streamex.IntStreamEx.range;
@@ -23,7 +24,7 @@ class DiffBuilder {
 	final CommandEnv env;
 
 	int wo;
-	Mat dm1, dm2;
+	Mat cm2, dm1, dm2;
 
 	public DiffBuilder(CheckTask task) {
 		this.task = task;
@@ -34,6 +35,7 @@ class DiffBuilder {
 	Mat build(Mat m2) {
 		wo = task.srv.winOffset.v;
 		Rectangle r = new Rectangle(task.objRect);
+		cm2 = cropMat(m2, r);
 		dm1 = runPreDiff(task.m1, r, "dm1");
 		r.translate(-wo / 2, -wo / 2);
 		dm2 = runPreDiff(m2, r, "dm2");
@@ -59,7 +61,7 @@ class DiffBuilder {
 		}));
 		Mat rm = new Mat(wr.height, wr.width, dm1.type(), Scalar.WHITE);
 		dms.forEach(m -> min(rm, m, rm));
-		env.putMat("dr", rm);
+		env.putMat("cm2", cropMat(convertToGrey(cm2), wr));
 		return script.runTask("postDiff", rm);
 	}
 

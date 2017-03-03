@@ -38,6 +38,10 @@ public class ImageUtils {
 		frame.showMat(m);
 	}
 
+	public static Mat convertToGrey(Mat m) {
+		return buildMat(r -> cvtColor(m, r, COLOR_BGR2GRAY));
+	}
+
 	public static void flipMat(Mat mat, int code) {
 		flip(mat.clone(), mat, code);
 	}
