@@ -49,7 +49,8 @@ public class CommandParamPanel extends JPanel {
 		sl.setMajorTickSpacing(range > 15 ? range / 10 : 1);
 		sl.setPaintLabels(true);
 		sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
-		JTextField f = newValueField(p);
+		JTextField f = newValueField(p, false);
+		f.setColumns(5);
 		addComponent(p.name, f, "split 2, growx 0"); add(sl);
 	}
 
@@ -68,16 +69,19 @@ public class CommandParamPanel extends JPanel {
 	}
 
 	void addStringParam(StringParam p) {
-		JTextField f = new JTextField(p.v);
-		f.addActionListener(e -> p.setValue(f.getText()));
-		applyEvent.onFire(() -> p.v = f.getText());
+		JTextField f = newValueField(p, true);
 		addComponent(p.name, f, "");
 	}
 
-	JTextField newValueField(CommandParam<?> p) {
-		JTextField f = new JTextField("" + p.v, 5);
-		f.setEditable(false);
-		p.changeEvent.onFire(() -> f.setText("" + p.v));
+	<T> JTextField newValueField(CommandParam<T> p, boolean editable) {
+		JTextField f = new JTextField("" + p.v);
+		if (editable) {
+			f.addActionListener(e -> p.setStringValue(f.getText()));
+			applyEvent.onFire(() -> p.v = p.parseValue(f.getText()));
+		} else {
+			f.setEditable(false);
+			p.changeEvent.onFire(() -> f.setText("" + p.v));
+		}
 		return f;
 	}
 
