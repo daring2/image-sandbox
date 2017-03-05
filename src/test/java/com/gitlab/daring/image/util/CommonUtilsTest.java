@@ -15,7 +15,7 @@ public class CommonUtilsTest {
 		Consumer<Exception> errFunc = e -> errRef[0] = e;
 		Exception e1 = new Exception("e1");
 		tryRun(() -> { throw e1; }, errFunc);
-		assertEquals(null, errRef[0]);
+		assertEquals(e1, errRef[0]);
 	}
 
 }
