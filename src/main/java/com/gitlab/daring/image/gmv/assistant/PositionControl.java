@@ -14,6 +14,7 @@ import java.awt.*;
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.resizeMat;
 import static com.gitlab.daring.image.util.ImageUtils.rotateMat;
+import static java.lang.String.format;
 
 @NotThreadSafe
 class PositionControl extends BaseComponent {
@@ -56,8 +57,9 @@ class PositionControl extends BaseComponent {
 	boolean check(Mat mat) {
 		if (template.empty()) return false;
 		MatchResult mr = findMatch(mat);
-		assistant.statusField.setText("Совпадение: " + mr.value); //TODO refactor
 		double mv = Double.min(minValue.pv(), templateLimit);
+		String statusText = format("Совпадение: %.3f (лимит %.3f)", mr.value, mv);
+		assistant.statusField.setText(statusText); //TODO refactor
 		return mr.value > mv && pos.contains(mr.point);
 	}
 
