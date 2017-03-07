@@ -6,18 +6,19 @@ import com.gitlab.daring.image.command.parameter.StringParam;
 
 class MainPanel extends CommandScriptPanel {
 
-	final ImageSandbox sb;
-	final StringParam filesParam;
+    final ImageSandbox sb;
+    final StringParam filesParam;
 
-	MainPanel(ImageSandbox sb) {
-		this.sb = sb;
-		filesParam = createFilesParam();
-		setScript(sb.config.getString("script"));
-	}
+    MainPanel(ImageSandbox sb) {
+        this.sb = sb;
+        filesParam = createFilesParam();
+        setScript(sb.config.getString("script"));
+    }
 
-	StringParam createFilesParam() {
-		FileParam p = new FileParam(":Файлы:0").bind(sb.config, "files");
-		return addStaticParam(p);
-	}
+    StringParam createFilesParam() {
+        FileParam p = new FileParam(":Файлы:0").bind(sb.config, "files");
+        addStaticParams(p);
+        return p;
+    }
 
 }

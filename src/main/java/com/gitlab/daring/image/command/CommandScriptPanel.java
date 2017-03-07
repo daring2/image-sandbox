@@ -59,11 +59,6 @@ public class CommandScriptPanel extends JPanel {
 		add(new JButton(act), "left, grow 0");
 	}
 
-	public <T extends CommandParam> T addStaticParam(T p) {
-		staticParams.add(p);
-		return p;
-	}
-
 	public void addStaticParams(CommandParam<?>... ps) {
 		staticParams.addAll(asList(ps));
 	}
