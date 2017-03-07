@@ -84,9 +84,8 @@ class ShotAssistant extends BaseVideoProcessor {
     }
 
     void applySample() {
-        Mat m = templateBuilder.build(sampleMat);
-        positionControl.setTemplate(m);
-        cvtColor(m, templateMat, COLOR_GRAY2BGR);
+        positionControl.setSample(sampleMat);
+        cvtColor(positionControl.template, templateMat, COLOR_GRAY2BGR);
     }
 
     Size getSize() {

@@ -19,42 +19,47 @@ import static java.lang.String.format;
 class PositionControl extends BaseComponent {
 
     final ShotAssistant assistant;
-    final IntParam rectSize = new IntParam("0:Размер объекта:0-100").bind(config, "rectSize");
+    final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
     final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
     final PositionLimits limits = new PositionLimits(getConfig("limits"));
     final IntParam minValue = new IntParam("0:Совпадение:0-100").bind(limits.config, "minValue");
 
-    final Mat template = new Mat();
-    Rectangle roi;
+    Mat template;
+    Rectangle objRect;
     Rectangle pos;
     double templateLimit;
 
     PositionControl(ShotAssistant a) {
         super(a.config.getConfig("position"));
         assistant = a;
-        rectSize.onChange(this::updateRectSize);
-        updateRectSize();
+        objSize.onChange(this::updateObjSize);
+        updateObjSize();
     }
 
-    void updateRectSize() {
-        roi = getCenterRect(toJava(assistant.getSize()), rectSize.pv());
-        pos = limits.buildPositionRect(roi.x, roi.y);
+    void updateObjSize() {
+        objRect = getCenterRect(toJava(assistant.getSize()), objSize.pv());
+        pos = limits.buildPositionRect(objRect.x, objRect.y);
     }
 
-    void setTemplate(Mat mat) {
-        cropMat(mat, roi).copyTo(template);
+    void setSample(Mat mat) {
+        template = buildTemplate(mat);
         MatchResult r1 = findMatch(resizeMat(mat, limits.scale));
         MatchResult r2 = findMatch(rotateMat(mat, limits.angle));
         templateLimit = Doubles.min(r1.value, r2.value);
     }
 
+    Mat buildTemplate(Mat mat) {
+        return assistant.templateBuilder.build(mat);
+    }
+
     MatchResult findMatch(Mat mat) {
-        Mat sm = assistant.templateBuilder.build(mat);
-        return matcher.findBest(sm, template);
+        Mat sm = buildTemplate(mat);
+        Mat tm = cropMat(template, objRect);
+        return matcher.findBest(sm, tm);
     }
 
     boolean check(Mat mat) {
-        if (template.empty()) return false;
+        if (template == null) return false;
         MatchResult mr = findMatch(mat);
         double mv = Double.min(minValue.pv(), templateLimit);
         String statusText = format("Совпадение: текущее %.3f, лимит %.3f", mr.value, mv);
