@@ -12,17 +12,17 @@ import static com.gitlab.daring.image.command.CommandUtils.EmptyCommand;
 @NotThreadSafe
 class TemplateBuilder extends BaseComponent {
 
-	Command buildCmd = EmptyCommand;
+    Command buildCmd = EmptyCommand;
 
-	TemplateBuilder(ShotAssistant a) {
-		super(a.config.getConfig("template"));
-	}
+    TemplateBuilder(ShotAssistant a) {
+        super(a.config.getConfig("template"));
+    }
 
-	Mat build(Mat inputMat) {
-		CommandEnv env = new CommandEnv();
-		inputMat.copyTo(env.mat);
-		buildCmd.execute(env);
-		return env.mat;
-	}
+    Mat build(Mat inputMat) {
+        CommandEnv env = new CommandEnv();
+        inputMat.copyTo(env.mat);
+        buildCmd.execute(env);
+        return env.mat;
+    }
 
 }
