@@ -4,16 +4,16 @@ import static java.lang.Integer.parseInt;
 
 public class FileParam extends StringParam {
 
-	public int maxCount = 1;
+    public int maxCount = 1;
 
-	public FileParam(String sv) {
-		super(sv);
-		parseSpec();
-	}
+    public FileParam(String sv) {
+        super(sv);
+        parseSpec();
+    }
 
-	private void parseSpec() {
-		if (spec.isEmpty()) return;
-		maxCount = parseInt(spec);
-	}
+    private void parseSpec() {
+        if (spec.isEmpty()) return;
+        maxCount = parseInt(spec);
+    }
 
 }
