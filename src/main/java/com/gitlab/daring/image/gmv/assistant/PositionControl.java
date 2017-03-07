@@ -19,10 +19,10 @@ import static java.lang.String.format;
 class PositionControl extends BaseComponent {
 
     final ShotAssistant assistant;
-    final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(config, "objSize");
+    final IntParam objSize = new IntParam("0:Размер объекта:0-100");
     final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
     final PositionLimits limits = new PositionLimits(getConfig("limits"));
-    final IntParam minValue = new IntParam("0:Совпадение:0-100").bind(limits.config, "minValue");
+    final IntParam minValue = new IntParam("0:Совпадение:0-100");
 
     Mat template;
     Rectangle objRect;
@@ -32,6 +32,8 @@ class PositionControl extends BaseComponent {
     PositionControl(ShotAssistant a) {
         super(a.config.getConfig("position"));
         assistant = a;
+        objSize.bind(a.config, "position.objSize");
+        objSize.bind(a.config, "position.limits.minValue");
         objSize.onChange(this::updateObjSize);
         updateObjSize();
     }
