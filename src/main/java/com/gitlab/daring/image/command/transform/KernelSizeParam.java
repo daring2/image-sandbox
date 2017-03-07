@@ -13,7 +13,7 @@ class KernelSizeParam {
 
 	KernelSizeParam(BaseCommand cmd) {
 		p = cmd.intParam(1,"0-10");
-		p.changeEvent.onFire(this::update);
+		p.onChange(this::update);
 		update();
 	}
 

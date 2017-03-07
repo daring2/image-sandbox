@@ -46,6 +46,10 @@ public abstract class CommandParam<T> {
         setValue(parseValue(v));
     }
 
+    public void onChange(Runnable l) {
+        changeEvent.onFire(l);
+    }
+
     public <P extends CommandParam<T>> P bind(Config c, String path) {
         configPath = path;
         setStringValue(c.getString(path));

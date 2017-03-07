@@ -33,7 +33,7 @@ class PositionControl extends BaseComponent {
     PositionControl(ShotAssistant a) {
         super(a.config.getConfig("position"));
         assistant = a;
-        rectSize.changeEvent.onFire(this::updateRectSize);
+        rectSize.onChange(this::updateRectSize);
         updateRectSize();
     }
 
