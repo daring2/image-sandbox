@@ -16,72 +16,72 @@ import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
 class ShotAssistant extends BaseVideoProcessor {
 
-	static final String ConfigPath = "isb.ShotAssistant";
+    static final String ConfigPath = "isb.ShotAssistant";
 
-	final boolean flipInput = config.getBoolean("flipInput");
+    final boolean flipInput = config.getBoolean("flipInput");
 
-	final TemplateBuilder templateBuilder = new TemplateBuilder(this);
-	final PositionControl positionControl = new PositionControl(this);
-	final DisplayBuilder displayBuilder = new DisplayBuilder(this);
-	final ConfigPanel configPanel = new ConfigPanel(this);
+    final TemplateBuilder templateBuilder = new TemplateBuilder(this);
+    final PositionControl positionControl = new PositionControl(this);
+    final DisplayBuilder displayBuilder = new DisplayBuilder(this);
+    final ConfigPanel configPanel = new ConfigPanel(this);
 
-	final Mat sampleMat = new Mat();
-	final Mat templateMat = new Mat();
-	final Mat displayMat = new Mat();
+    final Mat sampleMat = new Mat();
+    final Mat templateMat = new Mat();
+    final Mat displayMat = new Mat();
 
-	final JLabel statusField = new JLabel();
-	volatile boolean saveSample;
-	volatile boolean checkResult;
+    final JLabel statusField = new JLabel();
+    volatile boolean saveSample;
+    volatile boolean checkResult;
 
-	public ShotAssistant() {
-		super(ConfigPath);
-		initFrame();
-		configPanel.showFrame();
-	}
+    public ShotAssistant() {
+        super(ConfigPath);
+        initFrame();
+        configPanel.showFrame();
+    }
 
-	private void initFrame() {
-		JPanel p = new JPanel(new BorderLayout());
-		p.add(statusField, CENTER);
-		p.add(newButton("Снимок", () -> saveSample = true), EAST);
-		frame.add(p, SOUTH);
-		frame.validate();
-	}
+    private void initFrame() {
+        JPanel p = new JPanel(new BorderLayout());
+        p.add(statusField, CENTER);
+        p.add(newButton("Снимок", () -> saveSample = true), EAST);
+        frame.add(p, SOUTH);
+        frame.validate();
+    }
 
-	@Override
-	protected void processFrame() {
-		if (flipInput)
-			flipMat(inputMat, 1);
-		if (saveSample) {
-			saveSample();
-			saveSample = false;
-		}
-		checkResult = positionControl.check(inputMat);
-		displayBuilder.build(inputMat);
-		if (writer.isOpened()) writer.write(displayMat);
-		showImage(displayMat);
-	}
+    @Override
+    protected void processFrame() {
+        if (flipInput)
+            flipMat(inputMat, 1);
+        if (saveSample) {
+            saveSample();
+            saveSample = false;
+        }
+        checkResult = positionControl.check(inputMat);
+        displayBuilder.build(inputMat);
+        if (writer.isOpened()) writer.write(displayMat);
+        showImage(displayMat);
+    }
 
-	void saveSample() {
-		inputMat.copyTo(sampleMat);
-		Mat m = templateBuilder.build(sampleMat);
-		positionControl.setTemplate(m);
-		cvtColor(m, templateMat, COLOR_GRAY2BGR);
-	}
+    void saveSample() {
+        inputMat.copyTo(sampleMat);
+        Mat m = templateBuilder.build(sampleMat);
+        positionControl.setTemplate(m);
+        cvtColor(m, templateMat, COLOR_GRAY2BGR);
+    }
 
-	Size getSize() {
-		return size;
-	}
+    Size getSize() {
+        return size;
+    }
 
-	@Override
-	public void close() throws Exception {
-		super.close();
-		mainContext().close();
-	}
+    @Override
+    public void close() throws Exception {
+        super.close();
+        mainContext().close();
+    }
 
-	public static void main(String[] args) throws Exception {
-		try (ShotAssistant app = new ShotAssistant()) {
-			app.start();
-		}
-	}
+    public static void main(String[] args) throws Exception {
+        try (ShotAssistant app = new ShotAssistant()) {
+            app.start();
+        }
+    }
 
 }
