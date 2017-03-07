@@ -47,7 +47,7 @@ class PositionControl extends BaseComponent {
         template = buildTemplate(mat);
         MatchResult r1 = findMatch(resizeMat(mat, limits.scale));
         MatchResult r2 = findMatch(rotateMat(mat, limits.angle));
-        templateLimit = Doubles.min(r1.value, r2.value);
+        templateLimit = Doubles.max(r1.value, r2.value);
     }
 
     Mat buildTemplate(Mat mat) {
@@ -62,7 +62,7 @@ class PositionControl extends BaseComponent {
     boolean check(Mat mat) {
         if (template == null) return false;
         MatchResult mr = findMatch(mat);
-        double mv = Double.min(minValue.pv(), templateLimit);
+        double mv = Double.max(minValue.pv(), templateLimit);
         String statusText = format("Совпадение: текущее %.3f, лимит %.3f", mr.value, mv);
         assistant.statusField.setText(statusText); //TODO refactor
         return mr.value > mv && pos.contains(mr.point);
