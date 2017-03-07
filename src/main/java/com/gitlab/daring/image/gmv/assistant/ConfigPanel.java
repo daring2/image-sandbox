@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.CommandScriptPanel;
+import com.gitlab.daring.image.command.parameter.ParamGroup;
 import com.gitlab.daring.image.swing.BaseFrame;
 
 import javax.swing.*;
@@ -18,9 +19,15 @@ class ConfigPanel extends CommandScriptPanel {
         this.tb = a.templateBuilder;
         this.pc = a.positionControl;
         this.db = a.displayBuilder;
-        addStaticParams(pc.rectSize, db.sampleOpacity, db.templateOpacity, pc.minValue);
+        initStaticParams();
         applyEvent.onFire(this::save);
         setScript(tb.config.getString("script"));
+    }
+
+    void initStaticParams() {
+        addStaticParams(assistant.sampleFile);
+        addStaticParams(new ParamGroup("Отображение"));
+        addStaticParams(pc.rectSize, db.sampleOpacity, db.templateOpacity, pc.minValue);
     }
 
     void save() {
@@ -29,9 +36,9 @@ class ConfigPanel extends CommandScriptPanel {
     }
 
     void showFrame() {
-        JFrame frame = new BaseFrame("Configuration", this);
+        JFrame frame = new BaseFrame("Конфигурация", this);
         Rectangle b = assistant.getFrame().getBounds();
-        frame.setBounds(b.x + b.width, b.y, 640, 400);
+        frame.setBounds(b.x + b.width, b.y, 640, 600);
         frame.setVisible(true);
     }
 

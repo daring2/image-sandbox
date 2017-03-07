@@ -6,24 +6,28 @@ import java.util.function.Consumer;
 
 public class ValueEvent<T> implements Consumer<T> {
 
-	private final List<Consumer<T>> listeners = new CopyOnWriteArrayList<>();
+    private final List<Consumer<T>> listeners = new CopyOnWriteArrayList<>();
 
-	public void addListener(Consumer<T> l) {
-		if (!listeners.contains(l))
-			listeners.add(l);
-	}
+    public void addListener(Consumer<T> l) {
+        if (!listeners.contains(l))
+            listeners.add(l);
+    }
 
-	public void removeListener(Consumer<T> l) {
-		listeners.remove(l);
-	}
+    public void removeListener(Consumer<T> l) {
+        listeners.remove(l);
+    }
 
-	public void fire(T value) {
-		listeners.forEach(c -> c.accept(value));
-	}
+    public void removeListeners() {
+        listeners.clear();
+    }
 
-	@Override
-	public void accept(T v) {
-		fire(v);
-	}
+    public void fire(T value) {
+        listeners.forEach(c -> c.accept(value));
+    }
+
+    @Override
+    public void accept(T v) {
+        fire(v);
+    }
 
 }

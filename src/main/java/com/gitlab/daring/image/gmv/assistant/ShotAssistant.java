@@ -1,16 +1,21 @@
 package com.gitlab.daring.image.gmv.assistant;
 
+import com.gitlab.daring.image.command.parameter.FileParam;
 import com.gitlab.daring.image.video.BaseVideoProcessor;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.io.File;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.swing.SwingUtils.newButton;
 import static com.gitlab.daring.image.util.ImageUtils.flipMat;
 import static java.awt.BorderLayout.*;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
+import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
 import static org.bytedeco.javacpp.opencv_imgproc.COLOR_GRAY2BGR;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
 
@@ -18,6 +23,7 @@ class ShotAssistant extends BaseVideoProcessor {
 
     static final String ConfigPath = "isb.ShotAssistant";
 
+    final FileParam sampleFile = new FileParam(":Образец").bind(config, "sampleFile");
     final boolean flipInput = config.getBoolean("flipInput");
 
     final TemplateBuilder templateBuilder = new TemplateBuilder(this);
@@ -30,11 +36,13 @@ class ShotAssistant extends BaseVideoProcessor {
     final Mat displayMat = new Mat();
 
     final JLabel statusField = new JLabel();
+    volatile boolean loadSample = true;
     volatile boolean saveSample;
     volatile boolean checkResult;
 
     public ShotAssistant() {
         super(ConfigPath);
+        sampleFile.onChange(() -> loadSample = true);
         initFrame();
         configPanel.showFrame();
     }
@@ -49,12 +57,9 @@ class ShotAssistant extends BaseVideoProcessor {
 
     @Override
     protected void processFrame() {
-        if (flipInput)
-            flipMat(inputMat, 1);
-        if (saveSample) {
-            saveSample();
-            saveSample = false;
-        }
+        if (flipInput) flipMat(inputMat, 1);
+        if (loadSample) loadSample();
+        if (saveSample) saveSample();
         checkResult = positionControl.check(inputMat);
         displayBuilder.build(inputMat);
         if (writer.isOpened()) writer.write(displayMat);
@@ -62,7 +67,23 @@ class ShotAssistant extends BaseVideoProcessor {
     }
 
     void saveSample() {
+        saveSample = false;
         inputMat.copyTo(sampleMat);
+        String file = sampleFile.v;
+        if (isNotBlank(file)) imwrite(file, sampleMat);
+        applySample();
+    }
+
+    void loadSample() {
+        loadSample = false;
+        String file = sampleFile.v;
+        if (new File(file).exists()) {
+            imread(file).copyTo(sampleMat);
+            applySample();
+        }
+    }
+
+    void applySample() {
         Mat m = templateBuilder.build(sampleMat);
         positionControl.setTemplate(m);
         cvtColor(m, templateMat, COLOR_GRAY2BGR);
