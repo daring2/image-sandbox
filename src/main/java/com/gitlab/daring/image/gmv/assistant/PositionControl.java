@@ -33,7 +33,7 @@ class PositionControl extends BaseComponent {
         super(a.config.getConfig("position"));
         assistant = a;
         objSize.bind(a.config, "position.objSize");
-        objSize.bind(a.config, "position.limits.minValue");
+        minValue.bind(a.config, "position.limits.minValue");
         objSize.onChange(this::updateObjSize);
         updateObjSize();
     }
@@ -56,8 +56,7 @@ class PositionControl extends BaseComponent {
 
     MatchResult findMatch(Mat mat) {
         Mat sm = buildTemplate(mat);
-        Mat tm = cropMat(template, objRect);
-        return matcher.findBest(sm, tm);
+        return matcher.findBest(sm, cropMat(template, objRect));
     }
 
     boolean check(Mat mat) {
