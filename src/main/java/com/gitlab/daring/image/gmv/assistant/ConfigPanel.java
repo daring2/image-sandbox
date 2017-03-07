@@ -27,7 +27,7 @@ class ConfigPanel extends CommandScriptPanel {
     void initStaticParams() {
         addStaticParams(assistant.sampleFile);
         addStaticParams(new ParamGroup("Отображение"));
-        addStaticParams(pc.objSize, db.sampleOpacity, db.templateOpacity, pc.minValue);
+        addStaticParams(pc.objSize, db.sampleOpacity, db.templateOpacity, pc.matchLimit);
     }
 
     void save() {

@@ -5,6 +5,7 @@ import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.template.MatchResult;
 import com.gitlab.daring.image.template.TemplateMatcher;
 import com.google.common.primitives.Doubles;
+import com.typesafe.config.Config;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
 import javax.annotation.concurrent.NotThreadSafe;
@@ -19,23 +20,28 @@ import static java.lang.String.format;
 class PositionControl extends BaseComponent {
 
     final ShotAssistant assistant;
-    final IntParam objSize = new IntParam("0:Размер объекта:0-100");
-    final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
-    final PositionLimits limits = new PositionLimits(getConfig("limits"));
-    final IntParam minValue = new IntParam("0:Совпадение:0-100");
+    final Config pc = config.getConfig("position");
+    final IntParam objSize = intParam("0:Размер объекта:0-100", "objSize");
+    final TemplateMatcher matcher = new TemplateMatcher(pc.getConfig("matcher"));
+    final PositionLimits limits = new PositionLimits(pc.getConfig("limits"));
+    final IntParam matchLimit = intParam("0:Совпадение:0-100", "limits.match");
+    final int minMatch = pc.getInt("minMatch");
 
     Mat template;
     Rectangle objRect;
     Rectangle pos;
     double templateLimit;
+    long matchCount;
 
     PositionControl(ShotAssistant a) {
-        super(a.config.getConfig("position"));
+        super(a.config);
         assistant = a;
-        objSize.bind(a.config, "position.objSize");
-        minValue.bind(a.config, "position.limits.minValue");
         objSize.onChange(this::updateObjSize);
         updateObjSize();
+    }
+
+    IntParam intParam(String sv, String path) {
+        return new IntParam(sv).bind(config, "position." + path);
     }
 
     void updateObjSize() {
@@ -62,10 +68,12 @@ class PositionControl extends BaseComponent {
     boolean check(Mat mat) {
         if (template == null) return false;
         MatchResult mr = findMatch(mat);
-        double mv = Double.max(minValue.pv(), templateLimit);
+        double mv = Double.max(matchLimit.pv(), templateLimit);
         String statusText = format("Совпадение: текущее %.3f, лимит %.3f", mr.value, mv);
         assistant.statusField.setText(statusText); //TODO refactor
-        return mr.value > mv && pos.contains(mr.point);
+        boolean r = mr.value > mv && pos.contains(mr.point);
+        matchCount = r ? matchCount + 1 : 0;
+        return matchCount >= minMatch;
     }
 
 }
