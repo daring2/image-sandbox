@@ -1,7 +1,6 @@
 package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.parameter.IntParam;
-import com.gitlab.daring.image.common.BaseComponent;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatExpr;
 import org.bytedeco.javacpp.opencv_core.Scalar;
@@ -13,17 +12,16 @@ import static org.bytedeco.javacpp.helper.opencv_core.AbstractScalar.GREEN;
 import static org.bytedeco.javacpp.opencv_core.max;
 import static org.bytedeco.javacpp.opencv_core.multiply;
 
-class DisplayBuilder extends BaseComponent {
+class DisplayBuilder {
 
     final ShotAssistant a;
     final IntParam sampleOpacity = new IntParam("0:Образец:0-100");
     final IntParam templateOpacity = new IntParam("0:Контур:0-100");
 
     DisplayBuilder(ShotAssistant a) {
-        super(a.config.getConfig("display"));
         this.a = a;
-        sampleOpacity.bind(config, "sampleOpacity");
-        templateOpacity.bind(config, "templateOpacity");
+        sampleOpacity.bind(a.config, "display.sampleOpacity");
+        templateOpacity.bind(a.config, "display.templateOpacity");
     }
 
     void build(Mat inputMat) {
