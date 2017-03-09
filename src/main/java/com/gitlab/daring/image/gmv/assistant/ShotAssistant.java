@@ -2,17 +2,17 @@ package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.parameter.FileParam;
 import com.gitlab.daring.image.video.BaseVideoProcessor;
+import net.miginfocom.swing.MigLayout;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
 import java.io.File;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 import static com.gitlab.daring.image.swing.SwingUtils.newButton;
 import static com.gitlab.daring.image.util.ImageUtils.flipMat;
-import static java.awt.BorderLayout.*;
+import static java.awt.BorderLayout.SOUTH;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
@@ -36,9 +36,8 @@ class ShotAssistant extends BaseVideoProcessor {
     final Mat displayMat = new Mat();
 
     final JLabel statusField = new JLabel();
-    volatile boolean loadSample = true;
-    volatile boolean saveSample;
-    volatile boolean checkResult;
+    volatile boolean loadSample = true, saveSample, saveShot;
+    boolean checkResult;
 
     public ShotAssistant() {
         super(ConfigPath);
@@ -48,9 +47,10 @@ class ShotAssistant extends BaseVideoProcessor {
     }
 
     private void initFrame() {
-        JPanel p = new JPanel(new BorderLayout());
-        p.add(statusField, CENTER);
-        p.add(newButton("Снимок", () -> saveSample = true), EAST);
+        JPanel p = new JPanel(new MigLayout("fillx"));
+        p.add(statusField, "growx, w 2000");
+        p.add(newButton("Образец", () -> saveSample = true));
+        p.add(newButton("Снимок", () -> saveShot = true));
         frame.add(p, SOUTH);
         frame.validate();
     }
