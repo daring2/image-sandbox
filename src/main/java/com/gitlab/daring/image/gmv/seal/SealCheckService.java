@@ -30,7 +30,7 @@ class SealCheckService extends BaseComponent {
 
     CommandScript script;
 
-    public SealCheckService(Config c) {
+    SealCheckService(Config c) {
         super(c);
     }
 
@@ -42,11 +42,11 @@ class SealCheckService extends BaseComponent {
         return asList(sampleFile, targetFile, markerFile, objSize, findMethod, winOffset);
     }
 
-    public void setScript(CommandScript script) {
+    void setScript(CommandScript script) {
         this.script = script;
     }
 
-    public void check() {
+    void check() {
         new CheckTask(this).run();
     }
 
