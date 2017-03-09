@@ -36,7 +36,8 @@ class DiffBuilder {
 		wo = task.srv.winOffset.v;
 		Rectangle r = new Rectangle(task.objRect);
 		cm2 = cropMat(m2, r);
-		env.putMat("marker", cropMat(task.marker, r));
+		if (!task.marker.empty()) 
+			env.putMat("marker", cropMat(task.marker, r));
 		dm1 = runPreDiff(task.m1, r, "dm1");
 		r.translate(-wo / 2, -wo / 2);
 		dm2 = runPreDiff(m2, r, "dm2");

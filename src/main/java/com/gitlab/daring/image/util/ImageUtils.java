@@ -39,6 +39,7 @@ public class ImageUtils {
 	}
 
 	public static Mat convertToGrey(Mat m) {
+		if (m.channels() == 1) return m;
 		return buildMat(r -> cvtColor(m, r, COLOR_BGR2GRAY));
 	}
 
