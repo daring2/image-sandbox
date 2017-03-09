@@ -73,6 +73,10 @@ public abstract class BaseVideoProcessor extends BaseComponent implements AutoCl
         return frame;
     }
 
+    public Mat getInputMat() {
+        return inputMat;
+    }
+
     protected void showImage(Mat m) {
         runInEdt(() -> frame.showImage(matConverter.convert(m)));
     }
