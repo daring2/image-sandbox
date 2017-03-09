@@ -22,79 +22,79 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class CommandScriptPanel extends JPanel {
 
-	protected Logger logger = getLogger(getClass());
+    protected Logger logger = getLogger(getClass());
 
-	public final VoidEvent applyEvent = new VoidEvent();
-	public final VoidEvent changeEvent = new VoidEvent();
-	public final CommandScript script = new CommandScript();
-	public final List<CommandParam<?>> staticParams = new ArrayList<>();
+    public final VoidEvent applyEvent = new VoidEvent();
+    public final VoidEvent changeEvent = new VoidEvent();
+    public final CommandScript script = new CommandScript();
+    public final List<CommandParam<?>> staticParams = new ArrayList<>();
 
-	final JTextArea scriptField;
-	final CommandParamPanel staticParamPanel = new CommandParamPanel();
-	final CommandParamPanel paramPanel = new CommandParamPanel();
-	final Consumer<Void> changeListener = e -> changeEvent.fire();
+    final JTextArea scriptField;
+    final CommandParamPanel staticParamPanel = new CommandParamPanel();
+    final CommandParamPanel paramPanel = new CommandParamPanel();
+    final Consumer<Void> changeListener = e -> changeEvent.fire();
 
-	public CommandScriptPanel() {
-		setLayout(new MigLayout("fill, wrap 1", "[fill]", "[center]"));
-		add(staticParamPanel);
-		add(new JSeparator());
-		scriptField = createScriptField();
-		createButtons();
-		add(new JSeparator());
-		add(paramPanel);
-		applyEvent.onFire(this::apply);
-		script.errorEvent.addListener(this::onError);
-	}
+    public CommandScriptPanel() {
+        setLayout(new MigLayout("fill, wrap 1", "[fill]", "[center]"));
+        add(staticParamPanel);
+        add(new JSeparator());
+        scriptField = createScriptField();
+        createButtons();
+        add(new JSeparator());
+        add(paramPanel);
+        applyEvent.onFire(this::apply);
+        script.errorEvent.addListener(this::onError);
+    }
 
-	JTextArea createScriptField() {
-		JTextArea field = new JTextArea("", 5, 20);
-		add(new JLabel("Скрипт"), "left");
-		add(new JScrollPane(field), "h 1000");
-		return field;
-	}
+    JTextArea createScriptField() {
+        JTextArea field = new JTextArea("", 5, 20);
+        add(new JLabel("Скрипт"), "left");
+        add(new JScrollPane(field), "h 1000");
+        return field;
+    }
 
-	void createButtons() {
-		BaseAction act = new BaseAction("Применить", e -> applyEvent.fire() );
-		act.register(this, "control S");
-		add(new JButton(act), "left, grow 0");
-	}
+    void createButtons() {
+        BaseAction act = new BaseAction("Применить", e -> applyEvent.fire());
+        act.register(this, "control S");
+        add(new JButton(act), "left, grow 0");
+    }
 
-	public void addStaticParams(CommandParam<?>... ps) {
-		staticParams.addAll(asList(ps));
-	}
+    public void addStaticParams(CommandParam<?>... ps) {
+        staticParams.addAll(asList(ps));
+    }
 
-	public void setScript(String script) {
-		scriptField.setText(script);
-		applyEvent.fire();
-	}
+    public void setScript(String script) {
+        scriptField.setText(script);
+        applyEvent.fire();
+    }
 
-	public void apply() {
-		script.setText(scriptField.getText());
-		apply(staticParamPanel, staticParams);
-		apply(paramPanel, script.command.getParams());
-	}
+    public void apply() {
+        script.setText(scriptField.getText());
+        apply(staticParamPanel, staticParams);
+        apply(paramPanel, script.command.getParams());
+    }
 
-	public void apply(CommandParamPanel p, List<CommandParam<?>> ps) {
-		p.applyEvent.fire();
-		p.setParams(ps);
-		p.addParamChangeListener(changeListener);
-	}
+    public void apply(CommandParamPanel p, List<CommandParam<?>> ps) {
+        p.applyEvent.fire();
+        p.setParams(ps);
+        p.addParamChangeListener(changeListener);
+    }
 
-	void onError(Exception e) {
-		logger.error("Script error", e);
-		showErrorDialog(this, "Ошибка выполнения:\n" + e);
-	}
+    void onError(Exception e) {
+        logger.error("Script error", e);
+        showErrorDialog(this, "Ошибка выполнения:\n" + e);
+    }
 
-	protected Map<String, Object> buildConfigMap() {
-		Map<String, Object> m = buildParamConfig(staticParams);
-		m.put("script", script.getText());
-		return m;
-	}
+    protected Map<String, Object> buildConfigMap() {
+        Map<String, Object> m = buildParamConfig(staticParams);
+        m.put("script", script.getText());
+        return m;
+    }
 
-	public void saveConfig(String path) {
-		Map<String, Object> m = buildConfigMap();
-		Config c = configFromMap(m).atPath(path);
-		saveDiffConfig(c, AppConfigFile);
-	}
+    public void saveConfig(String path) {
+        Map<String, Object> m = buildConfigMap();
+        Config c = configFromMap(m).atPath(path);
+        saveDiffConfig(c, AppConfigFile);
+    }
 
 }

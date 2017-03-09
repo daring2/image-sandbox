@@ -24,59 +24,59 @@ import static java.util.Collections.emptyList;
 
 public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
-	//TODO move to main context
-	public static final CommandRegistry Instance = new CommandRegistry();
+    //TODO move to main context
+    public static final CommandRegistry Instance = new CommandRegistry();
 
-	final Config cmdConfig = getConfig("commands");
-	final Map<String, Command.Factory> factories = new HashMap<>();
-	final Cache<String, Command> cache = buildClosableCache(config.getString("cache"));
+    final Config cmdConfig = getConfig("commands");
+    final Map<String, Command.Factory> factories = new HashMap<>();
+    final Cache<String, Command> cache = buildClosableCache(config.getString("cache"));
 
-	public CommandRegistry() {
-		super("isb.CommandRegistry");
-		EnvCommands.register(this);
-		TransformCommands.register(this);
-		CombineCommands.register(this);
-		DrawCommands.register(this);
-		StructureCommands.register(this);
-		FeaturesCommands.register(this);
-		mainContext().closeEvent.onFire(this::close);
-	}
+    public CommandRegistry() {
+        super("isb.CommandRegistry");
+        EnvCommands.register(this);
+        TransformCommands.register(this);
+        CombineCommands.register(this);
+        DrawCommands.register(this);
+        StructureCommands.register(this);
+        FeaturesCommands.register(this);
+        mainContext().closeEvent.onFire(this::close);
+    }
 
-	public void register(String name, Command.Factory f) {
-		factories.put(name, f);
-	}
+    public void register(String name, Command.Factory f) {
+        factories.put(name, f);
+    }
 
-	public ScriptCommand parseScript(String script) {
-		List<Command> cmds = splitScript(script).map(this::getCommand).toList();
-		return new ScriptCommand(script, cmds);
-	}
+    public ScriptCommand parseScript(String script) {
+        List<Command> cmds = splitScript(script).map(this::getCommand).toList();
+        return new ScriptCommand(script, cmds);
+    }
 
-	private Command getCommand(String cmdStr) {
-		Command cmd = cache.getIfPresent(cmdStr);
-		if (cmd == null) {
-			cmd = parseCommand(cmdStr);
-			if (cmd.isCacheable()) cache.put(cmdStr, cmd);
-		}
-		return cmd;
-	}
+    private Command getCommand(String cmdStr) {
+        Command cmd = cache.getIfPresent(cmdStr);
+        if (cmd == null) {
+            cmd = parseCommand(cmdStr);
+            if (cmd.isCacheable()) cache.put(cmdStr, cmd);
+        }
+        return cmd;
+    }
 
-	private Command parseCommand(String cmdStr) {
-		List<String> ss = splitAndTrim(cmdStr, "()").toList();
-		String name = ss.get(0);
-		String[] args = parseArgs(ss.size() > 1 ? ss.get(1) : "", getDefArgs(name));
-		Command.Factory cf = factories.get(name);
-		if (cf == null) throwArgumentException("Invalid command " + cmdStr);
-		return cf.create(args);
-	}
+    private Command parseCommand(String cmdStr) {
+        List<String> ss = splitAndTrim(cmdStr, "()").toList();
+        String name = ss.get(0);
+        String[] args = parseArgs(ss.size() > 1 ? ss.get(1) : "", getDefArgs(name));
+        Command.Factory cf = factories.get(name);
+        if (cf == null) throwArgumentException("Invalid command " + cmdStr);
+        return cf.create(args);
+    }
 
-	private List<String> getDefArgs(String name) {
-		return cmdConfig.hasPath(name) ? cmdConfig.getStringList(name) : emptyList();
-	}
+    private List<String> getDefArgs(String name) {
+        return cmdConfig.hasPath(name) ? cmdConfig.getStringList(name) : emptyList();
+    }
 
-	@Override
-	public void close() {
-		cache.invalidateAll();
-		cache.cleanUp();
-	}
+    @Override
+    public void close() {
+        cache.invalidateAll();
+        cache.cleanUp();
+    }
 
 }

@@ -10,33 +10,33 @@ import java.util.Map;
 
 public class CommandEnv {
 
-	public String task = "";
-	public String curTask = "";
+    public String task = "";
+    public String curTask = "";
 
-	public Mat mat = new Mat();
-	public Map<String, Mat> mats = new HashMap<>();
-	public Map<String, Object> vars = new HashMap<>();
-	public KeyPointVector keyPoints = new KeyPointVector();
-	public List<Contour> contours;
+    public Mat mat = new Mat();
+    public Map<String, Mat> mats = new HashMap<>();
+    public Map<String, Object> vars = new HashMap<>();
+    public KeyPointVector keyPoints = new KeyPointVector();
+    public List<Contour> contours;
 
-	public void setTask(String task) {
-		this.task = task; curTask = "";
-	}
+    public void setTask(String task) {
+        this.task = task; curTask = "";
+    }
 
-	public Mat getMat(String key) {
-		String k = eval(key);
-		return k.isEmpty() ? mat : mats.get(k).clone();
-	}
+    public Mat getMat(String key) {
+        String k = eval(key);
+        return k.isEmpty() ? mat : mats.get(k).clone();
+    }
 
-	public void putMat(String key, Mat m) {
-		String k = eval(key);
-		Mat mc = m.clone();
-		if (k.isEmpty()) mat = mc; else mats.put(k, mc);
-	}
+    public void putMat(String key, Mat m) {
+        String k = eval(key);
+        Mat mc = m.clone();
+        if (k.isEmpty()) mat = mc; else mats.put(k, mc);
+    }
 
-	public String eval(String exp) {
-		String vn = exp.startsWith("$") ? exp.substring(1) : "";
-		return vn.isEmpty() ? exp: "" + vars.get(vn);
-	}
+    public String eval(String exp) {
+        String vn = exp.startsWith("$") ? exp.substring(1) : "";
+        return vn.isEmpty() ? exp : "" + vars.get(vn);
+    }
 
 }

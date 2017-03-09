@@ -9,25 +9,25 @@ import static java.util.Collections.emptyList;
 @FunctionalInterface
 public interface Command extends AutoCloseable {
 
-	void execute(CommandEnv env);
+    void execute(CommandEnv env);
 
-	default List<CommandParam<?>> getParams() {
-		return emptyList();
-	}
+    default List<CommandParam<?>> getParams() {
+        return emptyList();
+    }
 
-	default boolean isEnabled(CommandEnv env) {
-		return env.task.equals(env.curTask);
-	}
+    default boolean isEnabled(CommandEnv env) {
+        return env.task.equals(env.curTask);
+    }
 
-	default boolean isCacheable() {
-		return true;
-	}
+    default boolean isCacheable() {
+        return true;
+    }
 
-	default void close() {}
+    default void close() {}
 
-	@FunctionalInterface
-	interface Factory {
-		Command create(String[] params);
-	}
+    @FunctionalInterface
+    interface Factory {
+        Command create(String[] params);
+    }
 
 }

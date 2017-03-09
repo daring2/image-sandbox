@@ -6,24 +6,24 @@ import static org.apache.commons.lang3.StringUtils.join;
 
 public class CommandScriptUtils {
 
-	public static ScriptCommand parseScript(String script) {
-		return CommandRegistry.Instance.parseScript(script);
-	}
+    public static ScriptCommand parseScript(String script) {
+        return CommandRegistry.Instance.parseScript(script);
+    }
 
-	public static void runScript(CommandEnv env, String script) {
-		parseScript(script).execute(env);
-	}
+    public static void runScript(CommandEnv env, String script) {
+        parseScript(script).execute(env);
+    }
 
-	public static String cmdStr(String cmd, Object... args) {
-		return cmd + "(" + join(args, ", ") + ");";
-	}
+    public static String cmdStr(String cmd, Object... args) {
+        return cmd + "(" + join(args, ", ") + ");";
+    }
 
-	public static Mat runCommand(CommandEnv env, String cmd, Object... args) {
-		runScript(env, cmdStr(cmd, args));
-		return env.mat;
-	}
+    public static Mat runCommand(CommandEnv env, String cmd, Object... args) {
+        runScript(env, cmdStr(cmd, args));
+        return env.mat;
+    }
 
-	private CommandScriptUtils() {
-	}
+    private CommandScriptUtils() {
+    }
 
 }
