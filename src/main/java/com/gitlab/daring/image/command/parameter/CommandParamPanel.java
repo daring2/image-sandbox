@@ -56,7 +56,8 @@ public class CommandParamPanel extends JPanel {
         sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
         JTextField f = newValueField(p, false);
         f.setColumns(5);
-        addComponent(p.name, f, "split 2, growx 0"); add(sl);
+        addComponent(p.name, f, "split 2, growx 0");
+        add(sl);
     }
 
     <T extends Enum<T>> void addEnumParam(EnumParam<T> p) {

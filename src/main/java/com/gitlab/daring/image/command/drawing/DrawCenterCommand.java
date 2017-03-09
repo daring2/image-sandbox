@@ -18,33 +18,33 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class DrawCenterCommand extends BaseCommand {
 
-	final EnumParam<Shape> shape = enumParam(Shape.class, Shape.Rectangle);
-	final IntParam scale = intParam(10, "0-100");
-	final IntParam color = intParam(255, "0-255");
-	final IntParam thickness = intParam( 1, "0-10");
+    final EnumParam<Shape> shape = enumParam(Shape.class, Shape.Rectangle);
+    final IntParam scale = intParam(10, "0-100");
+    final IntParam color = intParam(255, "0-255");
+    final IntParam thickness = intParam(1, "0-10");
 
-	public DrawCenterCommand(String... args) {
-		super(args);
-	}
+    public DrawCenterCommand(String... args) {
+        super(args);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		Mat m = env.mat;
-		Dimension d = toJava(m.size());
-		Rectangle cr = getCenterRect(d, scale.pv());
-		Scalar c = Scalar.all(color.v);
-		int th = thickness.posVal(CV_FILLED);
-		Shape sh = shape.v;
-		if (sh == Shape.Rectangle) {
-			rectangle(m, toOpencv(cr), c, th, LINE_8, 0);
-		} else if (sh == Shape.Circle) {
-			Point cp = new Point(d.width / 2, d.height / 2);
-			circle(m, cp, cr.width / 2, c, th, LINE_8, 0);
-		} else {
-			throw new IllegalArgumentException("shape=" + sh);
-		}
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        Mat m = env.mat;
+        Dimension d = toJava(m.size());
+        Rectangle cr = getCenterRect(d, scale.pv());
+        Scalar c = Scalar.all(color.v);
+        int th = thickness.posVal(CV_FILLED);
+        Shape sh = shape.v;
+        if (sh == Shape.Rectangle) {
+            rectangle(m, toOpencv(cr), c, th, LINE_8, 0);
+        } else if (sh == Shape.Circle) {
+            Point cp = new Point(d.width / 2, d.height / 2);
+            circle(m, cp, cr.width / 2, c, th, LINE_8, 0);
+        } else {
+            throw new IllegalArgumentException("shape=" + sh);
+        }
+    }
 
-	enum Shape { Rectangle, Circle }
+    enum Shape {Rectangle, Circle}
 
 }

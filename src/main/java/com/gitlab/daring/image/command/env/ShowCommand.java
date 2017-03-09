@@ -10,33 +10,33 @@ import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
-	final String title = arg(0, "");
-	final String key = arg(1, "");
-	final BaseCanvasFrame frame = new BaseCanvasFrame(title);
+    final String title = arg(0, "");
+    final String key = arg(1, "");
+    final BaseCanvasFrame frame = new BaseCanvasFrame(title);
 
-	public ShowCommand(String... params) {
-		super(params);
-		frame.setDefaultCloseOperation(isCacheable() ? HIDE_ON_CLOSE : DISPOSE_ON_CLOSE);
-	}
+    public ShowCommand(String... params) {
+        super(params);
+        frame.setDefaultCloseOperation(isCacheable() ? HIDE_ON_CLOSE : DISPOSE_ON_CLOSE);
+    }
 
-	@Override
-	public boolean isCacheable() {
-		return !title.isEmpty();
-	}
+    @Override
+    public boolean isCacheable() {
+        return !title.isEmpty();
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		String tv = env.eval(title);
-		if (title.equals(tv)) {
-			frame.showMat(env.getMat(key));
-		} else {
-			runCommand(env, "show", tv, key);
-		}
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        String tv = env.eval(title);
+        if (title.equals(tv)) {
+            frame.showMat(env.getMat(key));
+        } else {
+            runCommand(env, "show", tv, key);
+        }
+    }
 
-	@Override
-	public void close() {
-		frame.dispose();
-	}
+    @Override
+    public void close() {
+        frame.dispose();
+    }
 
 }

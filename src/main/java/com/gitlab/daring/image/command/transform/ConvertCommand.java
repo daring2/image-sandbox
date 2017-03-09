@@ -10,20 +10,20 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ConvertCommand extends BaseCommand {
 
-	final EnumParam<Target> target = enumParam(Target.class, Target.Grey);
+    final EnumParam<Target> target = enumParam(Target.class, Target.Grey);
 
-	public ConvertCommand(String... params) {
-		super(params);
-	}
+    public ConvertCommand(String... params) {
+        super(params);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		if ((env.mat.channels() == 1) != (target.v == Grey)) {
-			int code = target.v == Grey ? COLOR_BGR2GRAY : COLOR_GRAY2BGR;
-			env.mat = buildMat(m -> cvtColor(env.mat, m, code));
-		}
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        if ((env.mat.channels() == 1) != (target.v == Grey)) {
+            int code = target.v == Grey ? COLOR_BGR2GRAY : COLOR_GRAY2BGR;
+            env.mat = buildMat(m -> cvtColor(env.mat, m, code));
+        }
+    }
 
-	enum Target { Grey, Color }
+    enum Target {Grey, Color}
 
 }

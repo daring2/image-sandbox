@@ -11,18 +11,18 @@ import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 
 public class CropRectVarCommand extends BaseCommand {
 
-	final StringParam rectKey = stringParam("rect");
-	final StringParam matKey = stringParam("");
+    final StringParam rectKey = stringParam("rect");
+    final StringParam matKey = stringParam("");
 
-	public CropRectVarCommand(String... args) {
-		super(args);
-	}
+    public CropRectVarCommand(String... args) {
+        super(args);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		String mk = matKey.v;
-		Rect rect = toOpencv((Rectangle) env.vars.get(rectKey.v));
-		env.putMat(mk,  env.getMat(mk).apply(rect));
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        String mk = matKey.v;
+        Rect rect = toOpencv((Rectangle) env.vars.get(rectKey.v));
+        env.putMat(mk, env.getMat(mk).apply(rect));
+    }
 
 }

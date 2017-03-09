@@ -10,19 +10,19 @@ import static org.bytedeco.javacpp.opencv_core.addWeighted;
 
 public class AddWeightedCommand extends BaseCommand {
 
-	final StringParam key = stringParam("");
-	final DoubleParam f1 = doubleParam(50, "0-100");
-	final DoubleParam f2 = doubleParam(50, "0-100");
-	final DoubleParam f3 = doubleParam(0, "0-100");
+    final StringParam key = stringParam("");
+    final DoubleParam f1 = doubleParam(50, "0-100");
+    final DoubleParam f2 = doubleParam(50, "0-100");
+    final DoubleParam f3 = doubleParam(0, "0-100");
 
-	public AddWeightedCommand(String... args) {
-		super(args);
-	}
+    public AddWeightedCommand(String... args) {
+        super(args);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		Mat m2 = env.getMat(key.v);
-		addWeighted(env.mat, f1.pv(), m2, f2.pv(), f3.pv(), env.mat);
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        Mat m2 = env.getMat(key.v);
+        addWeighted(env.mat, f1.pv(), m2, f2.pv(), f3.pv(), env.mat);
+    }
 
 }

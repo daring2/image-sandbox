@@ -12,26 +12,26 @@ import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class WatershedMarkerCommand extends BaseCommand {
 
-	final StringParam markerKey = stringParam("");
-	final IntParam segment = intParam(0, "0-10");
+    final StringParam markerKey = stringParam("");
+    final IntParam segment = intParam(0, "0-10");
 
-	final Mat lm = new Mat();
-	final Mat rm = new Mat();
+    final Mat lm = new Mat();
+    final Mat rm = new Mat();
 
-	public WatershedMarkerCommand(String... args) {
-		super(args);
-	}
+    public WatershedMarkerCommand(String... args) {
+        super(args);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		Mat m = env.getMat(markerKey.v);
-		threshold(m, m, 128, 255, THRESH_BINARY);
-		connectedComponents(m, lm);
-		watershed(env.mat, lm);
-		max(lm, 0).asMat().convertTo(rm, CV_8U);
-		Mat si = smat(segment.v);
-		inRange(rm, si, si, rm);
-		env.mat = rm;
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        Mat m = env.getMat(markerKey.v);
+        threshold(m, m, 128, 255, THRESH_BINARY);
+        connectedComponents(m, lm);
+        watershed(env.mat, lm);
+        max(lm, 0).asMat().convertTo(rm, CV_8U);
+        Mat si = smat(segment.v);
+        inRange(rm, si, si, rm);
+        env.mat = rm;
+    }
 
 }

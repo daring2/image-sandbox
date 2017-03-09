@@ -11,22 +11,22 @@ import static org.bytedeco.javacpp.opencv_imgproc.findContours;
 
 public class FindContoursCommand extends BaseCommand {
 
-	final EnumParam<Mode> mode = enumParam(Mode.class, Mode.List);
-	final EnumParam<ApproxMethod> method = enumParam(ApproxMethod.class, ApproxMethod.None);
+    final EnumParam<Mode> mode = enumParam(Mode.class, Mode.List);
+    final EnumParam<ApproxMethod> method = enumParam(ApproxMethod.class, ApproxMethod.None);
 
-	public FindContoursCommand(String... params) {
-		super(params);
-	}
+    public FindContoursCommand(String... params) {
+        super(params);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		MatVector mv = new MatVector();
-		findContours(env.mat.clone(), mv, mode.vi(), method.vi() + 1);
-		env.contours = mapList(toJava(mv), Contour::new);
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        MatVector mv = new MatVector();
+        findContours(env.mat.clone(), mv, mode.vi(), method.vi() + 1);
+        env.contours = mapList(toJava(mv), Contour::new);
+    }
 
-	enum Mode { External, List, CComp, Tree, FloodFill }
+    enum Mode {External, List, CComp, Tree, FloodFill}
 
-	enum ApproxMethod { None, Simple, TC89_L1, TC89_KCOS }
+    enum ApproxMethod {None, Simple, TC89_L1, TC89_KCOS}
 
 }

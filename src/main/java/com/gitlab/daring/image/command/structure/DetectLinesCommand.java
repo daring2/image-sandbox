@@ -10,24 +10,24 @@ import static org.bytedeco.javacpp.opencv_imgproc.createLineSegmentDetector;
 
 public class DetectLinesCommand extends BaseCommand {
 
-	//TODO support all params
-	final LineSegmentDetector detector = createDetector();
+    //TODO support all params
+    final LineSegmentDetector detector = createDetector();
 
-	final Mat lines = new Mat();
+    final Mat lines = new Mat();
 
-	public DetectLinesCommand(String... args) {
-		super(args);
-	}
+    public DetectLinesCommand(String... args) {
+        super(args);
+    }
 
-	@Override
-	public void execute(CommandEnv env) {
-		detector.detect(env.mat, lines);
-		env.mat.setTo(smat(0));
-		detector.drawSegments(env.mat, lines);
-	}
+    @Override
+    public void execute(CommandEnv env) {
+        detector.detect(env.mat, lines);
+        env.mat.setTo(smat(0));
+        detector.drawSegments(env.mat, lines);
+    }
 
-	private LineSegmentDetector createDetector() {
-		return createLineSegmentDetector();
-	}
+    private LineSegmentDetector createDetector() {
+        return createLineSegmentDetector();
+    }
 
 }
