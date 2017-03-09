@@ -24,6 +24,7 @@ class ShotAssistant extends BaseVideoProcessor {
     static final String ConfigPath = "isb.ShotAssistant";
 
     final FileParam sampleFile = new FileParam(":Образец").bind(config, "sampleFile");
+    final FileParam shotFile = new FileParam(":Снимок").bind(config, "shotFile");
     final boolean flipInput = config.getBoolean("flipInput");
 
     final TemplateBuilder templateBuilder = new TemplateBuilder(this);
@@ -60,18 +61,11 @@ class ShotAssistant extends BaseVideoProcessor {
         if (flipInput) flipMat(inputMat, 1);
         if (loadSample) loadSample();
         if (saveSample) saveSample();
+        if (saveShot) saveShot();
         checkResult = positionControl.check(inputMat);
         displayBuilder.build(inputMat);
         if (writer.isOpened()) writer.write(displayMat);
         showImage(displayMat);
-    }
-
-    void saveSample() {
-        saveSample = false;
-        inputMat.copyTo(sampleMat);
-        String file = sampleFile.v;
-        if (isNotBlank(file)) imwrite(file, sampleMat);
-        applySample();
     }
 
     void loadSample() {
@@ -83,9 +77,23 @@ class ShotAssistant extends BaseVideoProcessor {
         }
     }
 
+    void saveSample() {
+        saveSample = false;
+        inputMat.copyTo(sampleMat);
+        String file = sampleFile.v;
+        if (isNotBlank(file)) imwrite(file, sampleMat);
+        applySample();
+    }
+
     void applySample() {
         positionControl.setSample(sampleMat);
         cvtColor(positionControl.template, templateMat, COLOR_GRAY2BGR);
+    }
+
+    void saveShot() {
+        saveShot = false;
+        String file = shotFile.v;
+        if (isNotBlank(file)) imwrite(file, inputMat);
     }
 
     Size getSize() {
