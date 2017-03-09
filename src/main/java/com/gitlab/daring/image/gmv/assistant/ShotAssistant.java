@@ -40,6 +40,8 @@ class ShotAssistant extends BaseVideoProcessor {
     volatile boolean loadSample = true, saveSample, saveShot;
     boolean checkResult;
 
+    //TODO introduce SaveShotAction
+
     public ShotAssistant() {
         super(ConfigPath);
         sampleFile.onChange(() -> loadSample = true);
