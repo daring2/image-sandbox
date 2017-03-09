@@ -17,37 +17,37 @@ import static java.util.Arrays.asList;
 @NotThreadSafe
 class SealCheckService extends BaseComponent {
 
-	final Config c = config;
-	final FileParam sampleFile = newFileParam("sampleFile", "Образец");
-	final FileParam targetFile = newFileParam("targetFile", "Снимок");
-	final FileParam markerFile = newFileParam("markerFile", "Маркер");
-	final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(c, "objSize");
-	final EnumParam<FindMethod> findMethod = new EnumParam<>(FindMethod.class, "simple:Метод").bind(c, "findMethod");
-	final boolean fullAffine = c.getBoolean("fullAffine");
-	final IntParam winOffset = new IntParam("0:Смещение:0-10").bind(c, "winOffset");
+    final Config c = config;
+    final FileParam sampleFile = newFileParam("sampleFile", "Образец");
+    final FileParam targetFile = newFileParam("targetFile", "Снимок");
+    final FileParam markerFile = newFileParam("markerFile", "Маркер");
+    final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(c, "objSize");
+    final EnumParam<FindMethod> findMethod = new EnumParam<>(FindMethod.class, "simple:Метод").bind(c, "findMethod");
+    final boolean fullAffine = c.getBoolean("fullAffine");
+    final IntParam winOffset = new IntParam("0:Смещение:0-10").bind(c, "winOffset");
 
-	final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
+    final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 
-	CommandScript script;
+    CommandScript script;
 
-	public SealCheckService(Config c) {
-		super(c);
-	}
+    public SealCheckService(Config c) {
+        super(c);
+    }
 
-	private FileParam newFileParam(String path, String name) {
-		return new FileParam(":" + name).bind(c, path);
-	}
+    private FileParam newFileParam(String path, String name) {
+        return new FileParam(":" + name).bind(c, path);
+    }
 
-	List<CommandParam<?>> getParams() {
-		return asList(sampleFile, targetFile, markerFile, objSize, findMethod, winOffset);
-	}
+    List<CommandParam<?>> getParams() {
+        return asList(sampleFile, targetFile, markerFile, objSize, findMethod, winOffset);
+    }
 
-	public void setScript(CommandScript script) {
-		this.script = script;
-	}
+    public void setScript(CommandScript script) {
+        this.script = script;
+    }
 
-	public void check() {
-		new CheckTask(this).run();
-	}
+    public void check() {
+        new CheckTask(this).run();
+    }
 
 }

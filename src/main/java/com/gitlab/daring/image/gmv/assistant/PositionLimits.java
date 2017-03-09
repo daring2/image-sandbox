@@ -7,16 +7,16 @@ import java.awt.*;
 
 class PositionLimits extends BaseComponent {
 
-	final int offset = config.getInt("offset");
-	final double scale = config.getDouble("scale");
-	final double angle = config.getDouble("angle");
+    final int offset = config.getInt("offset");
+    final double scale = config.getDouble("scale");
+    final double angle = config.getDouble("angle");
 
-	PositionLimits(Config config) {
-		super(config);
-	}
+    PositionLimits(Config config) {
+        super(config);
+    }
 
-	Rectangle buildPositionRect(int x, int y) {
-		return new Rectangle(x - offset, y - offset, offset* 2, offset * 2);
-	}
+    Rectangle buildPositionRect(int x, int y) {
+        return new Rectangle(x - offset, y - offset, offset * 2, offset * 2);
+    }
 
 }
