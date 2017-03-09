@@ -14,39 +14,39 @@ import static java.util.stream.LongStream.range;
 
 public class OpencvConverters {
 
-	public static Point toJava(opencv_core.Point p) {
-		return new Point(p.x(), p.y());
-	}
+    public static Point toJava(opencv_core.Point p) {
+        return new Point(p.x(), p.y());
+    }
 
-	public static opencv_core.Point toOpencv(Point p) {
-		return new opencv_core.Point(p.x, p.y);
-	}
+    public static opencv_core.Point toOpencv(Point p) {
+        return new opencv_core.Point(p.x, p.y);
+    }
 
-	public static Dimension toJava(Size size) {
-		return new Dimension(size.width(), size.height());
-	}
+    public static Dimension toJava(Size size) {
+        return new Dimension(size.width(), size.height());
+    }
 
-	public static Size toOpencv(Dimension d) {
-		return new Size(d.width, d.height);
-	}
+    public static Size toOpencv(Dimension d) {
+        return new Size(d.width, d.height);
+    }
 
-	public static Rectangle toJava(Rect rect) {
-		return new Rectangle(rect.x(), rect.y(), rect.width(), rect.height());
-	}
+    public static Rectangle toJava(Rect rect) {
+        return new Rectangle(rect.x(), rect.y(), rect.width(), rect.height());
+    }
 
-	public static Rectangle newRect(opencv_core.Point p, Size size) {
-		return new Rectangle(toJava(p), toJava(size));
-	}
+    public static Rectangle newRect(opencv_core.Point p, Size size) {
+        return new Rectangle(toJava(p), toJava(size));
+    }
 
-	public static Rect toOpencv(Rectangle r) {
-		return new Rect(r.x, r.y, r.width, r.height);
-	}
+    public static Rect toOpencv(Rectangle r) {
+        return new Rect(r.x, r.y, r.width, r.height);
+    }
 
-	public static List<Mat> toJava(MatVector ms) {
-		return range(0, ms.size()).mapToObj(ms::get).collect(toList());
-	}
+    public static List<Mat> toJava(MatVector ms) {
+        return range(0, ms.size()).mapToObj(ms::get).collect(toList());
+    }
 
-	private OpencvConverters() {
-	}
+    private OpencvConverters() {
+    }
 
 }

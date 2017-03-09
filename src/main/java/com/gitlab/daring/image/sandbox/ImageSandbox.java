@@ -7,41 +7,41 @@ import static com.gitlab.daring.image.MainContext.mainContext;
 
 public class ImageSandbox extends BaseComponent implements AutoCloseable {
 
-	static final String ConfigPath = "isb.ImageSandbox";
+    static final String ConfigPath = "isb.ImageSandbox";
 
-	final MainPanel mp = new MainPanel(this);
-	final ScriptExecutor scriptExecutor = new ScriptExecutor(this);
+    final MainPanel mp = new MainPanel(this);
+    final ScriptExecutor scriptExecutor = new ScriptExecutor(this);
 
-	public ImageSandbox() {
-		super(ConfigPath);
-		mp.applyEvent.onFire(this::apply);
-		mp.changeEvent.onFire(this::executeScript);
-		executeScript();
-	}
+    public ImageSandbox() {
+        super(ConfigPath);
+        mp.applyEvent.onFire(this::apply);
+        mp.changeEvent.onFire(this::executeScript);
+        executeScript();
+    }
 
-	void showFrame() {
-		BaseFrame frame = new BaseFrame("ImageSandbox", mp);
-		frame.addCloseListener(this::close);
-		frame.show(800, 600);
-	}
+    void showFrame() {
+        BaseFrame frame = new BaseFrame("ImageSandbox", mp);
+        frame.addCloseListener(this::close);
+        frame.show(800, 600);
+    }
 
-	void apply() {
-		executeScript();
-		mp.saveConfig(ConfigPath);
-	}
+    void apply() {
+        executeScript();
+        mp.saveConfig(ConfigPath);
+    }
 
-	void executeScript() {
-		scriptExecutor.executeAsync();
-	}
+    void executeScript() {
+        scriptExecutor.executeAsync();
+    }
 
-	@Override
-	public void close() {
-		scriptExecutor.close();
-		mainContext().close();
-	}
+    @Override
+    public void close() {
+        scriptExecutor.close();
+        mainContext().close();
+    }
 
-	public static void main(String[] args) {
-		new ImageSandbox().showFrame();
-	}
+    public static void main(String[] args) {
+        new ImageSandbox().showFrame();
+    }
 
 }

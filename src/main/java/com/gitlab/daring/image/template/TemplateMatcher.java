@@ -15,27 +15,27 @@ import static org.bytedeco.javacpp.opencv_imgproc.matchTemplate;
 @NotThreadSafe
 public class TemplateMatcher {
 
-	public MatchMethod method = MatchMethod.CCORR_NORMED;
+    public MatchMethod method = MatchMethod.CCORR_NORMED;
 
-	final Mat resultMat = new Mat();
-	final DoublePointer valueRef = new DoublePointer(1);
-	final Point pointRef = new Point();
+    final Mat resultMat = new Mat();
+    final DoublePointer valueRef = new DoublePointer(1);
+    final Point pointRef = new Point();
 
-	public TemplateMatcher() {
-	}
+    public TemplateMatcher() {
+    }
 
-	public TemplateMatcher(Config c) {
-		method = findEnum(c, MatchMethod.class, "method");
-	}
+    public TemplateMatcher(Config c) {
+        method = findEnum(c, MatchMethod.class, "method");
+    }
 
-	public MatchResult findBest(Mat mat, Mat tm) {
-		matchTemplate(mat, tm, resultMat, method.ordinal());
-		if (method.isMinBest()) {
-			minMaxLoc(resultMat, valueRef, null, pointRef, null, new Mat());
-		} else {
-			minMaxLoc(resultMat, null, valueRef, null, pointRef, new Mat());
-		}
-		return new MatchResult(newRect(pointRef, tm.size()), valueRef.get());
-	}
+    public MatchResult findBest(Mat mat, Mat tm) {
+        matchTemplate(mat, tm, resultMat, method.ordinal());
+        if (method.isMinBest()) {
+            minMaxLoc(resultMat, valueRef, null, pointRef, null, new Mat());
+        } else {
+            minMaxLoc(resultMat, null, valueRef, null, pointRef, new Mat());
+        }
+        return new MatchResult(newRect(pointRef, tm.size()), valueRef.get());
+    }
 
 }
