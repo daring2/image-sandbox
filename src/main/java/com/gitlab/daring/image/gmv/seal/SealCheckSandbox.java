@@ -30,7 +30,7 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
         service.sampleFile.v = c.getString("sampleFile");
         service.shotFile.v = c.getString("shotFile");
         service.objSize.v = c.getInt("objSize");
-        apply();
+        runCheck();
     }
 
     void showFrame() {

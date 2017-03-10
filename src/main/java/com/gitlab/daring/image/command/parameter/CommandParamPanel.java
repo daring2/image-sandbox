@@ -91,6 +91,7 @@ public class CommandParamPanel extends JPanel {
         if (editable) {
             f.addActionListener(e -> p.setStringValue(f.getText()));
             applyEvent.onFire(() -> p.v = p.parseValue(f.getText()));
+            p.changeEvent.onFire(() -> f.setText("" + p.v));
         } else {
             f.setEditable(false);
             p.changeEvent.onFire(() -> f.setText("" + p.v));
