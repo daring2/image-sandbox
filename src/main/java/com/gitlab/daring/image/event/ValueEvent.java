@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 public class ValueEvent<T> implements Consumer<T> {
 
+    public boolean enabled = true;
+    
     private final List<Consumer<T>> listeners = new CopyOnWriteArrayList<>();
 
     public void addListener(Consumer<T> l) {
@@ -22,6 +24,7 @@ public class ValueEvent<T> implements Consumer<T> {
     }
 
     public void fire(T value) {
+        if (!enabled) return;
         listeners.forEach(c -> c.accept(value));
     }
 
