@@ -29,9 +29,10 @@ public class CommandScriptPanel extends JPanel {
     public final CommandScript script = new CommandScript();
     public final List<CommandParam<?>> staticParams = new ArrayList<>();
 
+    protected final CommandParamPanel staticParamPanel = new CommandParamPanel();
+    protected final CommandParamPanel paramPanel = new CommandParamPanel();
+    
     final JTextArea scriptField;
-    final CommandParamPanel staticParamPanel = new CommandParamPanel();
-    final CommandParamPanel paramPanel = new CommandParamPanel();
     final Consumer<Void> changeListener = e -> changeEvent.fire();
 
     public CommandScriptPanel() {

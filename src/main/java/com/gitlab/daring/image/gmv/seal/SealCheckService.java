@@ -10,9 +10,9 @@ import javax.annotation.concurrent.NotThreadSafe;
 @NotThreadSafe
 class SealCheckService extends BaseComponent {
 
-    final SealCheckParams params;
     final TemplateMatcher matcher = new TemplateMatcher(getConfig("matcher"));
 
+    SealCheckParams params;
     CommandScript script;
 
     SealCheckService(Config c) {
