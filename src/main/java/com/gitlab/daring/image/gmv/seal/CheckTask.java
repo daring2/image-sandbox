@@ -16,6 +16,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.warpAffine;
 class CheckTask {
 
     final SealCheckService srv;
+    final SealCheckParams params;
     final CommandScript script;
     final CommandEnv env;
     final Mat m1, m2, marker;
@@ -23,12 +24,13 @@ class CheckTask {
 
     CheckTask(SealCheckService srv) {
         this.srv = srv;
+        params = srv.params;
         script = srv.script;
         env = script.env;
-        m1 = loadMat(srv.sampleFile.v, "m1");
-        m2 = loadMat(srv.shotFile.v, "m2");
-        marker = loadMarkerMat(srv.markerFile.v);
-        objRect = getCenterRect(toJava(m2.size()), srv.objSize.pv());
+        m1 = loadMat(params.sampleFile.v, "m1");
+        m2 = loadMat(params.shotFile.v, "m2");
+        marker = loadMarkerMat(params.markerFile.v);
+        objRect = getCenterRect(toJava(m2.size()), params.objSize.pv());
     }
 
     Mat loadMat(String file, String name) {

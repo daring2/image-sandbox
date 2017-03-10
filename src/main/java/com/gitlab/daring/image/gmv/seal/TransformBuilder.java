@@ -21,7 +21,7 @@ class TransformBuilder {
 
     TransformBuilder(CheckTask ct) {
         this.ct = ct;
-        method = ct.srv.findMethod.v;
+        method = ct.params.findMethod.v;
     }
 
     Mat build() {
@@ -39,7 +39,7 @@ class TransformBuilder {
             return getAffineTransform(newPointArray(ps2), newPointArray(ps1));
         } else if (method == FindMethod.Ransanc) {
             Mat[] ms = cropToMin(ct.m1, ct.m2);
-            return estimateRigidTransform(ms[1], ms[0], ct.srv.fullAffine);
+            return estimateRigidTransform(ms[1], ms[0], ct.params.fullAffine);
         } else {
             throw new IllegalArgumentException("method=" + method);
         }

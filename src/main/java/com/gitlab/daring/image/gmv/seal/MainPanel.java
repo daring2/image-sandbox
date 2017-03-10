@@ -8,7 +8,7 @@ class MainPanel extends CommandScriptPanel {
 
     public MainPanel(SealCheckSandbox cb) {
         this.cb = cb;
-        staticParams.addAll(cb.service.getParams());
+        staticParams.addAll(cb.service.params.getParams());
         setScript(cb.config.getString("script").trim());
     }
 
