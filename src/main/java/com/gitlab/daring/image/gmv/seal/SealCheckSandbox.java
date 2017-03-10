@@ -3,6 +3,7 @@ package com.gitlab.daring.image.gmv.seal;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.gitlab.daring.image.concurrent.TaskExecutor;
 import com.gitlab.daring.image.swing.BaseFrame;
+import com.typesafe.config.Config;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
 
@@ -14,6 +15,8 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
     final MainPanel sp = new MainPanel(this);
     final TaskExecutor taskExec = new TaskExecutor();
 
+    BaseFrame frame;
+
     public SealCheckSandbox() {
         super(ConfigPath);
         service.setScript(sp.script);
@@ -21,8 +24,18 @@ public class SealCheckSandbox extends BaseComponent implements AutoCloseable {
         sp.changeEvent.onFire(this::runCheck);
     }
 
+    //TODO refactor
+    public void apply(Config c) {
+        showFrame();
+        service.sampleFile.v = c.getString("sampleFile");
+        service.shotFile.v = c.getString("shotFile");
+        service.objSize.v = c.getInt("objSize");
+        apply();
+    }
+
     void showFrame() {
-        BaseFrame frame = new BaseFrame("SealCheckSandbox", sp);
+        if (frame != null) return;
+        frame = new BaseFrame("SealCheckSandbox", sp);
         frame.addCloseListener(this::close);
         frame.show(800, 600);
     }

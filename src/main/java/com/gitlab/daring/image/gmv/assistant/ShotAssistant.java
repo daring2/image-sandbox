@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.gmv.assistant;
 
 import com.gitlab.daring.image.command.parameter.FileParam;
+import com.gitlab.daring.image.gmv.seal.SealCheckSandbox;
 import com.gitlab.daring.image.video.BaseVideoProcessor;
 import net.miginfocom.swing.MigLayout;
 import org.bytedeco.javacpp.opencv_core.Mat;
@@ -27,6 +28,7 @@ class ShotAssistant extends BaseVideoProcessor {
     final PositionControl positionControl = new PositionControl(this);
     final DisplayBuilder displayBuilder = new DisplayBuilder(this);
     final ConfigPanel configPanel = new ConfigPanel(this);
+    final SealCheckSandbox sealCheckSandbox = new SealCheckSandbox();
     final SampleAction sampleAction = new SampleAction(this);
     final ShotAction shotAction = new ShotAction(this);
 

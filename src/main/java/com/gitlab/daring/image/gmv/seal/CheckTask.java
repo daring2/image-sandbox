@@ -26,7 +26,7 @@ class CheckTask {
         script = srv.script;
         env = script.env;
         m1 = loadMat(srv.sampleFile.v, "m1");
-        m2 = loadMat(srv.targetFile.v, "m2");
+        m2 = loadMat(srv.shotFile.v, "m2");
         marker = loadMarkerMat(srv.markerFile.v);
         objRect = getCenterRect(toJava(m2.size()), srv.objSize.pv());
     }
