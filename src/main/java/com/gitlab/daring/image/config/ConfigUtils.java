@@ -3,6 +3,7 @@ package com.gitlab.daring.image.config;
 import com.google.common.io.Files;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigParseOptions;
 
 import java.io.File;
 import java.util.Map;
@@ -48,8 +49,9 @@ public class ConfigUtils {
 
     public static void saveDiffConfig(Config c, String file) {
         ConfigDiffBuilder db = new ConfigDiffBuilder();
-        Config dc = db.build(c.withFallback(defaultConfig()), referenceConfig());
-        saveConfig(dc, file);
+        Config dc = ConfigFactory.load(ConfigParseOptions.defaults());
+        Config sc = db.build(c.withFallback(dc), referenceConfig());
+        saveConfig(sc, file);
     }
 
     public static int getIntOpt(Config c, String path, int defValue) {
