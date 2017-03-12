@@ -65,8 +65,7 @@ class CheckTask {
     Mat transformTarget(Mat tm) {
 //        System.out.println("tm = " + tm.createIndexer());
         Mat rm = new Mat();
-        if (tm.rows() == 3) warpPerspective(m2, rm, tm, m2.size());
-        else warpAffine(m2, rm, tm, m2.size());
+        if (tm.rows() == 3) warpPerspective(m2, rm, tm, m2.size()); else warpAffine(m2, rm, tm, m2.size());
         return rm;
     }
 
