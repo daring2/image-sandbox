@@ -58,6 +58,7 @@ public class ImageUtils {
     }
 
     public static Mat cropCenter(Mat m, double rectSize) {
+        if (rectSize == 1.0) return m;
         return cropMat(m, getCenterRect(toJava(m.size()), rectSize));
     }
 
