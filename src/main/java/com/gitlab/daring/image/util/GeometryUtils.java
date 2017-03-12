@@ -1,12 +1,7 @@
 package com.gitlab.daring.image.util;
 
-import org.bytedeco.javacpp.opencv_core.Rect;
-import org.bytedeco.javacpp.opencv_core.Size;
 
 import java.awt.*;
-
-import static com.gitlab.daring.image.util.OpencvConverters.toJava;
-import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 
 public class GeometryUtils {
 
@@ -19,10 +14,6 @@ public class GeometryUtils {
 
     public static Rectangle getCenterRect(Dimension d, double rectSize) {
         return getCenterRect(new Rectangle(0, 0, d.width, d.height), rectSize);
-    }
-
-    public static Rect getCenterRect(Size size, double rectSize) {
-        return toOpencv(getCenterRect(toJava(size), rectSize));
     }
 
     public static Point getCenter(Rectangle r) {

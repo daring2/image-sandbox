@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
+import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static com.google.common.collect.Iterables.toArray;
 import static java.lang.Math.min;
@@ -53,6 +55,10 @@ public class ImageUtils {
 
     public static Mat cropMat(Mat m, Rectangle r) {
         return m.apply(toOpencv(r));
+    }
+
+    public static Mat cropCenter(Mat m, double rectSize) {
+        return cropMat(m, getCenterRect(toJava(m.size()), rectSize));
     }
 
     public static Mat[] cropToMin(Mat m1, Mat m2) {

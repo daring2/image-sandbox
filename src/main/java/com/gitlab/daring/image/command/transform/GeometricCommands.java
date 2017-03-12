@@ -7,7 +7,7 @@ import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_core.Rect;
 
 import static com.gitlab.daring.image.command.CommandUtils.parseIntParams;
-import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
+import static com.gitlab.daring.image.util.ImageUtils.cropCenter;
 
 public class GeometricCommands {
 
@@ -30,7 +30,7 @@ public class GeometricCommands {
     public Command cropCenterCommand(String... ps) {
         SimpleCommand c = new SimpleCommand(ps);
         IntParam sp = c.intParam(100, "0-100");
-        return c.withSetFunc(m -> m.apply(getCenterRect(m.size(), sp.pv())));
+        return c.withSetFunc(m -> cropCenter(m, sp.pv()));
     }
 
 }
