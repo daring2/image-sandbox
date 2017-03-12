@@ -36,7 +36,7 @@ class TransformBuilder {
             r.translate(r.width, 0); findMatch(r);
             r.translate(0, r.height); findMatch(r);
             return getAffineTransform(newPointArray(ps2), newPointArray(ps1));
-        } else if (method == FindMethod.Ransanc) {
+        } else if (method == FindMethod.RigidTransform) {
             Mat[] ms = cropToMin(ct.m1, ct.m2);
             return estimateRigidTransform(ms[1], ms[0], ct.params.fullAffine);
         } else {
