@@ -36,7 +36,7 @@ class CheckTask {
     Mat loadMat(String file, String name) {
         env.vars.put("file", file);
         env.vars.put("name", name);
-        Mat m = script.runTask("load", env.mat);
+        Mat m = script.runTask("load", null);
         env.putMat(name, m);
         return m;
     }
@@ -44,7 +44,7 @@ class CheckTask {
     Mat loadMarkerMat(String file) {
         if (file.isEmpty()) return new Mat();
         env.vars.put("file", file);
-        return script.runTask("loadMarker", env.mat);
+        return script.runTask("loadMarker", null);
     }
 
     void run() {

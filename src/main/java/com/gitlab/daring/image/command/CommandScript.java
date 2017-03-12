@@ -36,7 +36,7 @@ public class CommandScript {
     }
 
     public Mat runTask(String task, Mat mat) {
-        env.mat = mat.clone();
+        if (mat != null) env.mat = mat.clone();
         runTask(task);
         return env.mat.clone();
     }
