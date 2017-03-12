@@ -7,9 +7,8 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
 
-import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.ImageUtils.buildMat;
-import static com.gitlab.daring.image.util.OpencvConverters.toJava;
+import static com.gitlab.daring.image.util.ImageUtils.centerRect;
 import static org.bytedeco.javacpp.opencv_imgproc.warpAffine;
 
 @NotThreadSafe
@@ -19,6 +18,7 @@ class CheckTask {
     final SealCheckParams params;
     final CommandScript script;
     final CommandEnv env;
+    final double objSize;
     final Mat m1, m2, marker;
     final Rectangle objRect;
 
@@ -27,10 +27,11 @@ class CheckTask {
         params = srv.params;
         script = srv.script;
         env = script.env;
+        objSize = params.objSize.pv();
         m1 = loadMat(params.sampleFile.v, "m1");
         m2 = loadMat(params.shotFile.v, "m2");
         marker = loadMarkerMat(params.markerFile.v);
-        objRect = getCenterRect(toJava(m2.size()), params.objSize.pv());
+        objRect = centerRect(m2, objSize);
     }
 
     Mat loadMat(String file, String name) {

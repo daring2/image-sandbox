@@ -48,7 +48,7 @@ class TransformBuilder {
         Mat tm = cropMat(ct.m1, r);
         MatchResult mr = ct.srv.matcher.findBest(ct.m2, tm);
         ps1.add(r.getLocation());
-        ps2.add(mr.point.getLocation());
+        ps2.add(mr.point);
         // debug
 //		drawRect(m1, r, Scalar.WHITE, 1);
 //		drawRect(m2, mr.rect, Scalar.WHITE, 1);
