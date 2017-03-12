@@ -33,7 +33,7 @@ class DiffBuilder {
     }
 
     Mat build(Mat m2) {
-        wo = task.params.winOffset.v;
+        wo = task.params.winOffset.v * 2;
         Rectangle r = new Rectangle(task.objRect);
         cm2 = cropMat(m2, r);
         if (!task.marker.empty())

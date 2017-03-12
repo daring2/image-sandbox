@@ -32,8 +32,7 @@ class TransformBuilder {
             float[][] vs = {{1, 0, p1.x - p2.x}, {0, 1, p1.y - p2.y}};
             return newFloatMat(vs);
         } else if (method == FindMethod.Template) {
-            findMatch(r);
-            r.setSize(r.width / 3, r.height / 3);
+            r.setSize(r.width / 3, r.height / 3); findMatch(r);
             r.translate(r.width, 0); findMatch(r);
             r.translate(0, r.height); findMatch(r);
             return getAffineTransform(newPointArray(ps2), newPointArray(ps1));
