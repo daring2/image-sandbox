@@ -18,6 +18,7 @@ class SealCheckParams extends BaseComponent {
     final FileParam shotFile = newFileParam("shotFile", "Снимок");
     final FileParam markerFile = newFileParam("markerFile", "Маркер");
     final IntParam objSize = new IntParam("0:Размер объекта:0-100").bind(c, "objSize");
+    final double cropSize = c.getDouble("cropSize");
     final EnumParam<FindMethod> findMethod = new EnumParam<>(FindMethod.class, "simple:Метод").bind(c, "findMethod");
     final boolean fullAffine = c.getBoolean("fullAffine");
     final IntParam winOffset = new IntParam("0:Смещение:0-10").bind(c, "winOffset");
