@@ -53,13 +53,17 @@ public class ImageUtils {
         return buildMat(r -> resize(m, r, new Size(), scale, scale, INTER_LINEAR));
     }
 
+    public static Rectangle centerRect(Mat m, double rectSize) {
+        return getCenterRect(toJava(m.size()), rectSize);
+    }
+
     public static Mat cropMat(Mat m, Rectangle r) {
         return m.apply(toOpencv(r));
     }
 
     public static Mat cropCenter(Mat m, double rectSize) {
         if (rectSize == 1.0) return m;
-        return cropMat(m, getCenterRect(toJava(m.size()), rectSize));
+        return cropMat(m, centerRect(m, rectSize));
     }
 
     public static Mat[] cropToMin(Mat m1, Mat m2) {
