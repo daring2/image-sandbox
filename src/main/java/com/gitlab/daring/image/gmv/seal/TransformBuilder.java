@@ -2,11 +2,14 @@ package com.gitlab.daring.image.gmv.seal;
 
 import com.gitlab.daring.image.template.MatchResult;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_features2d.BFMatcher;
+import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gitlab.daring.image.features.FeatureUtils.buildHomography;
 import static com.gitlab.daring.image.util.ImageUtils.*;
 import static org.bytedeco.javacpp.opencv_imgproc.getAffineTransform;
 import static org.bytedeco.javacpp.opencv_video.estimateRigidTransform;
@@ -39,6 +42,8 @@ class TransformBuilder {
         } else if (method == FindMethod.RigidTransform) {
             Mat[] ms = cropToMin(ct.m1, ct.m2);
             return estimateRigidTransform(ms[1], ms[0], ct.params.fullAffine);
+        } else if (method == FindMethod.Homography) {
+            return buildHomography(SURF.create(), new BFMatcher(), ct.m2, ct.m1);
         } else {
             throw new IllegalArgumentException("method=" + method);
         }
@@ -49,9 +54,6 @@ class TransformBuilder {
         MatchResult mr = ct.srv.matcher.findBest(ct.m2, tm);
         ps1.add(r.getLocation());
         ps2.add(mr.point);
-        // debug
-//		drawRect(m1, r, Scalar.WHITE, 1);
-//		drawRect(m2, mr.rect, Scalar.WHITE, 1);
     }
 
 }

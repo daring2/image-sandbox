@@ -1,5 +1,5 @@
 package com.gitlab.daring.image.gmv.seal;
 
 enum FindMethod {
-    Simple, Template, RigidTransform
+    Simple, Template, RigidTransform, Homography
 }

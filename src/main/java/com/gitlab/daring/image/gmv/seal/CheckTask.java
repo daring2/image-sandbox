@@ -7,8 +7,10 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.awt.*;
 
-import static com.gitlab.daring.image.util.ImageUtils.*;
+import static com.gitlab.daring.image.util.ImageUtils.centerRect;
+import static com.gitlab.daring.image.util.ImageUtils.cropCenter;
 import static org.bytedeco.javacpp.opencv_imgproc.warpAffine;
+import static org.bytedeco.javacpp.opencv_imgproc.warpPerspective;
 
 @NotThreadSafe
 class CheckTask {
@@ -61,8 +63,11 @@ class CheckTask {
     }
 
     Mat transformTarget(Mat tm) {
-//		System.out.println("tm = " + tm.createIndexer());
-        return buildMat(r -> warpAffine(m2, r, tm, m2.size()));
+//        System.out.println("tm = " + tm.createIndexer());
+        Mat rm = new Mat();
+        if (tm.rows() == 3) warpPerspective(m2, rm, tm, m2.size());
+        else warpAffine(m2, rm, tm, m2.size());
+        return rm;
     }
 
     void showMat(Mat m, String title) {
