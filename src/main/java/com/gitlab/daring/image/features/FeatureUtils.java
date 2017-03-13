@@ -5,6 +5,7 @@ import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacpp.opencv_features2d.DescriptorMatcher;
 import org.bytedeco.javacpp.opencv_features2d.Feature2D;
 
+import static org.bytedeco.javacpp.opencv_calib3d.RANSAC;
 import static org.bytedeco.javacpp.opencv_calib3d.findHomography;
 import static org.bytedeco.javacpp.opencv_core.*;
 
@@ -24,7 +25,8 @@ public class FeatureUtils {
 //        Mat m3 = buildMat(r -> drawMatches(m1, ps1.points, m2, ps2.points, mv, r)); showMat(m3, "matches");
         return findHomography(
             buildMatchPoints(mv, ps1.points, true),
-            buildMatchPoints(mv, ps2.points, false)
+            buildMatchPoints(mv, ps2.points, false),
+            new Mat(), RANSAC, 1.0
         );
     }
 

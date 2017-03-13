@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.gitlab.daring.image.features.FeatureUtils.buildHomography;
 import static com.gitlab.daring.image.util.ImageUtils.*;
+import static org.bytedeco.javacpp.opencv_core.NORM_L2;
 import static org.bytedeco.javacpp.opencv_imgproc.getAffineTransform;
 import static org.bytedeco.javacpp.opencv_video.estimateRigidTransform;
 
@@ -43,7 +44,7 @@ class TransformBuilder {
             Mat[] ms = cropToMin(ct.m1, ct.m2);
             return estimateRigidTransform(ms[1], ms[0], ct.params.fullAffine);
         } else if (method == FindMethod.Homography) {
-            return buildHomography(SURF.create(), new BFMatcher(), ct.m2, ct.m1);
+            return buildHomography(SURF.create(), new BFMatcher(NORM_L2, true), ct.m2, ct.m1);
         } else {
             throw new IllegalArgumentException("method=" + method);
         }
