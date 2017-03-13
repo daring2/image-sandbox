@@ -26,7 +26,7 @@ public class FeatureUtils {
         return findHomography(
             buildMatchPoints(mv, ps1.points, true),
             buildMatchPoints(mv, ps2.points, false),
-            new Mat(), RANSAC, 1.0
+            new Mat(), RANSAC, 3
         );
     }
 
