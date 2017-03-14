@@ -5,6 +5,7 @@
 	<property name="msgPattern" value="%date %-5level [%thread] %logger{64} %.-1000msg%n%ex"/>
 	<property name="logFile" value="log/image-sandbox"/>
 	<property name="maxHistory" value="7"/>
+	<property name="totalSizeCap" value="100MB"/>
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -21,6 +22,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${logFile}.%d.log</fileNamePattern>
 			<maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 
@@ -33,6 +35,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${logFile}.%d.err</fileNamePattern>
 			<maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>WARN</level>
