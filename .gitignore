@@ -3,6 +3,7 @@
 *.iml
 target/
 
+/config/
+/data/
 /log/
 /tmp/
-/build/classes/
