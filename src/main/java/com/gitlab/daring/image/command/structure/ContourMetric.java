@@ -18,18 +18,16 @@ public enum ContourMetric {
     Comparator<Contour> comparator = comparingDouble(c -> c.getMetric(this));
 
     public double calculate(Mat m) {
+        Rectangle r = toJava(boundingRect(m));
         if (this == Length) {
             return arcLength(m, false);
         } else if (this == Area) {
             return contourArea(m);
         } else if (this == Size) {
-            Rectangle r = toJava(boundingRect(m));
             return Math.max(r.width, r.height);
         } else if (this == MinSize) {
-            Rectangle r = toJava(boundingRect(m));
             return Math.min(r.width, r.height);
         } else if (this == Diameter) {
-            Rectangle r = toJava(boundingRect(m));
             return sqrt(pow(r.width, 2) + pow(r.height, 2));
         } else {
             throw new IllegalArgumentException("metric=" + m);
