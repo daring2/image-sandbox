@@ -1,5 +1,9 @@
 package com.gitlab.daring.image.util
 
-fun throwArgumentException(message: String) {
-    throw IllegalArgumentException(message)
+object ExceptionUtils {
+
+    @JvmStatic
+    fun throwArgumentException(message: String) {
+        throw IllegalArgumentException(message)
+    }
 }
