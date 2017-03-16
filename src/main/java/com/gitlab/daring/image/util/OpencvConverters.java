@@ -9,8 +9,7 @@ import org.bytedeco.javacpp.opencv_core.Size;
 import java.awt.*;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.LongStream.range;
+import static one.util.streamex.LongStreamEx.range;
 
 public class OpencvConverters {
 
@@ -43,7 +42,7 @@ public class OpencvConverters {
     }
 
     public static List<Mat> toJava(MatVector ms) {
-        return range(0, ms.size()).mapToObj(ms::get).collect(toList());
+        return range(ms.size()).mapToObj(ms::get).toList();
     }
 
     private OpencvConverters() {
