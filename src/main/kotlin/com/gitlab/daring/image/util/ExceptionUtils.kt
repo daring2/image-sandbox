@@ -6,4 +6,5 @@ object ExceptionUtils {
     fun throwArgumentException(message: String) {
         throw IllegalArgumentException(message)
     }
+    
 }

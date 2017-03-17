@@ -32,6 +32,11 @@ public class ConfigUtils {
         return ConfigFactory.empty();
     }
 
+    public static Config loadConfig(String path) {
+        Config c = ConfigFactory.load(ConfigParseOptions.defaults());
+        return path != null ? c.getConfig(path) : c;
+    }
+
     public static Config configFromMap(Map<String, Object> map) {
         return ConfigFactory.parseMap(map);
     }
@@ -49,7 +54,7 @@ public class ConfigUtils {
 
     public static void saveDiffConfig(Config c, String file) {
         ConfigDiffBuilder db = new ConfigDiffBuilder();
-        Config dc = ConfigFactory.load(ConfigParseOptions.defaults());
+        Config dc = loadConfig(null);
         Config sc = db.build(c.withFallback(dc), referenceConfig());
         saveConfig(sc, file);
     }
