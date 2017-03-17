@@ -78,7 +78,7 @@ public class CommandParamPanel extends JPanel {
         JTextField f = newValueField(p, true);
         ParamFileChooser fc = new ParamFileChooser(p, f);
         addComponent(p.name, f, "split 2");
-        add(fc.openButton, "growx 0");
+        add(fc.getOpenButton(), "growx 0");
     }
 
     void addStringParam(StringParam p) {
