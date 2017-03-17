@@ -10,20 +10,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static com.gitlab.daring.image.swing.SwingUtils.newButton;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
 
-class ParamFileChooser extends JFileChooser {
+class ParamFileChooser {
 
     public final FileParam param;
     public final JTextField valueField;
     public final JButton openButton;
+    
+    JFileChooser fileChooser;
 
     public ParamFileChooser(FileParam param, JTextField valueField) {
         this.param = param;
         this.valueField = valueField;
         openButton = newButton("...", this::open);
-        setCurrentDirectory(new File("."));
-        setMultiSelectionEnabled(param.maxCount != 1);
-        setFileFilter(createFileFilter());
+    }
+
+    JFileChooser createFileChooser() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("."));
+        fc.setMultiSelectionEnabled(param.maxCount != 1);
+        fc.setFileFilter(createFileFilter());
+        return fc;
     }
 
     FileFilter createFileFilter() {
@@ -32,7 +40,8 @@ class ParamFileChooser extends JFileChooser {
     }
 
     public void open() {
-        int r = showOpenDialog(valueField);
+        if (fileChooser == null) fileChooser = createFileChooser();
+        int r = fileChooser.showOpenDialog(valueField);
         if (r == APPROVE_OPTION) {
             String fl = buildFileList();
             valueField.setText(fl);
@@ -42,7 +51,7 @@ class ParamFileChooser extends JFileChooser {
 
     String buildFileList() {
         Path d = Paths.get("").toAbsolutePath();
-        File[] fs = getSelectedFiles();
+        File[] fs = fileChooser.getSelectedFiles();
         return StreamEx.of(fs).map(File::toPath).map(d::relativize).joining(",");
     }
 
