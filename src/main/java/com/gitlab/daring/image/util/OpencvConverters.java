@@ -44,7 +44,7 @@ public class OpencvConverters {
         return range(ms.size()).mapToObj(ms::get).toList();
     }
 
-    public static List<opencv_core.DMatch> toJava(DMatchVector ms) {
+    public static List<DMatch> toJava(DMatchVector ms) {
         return IntStreamEx.range((int) ms.size()).mapToObj(ms::get).toList();
     }
 

@@ -25,7 +25,7 @@ public class WarpPerspectiveCommand extends BaseCommand {
     @Override
     public void execute(CommandEnv env) {
         DMatchResult mr = env.matchResult;
-        Mat m1 = mr.points1.mat;
+        Mat m1 = mr.getPoints1().getMat();
         warpPerspective(m1, rm, env.mat, m1.size(), method.vi(), BORDER_CONSTANT, Scalar.BLACK);
         env.mat = rm;
     }
