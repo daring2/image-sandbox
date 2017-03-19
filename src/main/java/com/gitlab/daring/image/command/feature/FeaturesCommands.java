@@ -18,6 +18,8 @@ public class FeaturesCommands {
         r.register("newFlannMatcher", FlannMatcherCommand::new);
         r.register("matchFeatures", MatchFeaturesCommand::new);
         r.register("showFeatureMatches", ShowFeatureMatchesCommand::new);
+        r.register("findHomography", FindHomographyCommand::new);
+        r.register("warpPerspective", WarpPerspectiveCommand::new);
         FeatureDetectorType.register(r);
     }
 

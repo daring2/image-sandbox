@@ -8,7 +8,6 @@ import com.gitlab.daring.image.features.KeyPointList;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_features2d.DescriptorMatcher;
 import org.bytedeco.javacpp.opencv_features2d.Feature2D;
-import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static com.gitlab.daring.image.features.FeatureUtils.detectAndCompute;
@@ -25,13 +24,12 @@ public class MatchFeaturesCommand extends BaseCommand {
     public void execute(CommandEnv env) {
         Mat m1 = env.mat, m2 = env.getMat(matKey.v);
 
+        if (env.featureDetector == null) runCommand(env, "newFeatureDetector");
         Feature2D fd = env.featureDetector;
-        if (fd == null) fd = SURF.create();
         KeyPointList ps1 = detectAndCompute(fd, m1);
         KeyPointList ps2 = detectAndCompute(fd, m2);
 
-        if (env.descriptorMatcher == null)
-            runCommand(env, "newBFMatcher");
+        if (env.descriptorMatcher == null) runCommand(env, "newBFMatcher");
         DescriptorMatcher dm = env.descriptorMatcher;
         DMatchResult mr = new DMatchResult(ps1, ps2);
         dm.match(ps1.descriptors, ps2.descriptors, mr.matches);
