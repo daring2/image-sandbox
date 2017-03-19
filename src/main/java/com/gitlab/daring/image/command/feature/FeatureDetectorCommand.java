@@ -18,6 +18,7 @@ public class FeatureDetectorCommand extends BaseCommand {
     public void execute(CommandEnv env) {
         FeatureDetectorType dt = detectorType.v;
         env.featureDetector = dt.factory.create();
+        env.descriptorMatcher = null;
     }
 
 }
