@@ -14,7 +14,7 @@ public enum FeatureDetectorType {
     SURF(opencv_xfeatures2d.SURF::create),
     SIFT(opencv_xfeatures2d.SIFT::create),
     ORB(opencv_features2d.ORB::create),
-    Start(StarDetector::create),
+    STAR(StarDetector::create),
     MSER(opencv_features2d.MSER::create),
     SimpleBlob(SimpleBlobDetector::create),
     ;
