@@ -19,8 +19,7 @@ class StarDetectorCommand extends BaseCommand {
 
     @Override
     public void execute(CommandEnv env) {
-        StarDetector d = StarDetector.create(maxSize.v, th1.v, th2.v, th3.v, nonMaxSize.v);
-        d.detect(env.mat, env.keyPoints);
+        env.featureDetector = StarDetector.create(maxSize.v, th1.v, th2.v, th3.v, nonMaxSize.v);
     }
 
 }

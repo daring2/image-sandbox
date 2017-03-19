@@ -22,7 +22,7 @@ class SURFCommand extends BaseCommand {
         detector.setHessianThreshold(hessianThreshold.v);
         detector.setNOctaves(nOctaves.v);
         detector.setNOctaveLayers(nOctaveLayers.v);
-        detector.detect(env.mat, env.keyPoints);
+        env.featureDetector = detector;
     }
 
 }

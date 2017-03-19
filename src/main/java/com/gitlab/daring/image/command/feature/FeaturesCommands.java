@@ -13,13 +13,12 @@ public class FeaturesCommands {
     public static void register(CommandRegistry r) {
         FeaturesCommands f = new FeaturesCommands();
         r.register("drawKeyPoints", f::drawKeyPointsCommand);
-        r.register("detectFeaturesGFTT", GFTTCommand::new);
-        r.register("detectFeaturesSURF", SURFCommand::new);
-        r.register("detectFeaturesSIFT", SIFTCommand::new);
-        r.register("detectFeaturesORB", ORBCommand::new);
-        r.register("detectFeaturesSTAR", StarDetectorCommand::new);
-        r.register("detectFeaturesMSER", MSERCommand::new);
-        r.register("detectFeaturesSB", SimpleBlobCommand::new);
+        r.register("detectFeatures", DetectFeaturesCommand::new);
+        r.register("newBFMatcher", BFMatcherCommand::new);
+        r.register("newFlannMatcher", FlannMatcherCommand::new);
+        r.register("matchFeatures", MatchFeaturesCommand::new);
+        r.register("showFeatureMatches", ShowFeatureMatchesCommand::new);
+        FeatureDetectorType.register(r);
     }
 
     public Command drawKeyPointsCommand(String... ps) {

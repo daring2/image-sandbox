@@ -23,7 +23,7 @@ class ORBCommand extends BaseCommand {
         detector.setMaxFeatures(maxFeatures.v);
         detector.setScaleFactor(scale.v * 0.1);
         detector.setNLevels(nlevels.v);
-        detector.detect(env.mat, env.keyPoints);
+        env.featureDetector = detector;
     }
 
 }

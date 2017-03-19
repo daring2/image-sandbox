@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.IntParam;
 import org.bytedeco.javacpp.opencv_features2d.SimpleBlobDetector;
 
-public class SimpleBlobCommand extends BaseCommand {
+public class SimpleBlobDetectorCommand extends BaseCommand {
 
     //TODO support all params
     final IntParam minThreshold = intParam(0, "0-255");
@@ -15,7 +15,7 @@ public class SimpleBlobCommand extends BaseCommand {
     final IntParam minArea = intParam(10, "0-10000");
     final IntParam maxArea = intParam(10000, "0-10000");
 
-    public SimpleBlobCommand(String... args) {
+    public SimpleBlobDetectorCommand(String... args) {
         super(args);
     }
 
@@ -32,8 +32,7 @@ public class SimpleBlobCommand extends BaseCommand {
         ps.filterByColor(false);
         ps.filterByCircularity(false);
         ps.filterByConvexity(false);
-        SimpleBlobDetector d = SimpleBlobDetector.create(ps);
-        d.detect(env.mat, env.keyPoints);
+        env.featureDetector = SimpleBlobDetector.create(ps);
     }
 
 }

@@ -22,7 +22,7 @@ class MSERCommand extends BaseCommand {
         detector.setDelta(delta.v);
         detector.setMinArea(minArea.v);
         detector.setMaxArea(maxArea.v);
-        detector.detect(env.mat, env.keyPoints);
+        env.featureDetector = detector;
     }
 
 }

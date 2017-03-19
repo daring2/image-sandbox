@@ -12,7 +12,7 @@ import static org.bytedeco.javacpp.opencv_core.*;
 public class FeatureUtils {
     
     public static KeyPointList detectAndCompute(Feature2D d, Mat m) {
-        KeyPointList r = new KeyPointList();
+        KeyPointList r = new KeyPointList(m);
         d.detectAndCompute(m, new Mat(), r.points, r.descriptors);
         return r;
     }

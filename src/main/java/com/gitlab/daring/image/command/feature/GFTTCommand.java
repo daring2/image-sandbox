@@ -24,7 +24,7 @@ class GFTTCommand extends BaseCommand {
         detector.setQualityLevel(qualityLevel.pv());
         detector.setMinDistance(minDistance.v);
         detector.setBlockSize(blockSize.v);
-        detector.detect(env.mat, env.keyPoints);
+        env.featureDetector = detector;
     }
 
 }

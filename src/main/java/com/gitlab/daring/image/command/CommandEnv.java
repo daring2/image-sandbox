@@ -1,8 +1,11 @@
 package com.gitlab.daring.image.command;
 
 import com.gitlab.daring.image.command.structure.Contour;
+import com.gitlab.daring.image.features.DMatchResult;
 import org.bytedeco.javacpp.opencv_core.KeyPointVector;
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_features2d.DescriptorMatcher;
+import org.bytedeco.javacpp.opencv_features2d.Feature2D;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +19,12 @@ public class CommandEnv {
     public Mat mat = new Mat();
     public Map<String, Mat> mats = new HashMap<>();
     public Map<String, Object> vars = new HashMap<>();
-    public KeyPointVector keyPoints = new KeyPointVector();
     public List<Contour> contours;
+
+    public Feature2D featureDetector;
+    public KeyPointVector keyPoints = new KeyPointVector();
+    public DescriptorMatcher descriptorMatcher;
+    public DMatchResult matchResult;
 
     public void setTask(String task) {
         this.task = task; curTask = "";
