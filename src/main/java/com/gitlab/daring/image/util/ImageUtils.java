@@ -1,6 +1,5 @@
 package com.gitlab.daring.image.util;
 
-import org.bytedeco.javacpp.indexer.FloatIndexer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Point2f;
@@ -14,7 +13,6 @@ import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static com.google.common.collect.Iterables.toArray;
-import static org.bytedeco.javacpp.opencv_core.CV_32F;
 
 public class ImageUtils {
 
@@ -39,13 +37,6 @@ public class ImageUtils {
 
     public static Mat smat(int v) {
         return new Mat(new byte[]{(byte) v});
-    }
-
-    public static Mat newFloatMat(float[][] vs) {
-        Mat m = new Mat(vs.length, vs[0].length, CV_32F);
-        FloatIndexer ind = m.createIndexer();
-        for (int y = 0; y < vs.length; y++) ind.put(y, vs[y]);
-        return m;
     }
 
     public static MatVector newMatVector(Collection<Mat> ms) {
