@@ -1,12 +1,11 @@
 package com.gitlab.daring.image.util;
 
+import one.util.streamex.IntStreamEx;
 import org.bytedeco.javacpp.opencv_core;
-import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.MatVector;
-import org.bytedeco.javacpp.opencv_core.Rect;
-import org.bytedeco.javacpp.opencv_core.Size;
+import org.bytedeco.javacpp.opencv_core.*;
 
 import java.awt.*;
+import java.awt.Point;
 import java.util.List;
 
 import static one.util.streamex.LongStreamEx.range;
@@ -43,6 +42,10 @@ public class OpencvConverters {
 
     public static List<Mat> toJava(MatVector ms) {
         return range(ms.size()).mapToObj(ms::get).toList();
+    }
+
+    public static List<opencv_core.DMatch> toJava(DMatchVector ms) {
+        return IntStreamEx.range((int) ms.size()).mapToObj(ms::get).toList();
     }
 
     private OpencvConverters() {

@@ -5,6 +5,7 @@ import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.StringParam;
 import com.gitlab.daring.image.features.DMatchResult;
 import com.gitlab.daring.image.features.KeyPointList;
+import org.bytedeco.javacpp.opencv_core.DMatchVector;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_features2d.DescriptorMatcher;
 import org.bytedeco.javacpp.opencv_features2d.Feature2D;
@@ -33,9 +34,9 @@ public class MatchFeaturesCommand extends BaseCommand {
         if (env.descriptorMatcher == null)
             runCommand(env, "newBFMatcher");
         DescriptorMatcher dm = env.descriptorMatcher;
-        DMatchResult mr = new DMatchResult(ps1, ps2);
-        dm.match(ps1.descriptors, ps2.descriptors, mr.matchVector);
-        env.matchResult = mr;
+        DMatchVector mv = new DMatchVector();
+        dm.match(ps1.descriptors, ps2.descriptors, mv);
+        env.matchResult = new DMatchResult(ps1, ps2, mv);
     }
 
 }
