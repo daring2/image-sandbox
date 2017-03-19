@@ -1,9 +1,10 @@
 package com.gitlab.daring.image.util;
 
 import org.bytedeco.javacpp.indexer.FloatIndexer;
-import org.bytedeco.javacpp.opencv_core.*;
+import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_core.MatVector;
+import org.bytedeco.javacpp.opencv_core.Point2f;
 
-import java.awt.Point;
 import java.awt.*;
 import java.util.Collection;
 import java.util.List;
@@ -13,8 +14,7 @@ import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static com.google.common.collect.Iterables.toArray;
-import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgproc.*;
+import static org.bytedeco.javacpp.opencv_core.CV_32F;
 
 public class ImageUtils {
 
@@ -35,20 +35,6 @@ public class ImageUtils {
     public static Mat cropCenter(Mat m, double rectSize) {
         if (rectSize == 1.0) return m;
         return cropMat(m, centerRect(m, rectSize));
-    }
-
-    public static Mat rotateMat(Mat m, double angle) {
-        Point2f cp = new Point2f(m.cols() / 2.0f, m.rows() / 2.0f);
-        Mat rm = getRotationMatrix2D(cp, angle, 1);
-        return buildMat(r -> warpAffine(m, r, rm, m.size()));
-    }
-
-    public static void addWeightedMat(Mat m1, Mat m2, Mat dm, double f) {
-        if (f > 0) addWeighted(m1, 1 - f, m2, f, 0, dm);
-    }
-
-    public static void drawRect(Mat m, Rectangle r, Scalar c, int th) {
-        rectangle(m, toOpencv(r), c, th, LINE_8, 0);
     }
 
     public static Mat smat(int v) {
