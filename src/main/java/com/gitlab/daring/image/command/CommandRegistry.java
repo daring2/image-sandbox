@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.gitlab.daring.image.MainContext.mainContext;
-import static com.gitlab.daring.image.cache.CacheUtils.buildClosableCache;
 import static com.gitlab.daring.image.command.CommandUtils.parseArgs;
 import static com.gitlab.daring.image.command.CommandUtils.splitScript;
+import static com.gitlab.daring.image.util.CacheUtils.buildClosableCache;
 import static com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException;
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
 import static java.util.Collections.emptyList;
