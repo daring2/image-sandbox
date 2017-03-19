@@ -1,6 +1,5 @@
 package com.gitlab.daring.image.util;
 
-import com.gitlab.daring.image.component.BaseCanvasFrame;
 import org.bytedeco.javacpp.indexer.FloatIndexer;
 import org.bytedeco.javacpp.opencv_core.*;
 
@@ -14,43 +13,15 @@ import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static com.google.common.collect.Iterables.toArray;
-import static java.lang.Math.min;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static org.bytedeco.javacpp.opencv_core.*;
-import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 
 public class ImageUtils {
-
-    public static Mat loadAndShow(String file) {
-        Mat m = imread(file);
-        showMat(m, file);
-        return m;
-    }
 
     public static Mat buildMat(Consumer<Mat> func) {
         Mat m = new Mat();
         func.accept(m);
         return m;
-    }
-
-    public static void showMat(Mat m, String title) {
-        BaseCanvasFrame frame = new BaseCanvasFrame(title);
-        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        frame.showMat(m);
-    }
-
-    public static Mat convertToGrey(Mat m) {
-        if (m.channels() == 1) return m;
-        return buildMat(r -> cvtColor(m, r, COLOR_BGR2GRAY));
-    }
-
-    public static void flipMat(Mat mat, int code) {
-        flip(mat.clone(), mat, code);
-    }
-
-    public static Mat resizeMat(Mat m, double scale) {
-        return buildMat(r -> resize(m, r, new Size(), scale, scale, INTER_LINEAR));
     }
 
     public static Rectangle centerRect(Mat m, double rectSize) {
@@ -64,11 +35,6 @@ public class ImageUtils {
     public static Mat cropCenter(Mat m, double rectSize) {
         if (rectSize == 1.0) return m;
         return cropMat(m, centerRect(m, rectSize));
-    }
-
-    public static Mat[] cropToMin(Mat m1, Mat m2) {
-        Rectangle r = new Rectangle(min(m1.cols(), m2.cols()), min(m1.rows(), m2.rows()));
-        return new Mat[]{cropMat(m1, r), cropMat(m2, r)};
     }
 
     public static Mat rotateMat(Mat m, double angle) {
