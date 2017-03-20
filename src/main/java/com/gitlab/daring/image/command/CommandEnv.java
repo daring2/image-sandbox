@@ -41,6 +41,10 @@ public class CommandEnv {
         if (k.isEmpty()) mat = mc; else mats.put(k, mc);
     }
 
+    public CommandEnv putVar(String key, Object value) {
+        vars.put(key, value); return this;
+    }
+
     public String eval(String exp) {
         String vn = exp.startsWith("$") ? exp.substring(1) : "";
         return vn.isEmpty() ? exp : "" + vars.get(vn);

@@ -41,8 +41,7 @@ class ScriptExecutor implements AutoCloseable {
 
     void runScript(int i) {
         String file = files.get(i);
-        env.vars.put("i", i);
-        env.vars.put("file", file);
+        env.putVar("i", i).putVar("file", file);
         env.setTask("");
         script.runCommand("read", file);
         script.execute();
