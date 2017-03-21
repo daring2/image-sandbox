@@ -42,7 +42,9 @@ class ParamFileChooser(val param: FileParam, val valueField: JTextField) {
     fun buildFileList(): String {
         val d = Paths.get("").toAbsolutePath()
         val fs = if (fc.isMultiSelectionEnabled) fc.selectedFiles else arrayOf(fc.selectedFile)
-        return fs.map(File::toPath).map(d::relativize).joinToString(",");
+        return fs.map(File::toPath).map { p ->
+            try { d.relativize(p) } catch (e: Exception) { p }
+        }.joinToString(",");
     }
 
 }
