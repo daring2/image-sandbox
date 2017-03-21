@@ -4,11 +4,15 @@ import com.gitlab.daring.image.command.parameter.CommandParam;
 import com.gitlab.daring.image.command.parameter.CommandParamPanel;
 import com.gitlab.daring.image.event.VoidEvent;
 import com.gitlab.daring.image.swing.BaseAction;
+import com.gitlab.daring.image.swing.JScrollPopupMenu;
 import com.typesafe.config.Config;
 import net.miginfocom.swing.MigLayout;
 import org.slf4j.Logger;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +35,7 @@ public class CommandScriptPanel extends JPanel {
 
     protected final CommandParamPanel staticParamPanel = new CommandParamPanel();
     protected final CommandParamPanel paramPanel = new CommandParamPanel();
-    
+
     final JTextArea scriptField;
     final Consumer<Void> changeListener = e -> changeEvent.fire();
 
@@ -49,6 +53,25 @@ public class CommandScriptPanel extends JPanel {
 
     JTextArea createScriptField() {
         JTextArea field = new JTextArea("", 5, 20);
+        JPopupMenu popup = new JScrollPopupMenu("Available commands");
+        field.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.isControlDown() && e.getKeyChar() == ' ') {
+                    CommandRegistry.Instance.factories.keySet().stream().sorted().forEach(c -> {
+                        JMenuItem item = new JMenuItem(c);
+                        item.addActionListener(l -> {
+                            field.insert(" " + c + ";", field.getCaretPosition());
+                        });
+                        popup.add(item);
+
+                    });
+                    Point cp = field.getCaret().getMagicCaretPosition();
+                    popup.show(field, cp.x, cp.y);
+                }
+            }
+        });
         add(new JLabel("Скрипт"), "left");
         add(new JScrollPane(field), "h 1000");
         return field;
