@@ -41,6 +41,10 @@ public abstract class BaseCommand implements Command {
         return addParam(new StringParam(nextArg(dv)));
     }
 
+    public FileParam fileParam(String dv) {
+        return addParam(new FileParam(nextArg(dv)));
+    }
+
     public String arg(int i, Object dv) {
         return i < args.length ? args[i] : "" + dv;
     }

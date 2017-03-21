@@ -20,10 +20,14 @@ public abstract class CommandParam<T> {
     public volatile T v;
 
     public CommandParam(String sv, String sp) {
-        args = trimAll(split(" " + sv, ":"));
+        args = parseArgs(sv);
         name = arg(1, "");
         spec = arg(2, sp);
         setStringValue(arg(0, ""));
+    }
+
+    protected String[] parseArgs(String sv) {
+        return trimAll(split(" " + sv, ":"));
     }
 
     public String arg(int i, String dv) {

@@ -4,6 +4,7 @@ import com.gitlab.daring.image.command.BaseCommand;
 import com.gitlab.daring.image.command.CommandEnv;
 import com.gitlab.daring.image.command.parameter.BooleanParam;
 import com.gitlab.daring.image.command.parameter.EnumParam;
+import com.gitlab.daring.image.command.parameter.FileParam;
 import com.gitlab.daring.image.command.parameter.StringParam;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
@@ -13,7 +14,7 @@ import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 
 public class ReadCommand extends BaseCommand {
 
-    final StringParam file = stringParam("");
+    final FileParam file = fileParam("");
     final EnumParam<ReadFlag> flags = enumParam(ReadFlag.class, ReadFlag.None);
     final StringParam key = stringParam("");
     final BooleanParam cache = boolParam(true);
