@@ -1,2 +1,2 @@
 if (!project.hasProperty("isbVersion"))
-    ext.isbVersion = '0.5.1-SNAPSHOT'
+    ext.isbVersion = '0.5.2-SNAPSHOT'
