@@ -35,10 +35,11 @@ public class CommandEnv {
         return k.isEmpty() ? mat : mats.get(k).clone();
     }
 
-    public void putMat(String key, Mat m) {
+    public CommandEnv putMat(String key, Mat m) {
         String k = eval(key);
         Mat mc = m.clone();
         if (k.isEmpty()) mat = mc; else mats.put(k, mc);
+        return this;
     }
 
     public CommandEnv putVar(String key, Object value) {
