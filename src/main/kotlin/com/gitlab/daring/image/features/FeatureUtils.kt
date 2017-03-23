@@ -19,8 +19,7 @@ object FeatureUtils {
         for (i in 0..size - 1) {
             val dm = mv.get(i.toLong())
             val ki = if (qps) dm.queryIdx() else dm.trainIdx()
-            val kp = kps.get(ki.toLong())
-            val pt = kp.pt()
+            val pt = kps.get(ki.toLong()).pt()
             ind.put(0, i.toLong(), 0, pt.x())
             ind.put(0, i.toLong(), 1, pt.y())
         }
