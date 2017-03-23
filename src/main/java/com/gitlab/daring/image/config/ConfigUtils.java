@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.Map;
 
 import static com.gitlab.daring.image.util.CommonUtils.tryRun;
+import static com.typesafe.config.ConfigFactory.parseFile;
 import static com.typesafe.config.ConfigRenderOptions.concise;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -16,8 +17,16 @@ public class ConfigUtils {
 
     public static final String AppConfigFile = "config/application.conf";
 
+    public static final Config defaultConfig = loadDefaultConfig();
+
+    private static Config loadDefaultConfig() {
+        File f = new File(AppConfigFile);
+        Config c = f.exists() ? parseFile(f) : emptyConfig();
+        return c.withFallback(ConfigFactory.load());
+    }
+
     public static Config defaultConfig() {
-        return ConfigFactory.load();
+        return defaultConfig;
     }
 
     public static Config defaultConfig(String path) {

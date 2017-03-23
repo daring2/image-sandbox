@@ -43,7 +43,6 @@ allprojects {
         compile "com.miglayout:miglayout-swing:5.0"
         testCompile "junit:junit:4.12"
         testCompile "org.mockito:mockito-core:2.7.12"
-        runtime files('config')
     }
 
     task copyDeps(type: Sync, dependsOn: build) {
