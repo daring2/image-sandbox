@@ -21,6 +21,7 @@ public class FilterCommands {
         r.register("bilateralFilter", f::bilateralFilterCommand);
         r.register("sharpen", f::sharpenCommand);
         r.register("laplacian", LaplacianCommand::new);
+        r.register("removeLight", RemoveLightCommand::new);
     }
 
     public Command blurCommand(String... ps) {
