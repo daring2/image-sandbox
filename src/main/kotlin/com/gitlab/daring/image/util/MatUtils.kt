@@ -7,6 +7,7 @@ import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
 object MatUtils {
 
+    @JvmStatic
     infix fun Mat.show(title: String) {
         val frame = BaseCanvasFrame(title)
         frame.defaultCloseOperation = DISPOSE_ON_CLOSE
