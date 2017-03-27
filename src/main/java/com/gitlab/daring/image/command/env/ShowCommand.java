@@ -6,7 +6,6 @@ import com.gitlab.daring.image.component.BaseCanvasFrame;
 
 import static com.gitlab.daring.image.command.CommandScriptUtils.runCommand;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 public class ShowCommand extends BaseCommand {
 
@@ -16,7 +15,7 @@ public class ShowCommand extends BaseCommand {
 
     public ShowCommand(String... params) {
         super(params);
-        frame.setDefaultCloseOperation(isCacheable() ? HIDE_ON_CLOSE : DISPOSE_ON_CLOSE);
+        if (!isCacheable()) frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     @Override
