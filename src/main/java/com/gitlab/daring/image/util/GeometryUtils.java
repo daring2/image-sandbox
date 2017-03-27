@@ -20,10 +20,6 @@ public class GeometryUtils {
         return new Point(r.x + r.width / 2, r.y + r.height / 2);
     }
 
-    public static Point getCenter(Dimension d) {
-        return new Point(d.width / 2, d.height / 2);
-    }
-
     public static Dimension scale(Dimension d, double f) {
         return new Dimension(roundInt(d.width * f), roundInt(d.height * f));
     }
