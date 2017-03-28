@@ -56,8 +56,8 @@ public class CommandScriptPanel extends JPanel {
     }
 
     void createButtons() {
-        BaseAction act = new BaseAction("Применить", e -> applyEvent.fire());
-        act.register(this, "control S");
+        BaseAction act = new BaseAction("Применить", (Runnable) applyEvent::fire);
+        act.register(this, "control S", true);
         add(new JButton(act), "left, grow 0");
     }
 
