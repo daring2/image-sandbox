@@ -40,6 +40,7 @@ public class CommandScriptPanel extends JPanel {
         add(staticParamPanel);
         add(new JSeparator());
         scriptField = createScriptField();
+        new CommandPopupMenu(scriptField);
         createButtons();
         add(new JSeparator());
         add(paramPanel);
@@ -49,15 +50,14 @@ public class CommandScriptPanel extends JPanel {
 
     JTextArea createScriptField() {
         JTextArea field = new JTextArea("", 5, 20);
-        new CommandPopupMenu(field);
         add(new JLabel("Скрипт"), "left");
         add(new JScrollPane(field), "h 1000");
         return field;
     }
 
     void createButtons() {
-        BaseAction act = new BaseAction("Применить", e -> applyEvent.fire());
-        act.register(this, "control S");
+        BaseAction act = new BaseAction("Применить", (Runnable) applyEvent::fire);
+        act.register(this, "control S", true);
         add(new JButton(act), "left, grow 0");
     }
 

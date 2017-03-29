@@ -10,6 +10,7 @@ import com.gitlab.daring.image.common.BaseComponent;
 import com.google.common.cache.Cache;
 import com.typesafe.config.Config;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,10 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
     //TODO move to main context
     public static final CommandRegistry Instance = new CommandRegistry();
+
+    public static CommandRegistry commandRegistry() {
+        return Instance;
+    }
 
     final Config cmdConfig = getConfig("commands");
     final Map<String, Command.Factory> factories = new HashMap<>();
@@ -44,6 +49,10 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
 
     public void register(String name, Command.Factory f) {
         factories.put(name, f);
+    }
+
+    public Collection<String> getCommands() {
+        return factories.keySet();
     }
 
     public ScriptCommand parseScript(String script) {
