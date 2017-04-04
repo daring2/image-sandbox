@@ -20,7 +20,7 @@ public enum MarkerType {
 
     public void drawCenter(Mat m, IntParam p, int color, int th) {
         Dimension d = toJava(m.size());
-        Rectangle cr = getCenterRect(d, p.pv());
+        Rectangle cr = getCenterRect(d, p.getPv());
         Scalar c = Scalar.all(color);
         if (this == Rectangle) {
             rectangle(m, toOpencv(cr), c, th, LINE_8, 0);

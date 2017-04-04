@@ -21,7 +21,7 @@ class DrawCenterCommand(vararg args: String): KBaseCommand(*args) {
     override fun execute(env: CommandEnv) {
         val m = env.mat
         val d = toJava(m.size)
-        val cr = getCenterRect(d, scale.pv())
+        val cr = getCenterRect(d, scale.pv)
         val c = all(color.v.toDouble())
         val th = thickness.posVal(CV_FILLED)
         val sh = shape.v

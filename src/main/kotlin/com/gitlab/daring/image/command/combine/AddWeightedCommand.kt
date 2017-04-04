@@ -13,7 +13,7 @@ internal class AddWeightedCommand(vararg args: String) : KBaseCommand(*args) {
 
     override fun execute(env: CommandEnv) {
         val m2 = env.getMat(key.v)
-        addWeighted(env.mat, f1.pv(), m2, f2.pv(), f3.pv(), env.mat)
+        addWeighted(env.mat, f1.pv, m2, f2.pv, f3.pv, env.mat)
     }
 
 }

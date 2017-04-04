@@ -25,7 +25,7 @@ public class ScaleCommand extends BaseCommand {
     @Override
     public void execute(CommandEnv env) {
         if (factor.v == 100) return;
-        double f = Math.max(factor.pv(), 0.005);
+        double f = Math.max(factor.getPv(), 0.005);
         resize(env.mat, rm, s0, f, f, method.vi());
         env.mat = rm;
     }

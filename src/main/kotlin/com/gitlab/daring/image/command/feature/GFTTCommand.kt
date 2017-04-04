@@ -16,11 +16,11 @@ internal class GFTTCommand(vararg args: String) : KBaseCommand(*args) {
 
     override fun execute(env: CommandEnv) {
         detector.maxFeatures = maxFeatures.v
-        detector.qualityLevel = qualityLevel.pv()
+        detector.qualityLevel = qualityLevel.pv
         detector.minDistance = minDistance.v
         detector.blockSize = blockSize.v
         detector.harrisDetector = harrisDetector.v
-        detector.k = kp.pv()
+        detector.k = kp.pv
         env.featureDetector = detector
     }
 
