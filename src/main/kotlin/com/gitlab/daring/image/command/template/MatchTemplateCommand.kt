@@ -11,7 +11,7 @@ import org.bytedeco.javacpp.opencv_imgproc.matchTemplate
 class MatchTemplateCommand(vararg args: String): KBaseCommand(*args) {
 
     val tkey = stringParam("tm")
-    val matchMethod = enumParam<MatchMethod>(MatchMethod.CCORR_NORMED)
+    val matchMethod = enumParam(MatchMethod.CCORR_NORMED)
 
     val rm = Mat()
     val valueRef = DoublePointer(1)

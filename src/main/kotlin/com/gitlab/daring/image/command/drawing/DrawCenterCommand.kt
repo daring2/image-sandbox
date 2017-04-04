@@ -13,7 +13,7 @@ import org.bytedeco.javacpp.opencv_imgproc.*
 
 class DrawCenterCommand(vararg args: String): KBaseCommand(*args) {
 
-    val shape = enumParam<Shape>(Shape.Rectangle)
+    val shape = enumParam(Shape.Rectangle)
     val scale = intParam(10, "0-100")
     val color = intParam(255, "0-255")
     val thickness = intParam(1, "0-10")

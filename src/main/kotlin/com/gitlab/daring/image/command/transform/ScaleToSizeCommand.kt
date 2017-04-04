@@ -12,7 +12,7 @@ class ScaleToSizeCommand(vararg args: String) : KBaseCommand(*args) {
 
     val matSize = intParam(0, "0-5000")
     val minFactor = intParam(5, "0-100")
-    val method = enumParam<InterMethod>(InterMethod.Linear)
+    val method = enumParam(InterMethod.Linear)
 
     val rm = Mat()
     val s0 = Size()

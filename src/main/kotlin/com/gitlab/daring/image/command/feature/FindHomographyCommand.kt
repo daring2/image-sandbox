@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 
 class FindHomographyCommand(vararg args: String): KBaseCommand(*args) {
 
-    val method = enumParam<HomographyMethod>(HomographyMethod.RANSAC)
+    val method = enumParam(HomographyMethod.RANSAC)
     val reprojThreshold = doubleParam(3.0, "0-10")
     val maxIters = intParam(2000, "0-10000")
     val confidence = doubleParam(0.995, "0-1")
