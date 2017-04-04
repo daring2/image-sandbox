@@ -2,6 +2,7 @@ package com.gitlab.daring.image.command.drawing
 
 import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
+import com.gitlab.daring.image.opencv.size
 import com.gitlab.daring.image.util.GeometryUtils.getCenterRect
 import com.gitlab.daring.image.util.OpencvConverters.toJava
 import com.gitlab.daring.image.util.OpencvConverters.toOpencv
@@ -19,7 +20,7 @@ class DrawCenterCommand(vararg args: String): KBaseCommand(*args) {
 
     override fun execute(env: CommandEnv) {
         val m = env.mat
-        val d = toJava(m.size())
+        val d = toJava(m.size)
         val cr = getCenterRect(d, scale.pv())
         val c = all(color.v.toDouble())
         val th = thickness.posVal(CV_FILLED)

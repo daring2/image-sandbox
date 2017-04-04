@@ -42,6 +42,10 @@ public class CommandEnv {
         return this;
     }
 
+    public <T> T getVar(String key) {
+        return (T) vars.get(key);
+    }
+
     public CommandEnv putVar(String key, Object value) {
         vars.put(key, value); return this;
     }

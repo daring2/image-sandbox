@@ -6,7 +6,7 @@ object TemplateCommands {
 
     @JvmStatic
     fun register(r: CommandRegistry) {
-
+        r.register("matchTemplate", ::MatchTemplateCommand)
     }
 
 }

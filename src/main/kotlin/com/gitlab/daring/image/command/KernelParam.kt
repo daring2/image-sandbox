@@ -1,5 +1,7 @@
 package com.gitlab.daring.image.command
 
+import com.gitlab.daring.image.opencv.size
+import com.gitlab.daring.image.opencv.width
 import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_core.Size
 import org.bytedeco.javacpp.opencv_imgproc.CV_SHAPE_RECT
@@ -11,8 +13,8 @@ class KernelParam(cmd: BaseCommand) {
 
     @Volatile var v = Mat()
 
-    val size: Size get() = v.size()
-    val width get() = v.cols()
+    val size: Size get() = v.size
+    val width get() = v.width
 
     init {
         p.onChange { update() }
