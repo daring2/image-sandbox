@@ -2,6 +2,7 @@ package com.gitlab.daring.image.command.transform;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
+import com.gitlab.daring.image.command.KernelParam;
 import com.gitlab.daring.image.command.SimpleCommand;
 import com.gitlab.daring.image.command.parameter.DoubleParam;
 import com.gitlab.daring.image.command.parameter.IntParam;
@@ -26,23 +27,23 @@ public class FilterCommands {
 
     public Command blurCommand(String... ps) {
         SimpleCommand c = new SimpleCommand(ps);
-        KernelSizeParam sp = new KernelSizeParam(c);
-        return c.withFunc((m, d) -> blur(m, d, sp.v));
+        KernelParam kp = new KernelParam(c);
+        return c.withFunc((m, d) -> blur(m, d, kp.getSize()));
     }
 
     public Command gaussianBlurCommand(String... ps) {
         SimpleCommand c = new SimpleCommand(ps);
-        KernelSizeParam sp = new KernelSizeParam(c);
+        KernelParam kp = new KernelParam(c);
         DoubleParam sigma = c.doubleParam(0, "0-10");
         IntParam n = c.intParam(1, "0-10");
-        return c.withFunc(n, m -> GaussianBlur(m, m, sp.v, sigma.v));
+        return c.withFunc(n, m -> GaussianBlur(m, m, kp.getSize(), sigma.v));
     }
 
     public Command medianBlurCommand(String... ps) {
         SimpleCommand c = new SimpleCommand(ps);
-        KernelSizeParam sp = new KernelSizeParam(c);
+        KernelParam kp = new KernelParam(c);
         IntParam n = c.intParam(1, "0-10");
-        return c.withFunc(n, m -> medianBlur(m, m, sp.w));
+        return c.withFunc(n, m -> medianBlur(m, m, kp.getWidth()));
     }
 
     public Command bilateralFilterCommand(String... ps) {
