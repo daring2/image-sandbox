@@ -5,6 +5,7 @@ import com.gitlab.daring.image.command.drawing.DrawCommands;
 import com.gitlab.daring.image.command.env.EnvCommands;
 import com.gitlab.daring.image.command.feature.FeaturesCommands;
 import com.gitlab.daring.image.command.structure.StructureCommands;
+import com.gitlab.daring.image.command.template.TemplateCommands;
 import com.gitlab.daring.image.command.transform.TransformCommands;
 import com.gitlab.daring.image.common.BaseComponent;
 import com.google.common.cache.Cache;
@@ -43,6 +44,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
         CombineCommands.register(this);
         DrawCommands.register(this);
         StructureCommands.register(this);
+        TemplateCommands.register(this);
         FeaturesCommands.register(this);
         mainContext().closeEvent.onFire(this::close);
     }
