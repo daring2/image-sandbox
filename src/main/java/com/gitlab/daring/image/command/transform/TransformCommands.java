@@ -2,7 +2,6 @@ package com.gitlab.daring.image.command.transform;
 
 import com.gitlab.daring.image.command.Command;
 import com.gitlab.daring.image.command.CommandRegistry;
-import com.gitlab.daring.image.command.combine.BitwisePrevCommand;
 
 import static com.gitlab.daring.image.command.CommandUtils.newCommand;
 import static org.bytedeco.javacpp.opencv_core.bitwise_not;
@@ -17,7 +16,6 @@ public class TransformCommands {
         r.register("keepRange", KeepRangeCommand::new);
         r.register("convert", ConvertCommand::new);
         r.register("morphology", MorphologyCommand::new);
-        r.register("bitwisePrev", BitwisePrevCommand::new);
         r.register("normalize", NormalizeCommand::new);
         r.register("normalizeMean", NormalizeMeanCommand::new);
         r.register("applyClahe", CLAHECommand::new);

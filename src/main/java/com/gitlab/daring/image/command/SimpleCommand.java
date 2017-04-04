@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 import static java.util.stream.IntStream.range;
 
-public class SimpleCommand extends BaseCommand {
+public class SimpleCommand extends KBaseCommand {
 
     public Consumer<CommandEnv> func;
 
