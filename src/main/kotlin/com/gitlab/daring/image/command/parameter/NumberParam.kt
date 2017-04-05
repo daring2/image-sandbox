@@ -15,4 +15,6 @@ abstract class NumberParam<T : Number>(sv: String, sp: String) : CommandParam<T>
 
     val pv get() = v.toDouble() * 0.01
 
+    fun pv() = pv //TODO remove
+
 }
