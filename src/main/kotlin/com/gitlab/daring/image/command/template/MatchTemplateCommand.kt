@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.DoublePointer
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.matchTemplate
 
-class MatchTemplateCommand(vararg args: String): KBaseCommand(*args) {
+internal class MatchTemplateCommand(vararg args: String): KBaseCommand(*args) {
 
     val tkey = stringParam("tm")
     val matchMethod = enumParam(MatchMethod.CCORR_NORMED)

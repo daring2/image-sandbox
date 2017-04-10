@@ -6,7 +6,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.features.DMatchResult
 import com.gitlab.daring.image.features.FeatureUtils.detectAndCompute
 
-class MatchFeaturesCommand(vararg args: String) : KBaseCommand(*args) {
+internal class MatchFeaturesCommand(vararg args: String) : KBaseCommand(*args) {
 
     val matKey = stringParam("")
 
