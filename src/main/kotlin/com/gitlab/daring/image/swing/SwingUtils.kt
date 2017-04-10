@@ -1,6 +1,5 @@
 package com.gitlab.daring.image.swing
 
-import com.gitlab.daring.image.util.CommonUtils.tryRun
 import javax.swing.JButton
 import javax.swing.SwingUtilities.invokeAndWait
 import javax.swing.SwingUtilities.isEventDispatchThread
@@ -13,7 +12,7 @@ object SwingUtils {
 
     @JvmStatic
     fun runInEdt(r: Runnable) {
-        tryRun { if (isEdt()) r.run() else invokeAndWait(r) }
+        if (isEdt()) r.run() else invokeAndWait(r)
     }
 
     fun newButton(label: String, act: () -> Unit): JButton {
