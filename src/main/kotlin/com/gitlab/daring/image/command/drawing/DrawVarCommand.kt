@@ -17,7 +17,7 @@ internal class DrawVarCommand(vararg args: String): KBaseCommand(*args) {
 
     override fun execute(env: CommandEnv) {
         val obj = env.getVar<Any>(key.v)
-        val c = all(color.v.toDouble())
+        val c = all(color.dv)
         val th = thickness.posVal(CV_FILLED)
         if (obj is Rectangle) {
             rectangle(env.mat, toOpencv(obj), c, th, LINE_8, 0)

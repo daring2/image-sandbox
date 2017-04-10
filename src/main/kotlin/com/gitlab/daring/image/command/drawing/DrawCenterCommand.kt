@@ -22,7 +22,7 @@ internal class DrawCenterCommand(vararg args: String): KBaseCommand(*args) {
         val m = env.mat
         val d = toJava(m.size)
         val cr = getCenterRect(d, scale.pv)
-        val c = all(color.v.toDouble())
+        val c = all(color.dv)
         val th = thickness.posVal(CV_FILLED)
         val sh = shape.v
         if (sh == Shape.Rectangle) {
