@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_core.mean
 import org.bytedeco.javacpp.opencv_core.multiply
 
-class NormalizeMeanCommand(vararg args: String): KBaseCommand(*args) {
+internal class NormalizeMeanCommand(vararg args: String): KBaseCommand(*args) {
 
     val meanValue = intParam(128, "0-255")
 

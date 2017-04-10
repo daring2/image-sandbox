@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.util.ImageUtils.smat
 import org.bytedeco.javacpp.opencv_core.*
 
-class KeepRangeCommand(vararg args: String): KBaseCommand(*args) {
+internal class KeepRangeCommand(vararg args: String): KBaseCommand(*args) {
 
     val lowerb = intParam(0, "0-255")
     val upperb = intParam(255, "0-255")

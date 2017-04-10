@@ -6,7 +6,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_core.Size
 import org.bytedeco.javacpp.opencv_imgproc.createCLAHE
 
-class CLAHECommand(vararg args: String): KBaseCommand(*args) {
+internal class CLAHECommand(vararg args: String): KBaseCommand(*args) {
 
     val clipLimit = doubleParam(40.0, "0-255")
     val tilesGridSize = intParam(8, "0-255")
