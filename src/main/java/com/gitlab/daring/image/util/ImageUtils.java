@@ -1,16 +1,13 @@
 package com.gitlab.daring.image.util;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import java.awt.*;
-import java.util.Collection;
 
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
 import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
-import static com.google.common.collect.Iterables.toArray;
 
 public class ImageUtils {
 
@@ -29,10 +26,6 @@ public class ImageUtils {
 
     public static Mat smat(int v) {
         return new Mat(new byte[]{(byte) v});
-    }
-
-    public static MatVector newMatVector(Collection<Mat> ms) {
-        return new MatVector(toArray(ms, Mat.class));
     }
 
     public static Scalar newScalar(String color) {
