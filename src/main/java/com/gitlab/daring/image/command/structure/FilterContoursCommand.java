@@ -18,7 +18,7 @@ public class FilterContoursCommand extends BaseCommand {
     final DoubleParam minValue = doubleParam(NaN, "0-1000");
     final DoubleParam maxValue = doubleParam(NaN, "0-1000");
     final IntParam offset = intParam(0, "0-100");
-    final IntParam maxSize = intParam(Integer.MAX_VALUE, "0-100");
+    final IntParam limit = intParam(Integer.MAX_VALUE, "0-100");
 
     public FilterContoursCommand(String... params) {
         super(params);
@@ -32,7 +32,7 @@ public class FilterContoursCommand extends BaseCommand {
         env.contours = env.contours.stream().filter(c -> {
             double mv = c.getMetric(m);
             return mv >= minValue.v && (mv < maxValue.v || isNaN(maxValue.v));
-        }).sorted(mc).skip(offset.v).limit(maxSize.v).collect(toList());
+        }).sorted(mc).skip(offset.v).limit(limit.v).collect(toList());
     }
 
 }
