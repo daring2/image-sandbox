@@ -31,7 +31,7 @@ internal class ReadCommand(vararg args: String) : KBaseCommand(*args) {
     }
 
     enum class ReadFlag {
-        None, Grey, Color
+        None, Gray, Color
     }
 
 }
