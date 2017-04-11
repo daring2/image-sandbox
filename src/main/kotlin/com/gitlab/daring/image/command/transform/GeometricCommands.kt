@@ -7,7 +7,7 @@ import com.gitlab.daring.image.command.SimpleCommand
 import com.gitlab.daring.image.util.ImageUtils.cropCenter
 import org.bytedeco.javacpp.opencv_core.Rect
 
-object GeometricCommands {
+internal object GeometricCommands {
 
     @JvmStatic
     fun register(r: CommandRegistry) {

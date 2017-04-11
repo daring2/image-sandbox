@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.opencv_core.inRange
 import org.bytedeco.javacpp.opencv_imgproc.adaptiveThreshold
 import org.bytedeco.javacpp.opencv_imgproc.threshold
 
-object ThresholdCommands {
+internal object ThresholdCommands {
 
     @JvmStatic
     fun register(r: CommandRegistry) {
