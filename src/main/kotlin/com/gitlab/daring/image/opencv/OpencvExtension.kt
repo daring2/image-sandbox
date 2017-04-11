@@ -8,4 +8,5 @@ val Mat.width get() = cols()
 val Mat.height get() = rows()
 val Mat.channels get() = channels()
 val Mat.empty get() = empty()
+val Mat.gray get() = channels == 1
 fun Mat.abs() = opencv_core.abs(this).asMat()
