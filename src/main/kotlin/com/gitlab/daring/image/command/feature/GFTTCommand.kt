@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_features2d
 
-internal class GFTTCommand(vararg args: String) : KBaseCommand(*args) {
+internal class GFTTCommand(args: Array<String>) : KBaseCommand(args) {
 
     val maxFeatures = intParam(100, "0-100")
     val qualityLevel = doubleParam(1.0, "0-100")

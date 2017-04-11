@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.opencv_core.Point
 import org.bytedeco.javacpp.opencv_imgproc.morphologyDefaultBorderValue
 import org.bytedeco.javacpp.opencv_imgproc.morphologyEx
 
-internal class MorphologyCommand(vararg args: String) : KBaseCommand(*args) {
+internal class MorphologyCommand(args: Array<String>) : KBaseCommand(args) {
 
     val operation = enumParam<Operation>(null)
     val iterCount = intParam(1, "0-10")

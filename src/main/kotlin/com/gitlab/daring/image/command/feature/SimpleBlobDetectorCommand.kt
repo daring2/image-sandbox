@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_features2d.SimpleBlobDetector
 
-internal class SimpleBlobDetectorCommand(vararg args: String) : KBaseCommand(*args) {
+internal class SimpleBlobDetectorCommand(args: Array<String>) : KBaseCommand(args) {
 
     //TODO support all params
     val minThreshold = intParam(0, "0-255")

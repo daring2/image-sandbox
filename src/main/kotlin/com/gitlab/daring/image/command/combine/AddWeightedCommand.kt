@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_core.addWeighted
 
-internal class AddWeightedCommand(vararg args: String) : KBaseCommand(*args) {
+internal class AddWeightedCommand(args: Array<String>) : KBaseCommand(args) {
 
     val key = stringParam("")
     val f1 = doubleParam(50.0, "0-100")

@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.opencv.gray
 import com.gitlab.daring.image.opencv.toColored
 
-internal class CombineCommand(vararg args: String) : KBaseCommand(*args) {
+internal class CombineCommand(args: Array<String>) : KBaseCommand(args) {
 
     val matKey = stringParam("")
     val method = enumParam<CombineMethod>(null)

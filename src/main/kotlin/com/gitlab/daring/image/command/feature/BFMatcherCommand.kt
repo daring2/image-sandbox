@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.opencv_features2d.ORB
 import org.bytedeco.javacpp.opencv_xfeatures2d.SIFT
 import org.bytedeco.javacpp.opencv_xfeatures2d.SURF
 
-internal class BFMatcherCommand(vararg args: String) : KBaseCommand(*args) {
+internal class BFMatcherCommand(args: Array<String>) : KBaseCommand(args) {
 
     val normType = enumParam(NormType.AUTO)
     val crossCheck = boolParam(true)

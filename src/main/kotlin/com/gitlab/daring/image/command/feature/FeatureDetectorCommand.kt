@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.command.feature.FeatureDetectorType.SURF
 
-internal class FeatureDetectorCommand(vararg args: String) : KBaseCommand(*args) {
+internal class FeatureDetectorCommand(args: Array<String>) : KBaseCommand(args) {
 
     val detectorType = enumParam(SURF)
 

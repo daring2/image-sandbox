@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.CV_FILLED
 import org.bytedeco.javacpp.opencv_imgproc.drawContours
 
-internal class DrawContoursCommand(vararg args: String) : KBaseCommand(*args) {
+internal class DrawContoursCommand(args: Array<String>) : KBaseCommand(args) {
 
     val index = intParam(0, "0-10")
     val color = stringParam("#FFFFFF")

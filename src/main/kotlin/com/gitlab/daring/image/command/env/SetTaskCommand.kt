@@ -3,7 +3,7 @@ package com.gitlab.daring.image.command.env
 import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 
-internal class SetTaskCommand(vararg args: String) : KBaseCommand(*args) {
+internal class SetTaskCommand(args: Array<String>) : KBaseCommand(args) {
 
     override fun isEnabled(env: CommandEnv) = true
 

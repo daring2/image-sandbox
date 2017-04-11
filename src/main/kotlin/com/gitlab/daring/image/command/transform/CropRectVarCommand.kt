@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.util.ImageUtils.cropMat
 import java.awt.Rectangle
 
-internal class CropRectVarCommand(vararg params: String) : KBaseCommand(*params) {
+internal class CropRectVarCommand(args: Array<String>) : KBaseCommand(args) {
 
     val rectKey = stringParam("rect");
     val matKey = stringParam("");

@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_xfeatures2d.SIFT
 
-internal class SIFTCommand(vararg args: String) : KBaseCommand(*args) {
+internal class SIFTCommand(args: Array<String>) : KBaseCommand(args) {
 
     val maxFeatures = intParam(100, "0-100")
     val nOctaveLayers = intParam(3, "0-10")

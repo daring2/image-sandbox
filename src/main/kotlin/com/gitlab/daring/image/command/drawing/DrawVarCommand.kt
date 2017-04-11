@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.opencv_imgproc.CV_FILLED
 import org.bytedeco.javacpp.opencv_imgproc.rectangle
 import java.awt.Rectangle
 
-internal class DrawVarCommand(vararg args: String): KBaseCommand(*args) {
+internal class DrawVarCommand(args: Array<String>) : KBaseCommand(args) {
 
     val key = stringParam("")
     val color = intParam(255, "0-255")

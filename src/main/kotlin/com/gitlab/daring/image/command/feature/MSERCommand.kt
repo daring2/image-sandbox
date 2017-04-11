@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_features2d.MSER
 
-internal class MSERCommand(vararg args: String) : KBaseCommand(*args) {
+internal class MSERCommand(args: Array<String>) : KBaseCommand(args) {
 
     //TODO support all params
     val delta = intParam(5, "0-100")

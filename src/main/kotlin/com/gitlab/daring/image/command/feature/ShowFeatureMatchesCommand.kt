@@ -10,7 +10,7 @@ import org.bytedeco.javacpp.opencv_features2d.DrawMatchesFlags.NOT_DRAW_SINGLE_P
 import org.bytedeco.javacpp.opencv_features2d.drawMatches
 import java.nio.ByteBuffer
 
-internal class ShowFeatureMatchesCommand(vararg args: String) : KBaseCommand(*args) {
+internal class ShowFeatureMatchesCommand(args: Array<String>) : KBaseCommand(args) {
 
     val maxFeatures = intParam(100, "0-100")
     val title = stringParam("matches")

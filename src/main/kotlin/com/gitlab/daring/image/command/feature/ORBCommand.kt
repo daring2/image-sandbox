@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_features2d.ORB
 
-internal class ORBCommand(vararg args: String) : KBaseCommand(*args) {
+internal class ORBCommand(args: Array<String>) : KBaseCommand(args) {
 
     //TODO support all params
     val maxFeatures = intParam(100, "0-100")

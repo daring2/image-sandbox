@@ -7,7 +7,7 @@ import com.gitlab.daring.image.opencv.width
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.blur
 
-internal class RemoveLightCommand(vararg params: String) : KBaseCommand(*params) {
+internal class RemoveLightCommand(args: Array<String>) : KBaseCommand(args) {
 
     val blurRate = intParam(3, "0-255")
 

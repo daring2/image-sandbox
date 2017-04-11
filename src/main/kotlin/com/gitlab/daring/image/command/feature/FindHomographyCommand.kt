@@ -6,7 +6,7 @@ import com.gitlab.daring.image.features.FeatureUtils.buildMatchPoints
 import org.bytedeco.javacpp.opencv_calib3d.findHomography
 import org.bytedeco.javacpp.opencv_core.Mat
 
-internal class FindHomographyCommand(vararg args: String): KBaseCommand(*args) {
+internal class FindHomographyCommand(args: Array<String>) : KBaseCommand(args) {
 
     val method = enumParam(HomographyMethod.RANSAC)
     val reprojThreshold = doubleParam(3.0, "0-10")

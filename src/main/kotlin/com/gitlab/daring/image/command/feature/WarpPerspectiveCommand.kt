@@ -6,7 +6,7 @@ import com.gitlab.daring.image.command.transform.InterMethod.Linear
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.warpPerspective
 
-internal class WarpPerspectiveCommand(vararg args: String) : KBaseCommand(*args) {
+internal class WarpPerspectiveCommand(args: Array<String>) : KBaseCommand(args) {
 
     val method = enumParam(Linear)
     val rm = Mat()

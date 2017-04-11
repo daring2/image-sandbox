@@ -9,7 +9,7 @@ import com.gitlab.daring.image.opencv.type
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.*
 
-internal class ConvertCommand(vararg params: String) : KBaseCommand(*params) {
+internal class ConvertCommand(args: Array<String>) : KBaseCommand(args) {
 
     val target = enumParam(Gray)
     val channel = enumParam(Channel.None)

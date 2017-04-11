@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_core.*
 
-internal class NormalizeCommand(vararg args: String) : KBaseCommand(*args) {
+internal class NormalizeCommand(args: Array<String>) : KBaseCommand(args) {
 
     val alpha = intParam(0, "0-255")
     val beta = intParam(255, "0-255")

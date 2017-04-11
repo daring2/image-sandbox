@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.opencv.empty
 import org.bytedeco.javacpp.opencv_core.Mat
 
-internal class BitwisePrevCommand(vararg params: String) : KBaseCommand(*params) {
+internal class BitwisePrevCommand(args: Array<String>) : KBaseCommand(args) {
 
     val op = enumParam(CombineMethod::class.java, CombineMethod.And)
     val histSize = nextArg(1).toInt()

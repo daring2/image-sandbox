@@ -6,7 +6,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.component.BaseCanvasFrame
 import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
-internal class ShowCommand(vararg params: String) : KBaseCommand(*params) {
+internal class ShowCommand(args: Array<String>) : KBaseCommand(args) {
 
     val title = arg(0, "")
     val key = arg(1, "")

@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_xfeatures2d.StarDetector
 
-internal class StarDetectorCommand(vararg args: String) : KBaseCommand(*args) {
+internal class StarDetectorCommand(args: Array<String>) : KBaseCommand(args) {
 
     val maxSize = intParam(45, "0-100")
     val th1 = intParam(30, "0-100")

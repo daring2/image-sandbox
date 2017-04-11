@@ -4,7 +4,7 @@ import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_core.*
 
-internal class RelativeDiffCommand(vararg args: String) : KBaseCommand(*args) {
+internal class RelativeDiffCommand(args: Array<String>) : KBaseCommand(args) {
 
     val mkey = stringParam("")
 

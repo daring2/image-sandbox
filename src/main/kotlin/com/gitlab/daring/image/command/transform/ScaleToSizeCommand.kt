@@ -8,7 +8,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_core.Size
 import org.bytedeco.javacpp.opencv_imgproc.resize
 
-internal class ScaleToSizeCommand(vararg args: String) : KBaseCommand(*args) {
+internal class ScaleToSizeCommand(args: Array<String>) : KBaseCommand(args) {
 
     val matSize = intParam(0, "0-5000")
     val maxFactor = intParam(95, "0-100")

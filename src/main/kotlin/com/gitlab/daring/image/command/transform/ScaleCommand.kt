@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_core.Size
 import org.bytedeco.javacpp.opencv_imgproc.resize
 
-internal class ScaleCommand(vararg args: String) : KBaseCommand(*args) {
+internal class ScaleCommand(args: Array<String>) : KBaseCommand(args) {
 
     val factor = intParam(100, "0-200")
     val method = enumParam(Linear)

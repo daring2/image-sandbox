@@ -6,7 +6,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_imgcodecs.imread
 import java.io.File
 
-internal class ReadCommand(vararg args: String) : KBaseCommand(*args) {
+internal class ReadCommand(args: Array<String>) : KBaseCommand(args) {
 
     val file = fileParam("")
     val flags = enumParam(ReadFlag.None)

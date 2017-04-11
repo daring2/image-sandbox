@@ -11,7 +11,7 @@ import org.bytedeco.javacpp.opencv_core.Point
 import org.bytedeco.javacpp.opencv_core.Scalar.all
 import org.bytedeco.javacpp.opencv_imgproc.*
 
-internal class DrawCenterCommand(vararg args: String): KBaseCommand(*args) {
+internal class DrawCenterCommand(args: Array<String>) : KBaseCommand(args) {
 
     val shape = enumParam(Shape.Rectangle)
     val scale = intParam(10, "0-100")

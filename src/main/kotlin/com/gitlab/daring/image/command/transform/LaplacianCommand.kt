@@ -5,7 +5,7 @@ import com.gitlab.daring.image.command.KBaseCommand
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.Laplacian
 
-internal class LaplacianCommand(vararg args: String) : KBaseCommand(*args) {
+internal class LaplacianCommand(args: Array<String>) : KBaseCommand(args) {
 
     val ksize = intParam(1, "1-10")
     val rm = Mat()
