@@ -2,12 +2,10 @@ package com.gitlab.daring.image.util;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatVector;
-import org.bytedeco.javacpp.opencv_core.Point2f;
+import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import java.awt.*;
 import java.util.Collection;
-import java.util.List;
-import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.util.GeometryUtils.getCenterRect;
 import static com.gitlab.daring.image.util.OpencvConverters.toJava;
@@ -15,12 +13,6 @@ import static com.gitlab.daring.image.util.OpencvConverters.toOpencv;
 import static com.google.common.collect.Iterables.toArray;
 
 public class ImageUtils {
-
-    public static Mat buildMat(Consumer<Mat> func) {
-        Mat m = new Mat();
-        func.accept(m);
-        return m;
-    }
 
     public static Rectangle centerRect(Mat m, double rectSize) {
         return getCenterRect(toJava(m.size()), rectSize);
@@ -43,13 +35,9 @@ public class ImageUtils {
         return new MatVector(toArray(ms, Mat.class));
     }
 
-    public static Point2f newPointArray(List<Point> ps) {
-        Point2f rp = new Point2f(ps.size());
-        for (int i = 0; i < ps.size(); i++) {
-            Point p = ps.get(i);
-            rp.position(i).x(p.x).y(p.y);
-        }
-        return rp.position(0);
+    public static Scalar newScalar(String color) {
+        Color c = Color.decode(color);
+        return new Scalar(c.getBlue(), c.getGreen(), c.getRed(), 0);
     }
 
     private ImageUtils() {
