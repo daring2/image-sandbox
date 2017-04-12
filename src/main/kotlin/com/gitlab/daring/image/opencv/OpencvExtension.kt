@@ -1,5 +1,6 @@
 package com.gitlab.daring.image.opencv
 
+import com.gitlab.daring.image.util.ImageUtils.smat
 import org.bytedeco.javacpp.opencv_core
 import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_imgproc.COLOR_GRAY2BGR
@@ -14,6 +15,7 @@ val Mat.empty get() = empty()
 val Mat.gray get() = channels == 1
 
 fun Mat.abs() = opencv_core.abs(this).asMat()
+fun Mat.setTo(v: Int) = setTo(smat(v))
 
 fun Mat.toColored(): Mat {
     val m = this

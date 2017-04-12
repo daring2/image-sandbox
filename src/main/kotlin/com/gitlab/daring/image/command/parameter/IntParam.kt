@@ -2,6 +2,7 @@ package com.gitlab.daring.image.command.parameter
 
 class IntParam (sv: String, sp: String = "") : NumberParam<Int>(sv, sp) {
 
+    val lv get() = v.toLong()
     val fv get() = v.toFloat()
     val dv get() = v.toDouble()
 
