@@ -35,7 +35,7 @@ class ParamFileChooser(val param: FileParam, val valueField: JTextField) {
         val r = fc.showOpenDialog(valueField)
         if (r == APPROVE_OPTION) {
             valueField.text = buildFileList()
-            valueField.postActionEvent()
+//            valueField.postActionEvent()
         }
     }
 
