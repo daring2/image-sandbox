@@ -18,7 +18,7 @@ internal class ScaleCommand(args: Array<String>) : KBaseCommand(args) {
     override fun execute(env: CommandEnv) {
         if (factor.v == 100) return
         val f = Math.max(factor.pv, 0.005)
-        resize(env.mat, rm, s0, f, f, method.vi())
+        resize(env.mat, rm, s0, f, f, method.vi)
         env.mat = rm
     }
 

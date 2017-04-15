@@ -53,10 +53,6 @@ public abstract class BaseCommand implements Command {
         return arg(params.size(), dv);
     }
 
-    public <T extends Enum<T>> EnumParam<T> enumParam(Class<T> cl, T dv) {
-        return addParam(new EnumParam<>(cl, nextArg(dv)));
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

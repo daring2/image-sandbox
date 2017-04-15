@@ -20,7 +20,7 @@ internal class ReadCommand(args: Array<String>) : KBaseCommand(args) {
         val fn = env.eval(file.v)
         val ft = File(fn).lastModified()
         if (ft != fileTime || !cache.v) {
-            fileMat = imread(fn, flags.vi() + 1)
+            fileMat = imread(fn, flags.vi + 1)
             fileTime = ft
         }
         if (key.v.isEmpty()) {

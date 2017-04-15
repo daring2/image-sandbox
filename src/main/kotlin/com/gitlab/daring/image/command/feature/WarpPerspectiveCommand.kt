@@ -14,7 +14,7 @@ internal class WarpPerspectiveCommand(args: Array<String>) : KBaseCommand(args) 
     override fun execute(env: CommandEnv) {
         val (points1) = env.matchResult
         val m1 = points1.mat
-        warpPerspective(m1, rm, env.mat, m1.size(), method.vi(), BORDER_CONSTANT, Scalar.BLACK)
+        warpPerspective(m1, rm, env.mat, m1.size(), method.vi, BORDER_CONSTANT, Scalar.BLACK)
         env.mat = rm
     }
 

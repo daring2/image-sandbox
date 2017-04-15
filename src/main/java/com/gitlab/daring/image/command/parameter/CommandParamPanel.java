@@ -61,7 +61,7 @@ public class CommandParamPanel extends JPanel {
     }
 
     <T extends Enum<T>> void addEnumParam(EnumParam<T> p) {
-        T[] vs = p.enumClass.getEnumConstants();
+        T[] vs = p.getJavaEnumClass().getEnumConstants();
         JComboBox<T> cb = new JComboBox<T>(vs);
         cb.setSelectedItem(p.v);
         cb.addActionListener(e -> p.setValue(vs[cb.getSelectedIndex()]));

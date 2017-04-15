@@ -19,7 +19,7 @@ internal class MorphologyCommand(args: Array<String>) : KBaseCommand(args) {
     val borderValue = morphologyDefaultBorderValue()
 
     override fun execute(env: CommandEnv) {
-        morphologyEx(env.mat, env.mat, operation.vi(), kernel.v, anchor, iterCount.v, borderType, borderValue)
+        morphologyEx(env.mat, env.mat, operation.vi, kernel.v, anchor, iterCount.v, borderType, borderValue)
     }
 
     enum class Operation {

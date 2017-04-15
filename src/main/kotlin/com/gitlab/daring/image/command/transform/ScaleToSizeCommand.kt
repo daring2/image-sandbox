@@ -21,7 +21,7 @@ internal class ScaleToSizeCommand(args: Array<String>) : KBaseCommand(args) {
         val m = env.mat
         val f = 1.0 * matSize.v / Math.max(m.height, m.width)
         if (f > maxFactor.pv) return
-        resize(m, rm, s0, f, f, method.vi())
+        resize(m, rm, s0, f, f, method.vi)
         env.mat = rm
     }
 

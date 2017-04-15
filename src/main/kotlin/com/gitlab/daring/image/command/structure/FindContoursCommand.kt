@@ -13,7 +13,7 @@ internal class FindContoursCommand(params: Array<String>) : KBaseCommand(params)
 
     override fun execute(env: CommandEnv) {
         val mv = MatVector()
-        findContours(env.mat.clone(), mv, mode.vi(), method.vi() + 1)
+        findContours(env.mat.clone(), mv, mode.vi, method.vi + 1)
         env.contours = mv.toList().map(::Contour)
     }
 

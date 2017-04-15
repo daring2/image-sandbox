@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 
 internal class BitwisePrevCommand(args: Array<String>) : KBaseCommand(args) {
 
-    val op = enumParam(CombineMethod::class.java, CombineMethod.And)
+    val op = enumParam(CombineMethod.And)
     val histSize = nextArg(1).toInt()
 
     val hms = Array<Mat>(histSize + 1, { Mat() })

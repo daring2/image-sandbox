@@ -23,7 +23,7 @@ internal object ThresholdCommands {
         val mv = c.doubleParam(255.0, "0-255")
         val tp = c.enumParam(ThresholdType.Bin)
         val fp = c.enumParam(ThresholdFlag.None)
-        return c.withFunc { m -> threshold(m, m, th.v, mv.v, tp.vi() + fp.vi() * 8) }
+        return c.withFunc { m -> threshold(m, m, th.v, mv.v, tp.vi + fp.vi * 8) }
     }
 
     fun adaptiveThresholdCommand(args: Array<String>): Command {
@@ -33,7 +33,7 @@ internal object ThresholdCommands {
         val type = c.enumParam(ThresholdType.Bin)
         val bs = c.intParam(1, "0-50")
         val cf = c.intParam(0, "0-100")
-        return c.withFunc { m -> adaptiveThreshold(m, m, mv.v, method.vi(), type.vi(), bs.v * 2 + 1, cf.dv) }
+        return c.withFunc { m -> adaptiveThreshold(m, m, mv.v, method.vi, type.vi, bs.v * 2 + 1, cf.dv) }
     }
 
     fun inRangeCommand(args: Array<String>): Command {
