@@ -30,7 +30,7 @@ class ScriptExecutor implements AutoCloseable {
     }
 
     void execute() {
-        files = splitAndTrim(sb.mp.filesParam.v, ",").toList();
+        files = splitAndTrim(sb.mp.filesParam.getValue(), ",").toList();
         if (files.isEmpty()) {
             script.execute();
             return;

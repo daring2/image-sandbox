@@ -17,7 +17,7 @@ class KernelParam(cmd: BaseCommand) {
     val width get() = v.width
 
     init {
-        p.onChange { update() }
+        p.changeEvent.onFire(Runnable(this::update))
         update()
     }
 

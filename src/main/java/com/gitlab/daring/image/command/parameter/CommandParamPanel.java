@@ -32,9 +32,9 @@ public class CommandParamPanel extends JPanel {
     }
 
     void addParam(CommandParam<?> p) {
-        if (p.name.isEmpty()) return;
+        if (p.getName().isEmpty()) return;
         if (p instanceof ParamGroup) {
-            addComponent(p.name, new JSeparator(), "");
+            addComponent(p.getName(), new JSeparator(), "");
         } else if (p instanceof NumberParam<?>) {
             addNumberParam((NumberParam<?>) p);
         } else if (p instanceof EnumParam<?>) {
@@ -49,51 +49,51 @@ public class CommandParamPanel extends JPanel {
     }
 
     void addNumberParam(NumberParam<?> p) {
-        JSlider sl = new JSlider(p.minValue.intValue(), p.maxValue.intValue(), p.v.intValue());
+        JSlider sl = new JSlider(p.minValue.intValue(), p.maxValue.intValue(), p.getValue().intValue());
         int range = sl.getMaximum() - sl.getMinimum();
         sl.setMajorTickSpacing(range > 15 ? range / 10 : 1);
         sl.setPaintLabels(true);
         sl.addChangeListener(e -> p.setNumValue(sl.getValue()));
         JTextField f = newValueField(p, false);
         f.setColumns(5);
-        addComponent(p.name, f, "split 2, growx 0");
+        addComponent(p.getName(), f, "split 2, growx 0");
         add(sl);
     }
 
     <T extends Enum<T>> void addEnumParam(EnumParam<T> p) {
         T[] vs = p.getJavaEnumClass().getEnumConstants();
         JComboBox<T> cb = new JComboBox<T>(vs);
-        cb.setSelectedItem(p.v);
+        cb.setSelectedItem(p.getValue());
         cb.addActionListener(e -> p.setValue(vs[cb.getSelectedIndex()]));
-        addComponent(p.name, cb, "");
+        addComponent(p.getName(), cb, "");
     }
 
     void addBooleanParam(BooleanParam p) {
-        JCheckBox b = new JCheckBox("", p.v);
+        JCheckBox b = new JCheckBox("", p.getValue());
         b.addItemListener(e -> p.setValue(b.isSelected()));
-        addComponent(p.name, b, "");
+        addComponent(p.getName(), b, "");
     }
 
     void addFileParam(FileParam p) {
         JTextField f = newValueField(p, true);
         ParamFileChooser fc = new ParamFileChooser(p, f);
-        addComponent(p.name, f, "split 2");
+        addComponent(p.getName(), f, "split 2");
         add(fc.getOpenButton(), "growx 0");
     }
 
     void addStringParam(StringParam p) {
         JTextField f = newValueField(p, true);
-        addComponent(p.name, f, "");
+        addComponent(p.getName(), f, "");
     }
 
     <T> JTextField newValueField(CommandParam<T> p, boolean editable) {
-        JTextField f = new JTextField("" + p.v);
+        JTextField f = new JTextField("" + p.getValue());
         if (editable) {
             f.addActionListener(e -> p.setStringValue(f.getText()));
-            applyEvent.onFire(() -> p.v = p.parseValue(f.getText()));
+            applyEvent.onFire(() -> p.vr = p.parseValue(f.getText()));
         } else {
             f.setEditable(false);
-            p.changeEvent.onFire(() -> f.setText("" + p.v));
+            p.changeEvent.onFire(() -> f.setText("" + p.getValue()));
         }
         return f;
     }

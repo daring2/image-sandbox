@@ -10,9 +10,9 @@ class FileParam(sv: String) : StringParam(sv) {
         if (spec.isNotEmpty()) maxCount = spec.toInt()
     }
 
-    override fun parseArgs(sv: String): Array<String> {
+    override fun parseArgs(sv: String): List<String> {
         val isFile = File(sv).exists()
-        return if (isFile) arrayOf(sv) else super.parseArgs(sv)
+        return if (isFile) listOf(sv) else super.parseArgs(sv)
     }
 
 }

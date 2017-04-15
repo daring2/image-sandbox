@@ -23,7 +23,7 @@ public class SimpleCommand extends KBaseCommand {
     }
 
     public SimpleCommand withFunc(IntParam n, Consumer<Mat> c) {
-        func = env -> range(0, n.v).forEach(i -> c.accept(env.mat));
+        func = env -> range(0, n.getValue()).forEach(i -> c.accept(env.mat));
         return this;
     }
 

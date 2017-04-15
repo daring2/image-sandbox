@@ -1,8 +1,6 @@
 package com.gitlab.daring.image.util;
 
 
-import com.typesafe.config.Config;
-
 public class EnumUtils {
 
     public static <T> T findEnum(T[] vs, String name) {
@@ -16,10 +14,6 @@ public class EnumUtils {
 
     public static <T extends Enum<T>> T findEnum(Class<T> cl, String name) {
         return findEnum(cl.getEnumConstants(), name);
-    }
-
-    public static <T extends Enum<T>> T findEnum(Config c, Class<T> cl, String path) {
-        return findEnum(cl, c.getString(path));
     }
 
     private EnumUtils() {
