@@ -6,8 +6,8 @@ import com.gitlab.daring.image.opencv.setTo
 
 internal class ShowContoursCommand(args: Array<String>) : KBaseCommand(args) {
 
-    val findCmd = FindContoursCommand()
-    val filterCmd = FilterContoursCommand(*args)
+    val findCmd = FindContoursCommand(emptyArray())
+    val filterCmd = FilterContoursCommand(args)
     val drawCmd = DrawContoursCommand(emptyArray())
 
     init {

@@ -2,13 +2,16 @@ package com.gitlab.daring.image.opencv
 
 import com.gitlab.daring.image.util.ImageUtils.smat
 import org.bytedeco.javacpp.opencv_core
-import org.bytedeco.javacpp.opencv_core.Mat
+import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.COLOR_GRAY2BGR
 import org.bytedeco.javacpp.opencv_imgproc.cvtColor
+import java.awt.Dimension
+import java.awt.Rectangle
 
 val Mat.size get() = size()
 val Mat.width get() = cols()
 val Mat.height get() = rows()
+val Mat.sizeDim get() = Dimension(width, height)
 val Mat.type get() = type()
 val Mat.channels get() = channels()
 val Mat.empty get() = empty()
@@ -22,3 +25,9 @@ fun Mat.toColored(): Mat {
     if (!gray) return m
     return Mat().apply { cvtColor(m, this, COLOR_GRAY2BGR) }
 }
+
+val MatVector.size get() = size().toInt()
+fun MatVector.get(i: Int) = get(i.toLong())
+fun MatVector.toList() = List(size, { get(it) })
+
+val Rectangle.rect get() = Rect(x, y, width, height)
