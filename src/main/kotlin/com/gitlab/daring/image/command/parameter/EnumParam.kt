@@ -7,11 +7,7 @@ class EnumParam<T : Enum<T>>(val enumClass: KClass<T>, sv: String) : CommandPara
 
     val vi get() = v.ordinal
 
-    val javaEnumClass = enumClass.java //TODO remove
-
-    override fun parseValue(sv: String): T {
-        return findEnum(enumClass.java, sv)
-    }
+    override fun parseValue(sv: String) = findEnum(enumClass.java, sv)
 
     override fun configValue(): Any  = "$v"
 

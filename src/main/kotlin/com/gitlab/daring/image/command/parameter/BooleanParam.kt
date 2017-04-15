@@ -4,8 +4,6 @@ import java.lang.Boolean.parseBoolean
 
 class BooleanParam(sv: String) : CommandParam<Boolean>(sv, "") {
 
-    override fun parseValue(sv: String): Boolean {
-        return parseBoolean(sv)
-    }
+    override fun parseValue(sv: String) = parseBoolean(sv)
 
 }
