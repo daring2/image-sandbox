@@ -6,7 +6,7 @@ import com.typesafe.config.Config
 abstract class CommandParam<T: Any>(sv: String, sp: String) {
 
     val args = parseArgs(sv)
-    val name = arg(1, "")
+    val name = arg(1)
     val spec = arg(2, sp)
     var configPath = ""
 
@@ -15,7 +15,7 @@ abstract class CommandParam<T: Any>(sv: String, sp: String) {
 
     var value: T
         get() {
-            return vr ?: parseValue(arg(0, "")).apply { vr = this }
+            return vr ?: parseValue(arg(0)).apply { vr = this }
         }
         set(v) {
             if (vr == v) return
@@ -28,7 +28,7 @@ abstract class CommandParam<T: Any>(sv: String, sp: String) {
     @JvmField
     val changeEvent = VoidEvent()
 
-    fun arg(i: Int, dv: String) = args.getOrNull(i) ?: dv
+    fun arg(i: Int, dv: String = "") = args.getOrNull(i) ?: dv
 
     open fun parseArgs(sv: String): List<String> {
         return " $sv".split(':').map(String::trim)
