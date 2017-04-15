@@ -15,8 +15,7 @@ abstract class CommandParam<T: Any>(sv: String, sp: String) {
 
     var value: T
         get() {
-            if (vr == null) vr = parseValue(arg(0, ""))
-            return vr ?: throw NullPointerException()
+            return vr ?: parseValue(arg(0, "")).apply { vr = this }
         }
         set(v) {
             if (vr == v) return
