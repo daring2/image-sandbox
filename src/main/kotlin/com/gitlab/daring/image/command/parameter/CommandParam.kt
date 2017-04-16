@@ -18,10 +18,12 @@ abstract class CommandParam<T: Any>(sv: String, sp: String) {
             return vr ?: parseValue(arg(0)).apply { vr = this }
         }
         set(v) {
-            if (vr == v) return
-            vr = v
-            changeEvent.fire()
+            if (vr != v) { vr = v; changeEvent.fire() }
         }
+
+    var stringValue
+        get() = value.toString()
+        set(v) { value = parseValue(v) }
 
     val v get() = value
 
@@ -36,13 +38,9 @@ abstract class CommandParam<T: Any>(sv: String, sp: String) {
 
     abstract fun parseValue(sv: String): T
 
-    fun setStringValue(v: String) {
-        value = parseValue(v)
-    }
-
     fun <P : CommandParam<T>> bind(c: Config, path: String): P {
         configPath = path
-        setStringValue(c.getString(path))
+        stringValue = c.getString(path)
         return this as P
     }
 
