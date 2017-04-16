@@ -54,11 +54,11 @@ class CommandParamPanel : JPanel() {
         add(sl)
     }
 
-    fun <T : Any> addEnumParam(p: CommandParam<T>) {
-        val vs = (p as EnumParam).enumClass.java.enumConstants //TODO refactor
+    fun <T : EnumParam<*>> addEnumParam(p: T) {
+        val vs = p.enumValues.map { "$it" }.toTypedArray()
         val cb = JComboBox(vs)
-        cb.selectedItem = p.value
-        cb.addActionListener { p.value = vs[cb.selectedIndex] }
+        cb.selectedItem = p.stringValue
+        cb.addActionListener { p.stringValue = vs[cb.selectedIndex] }
         addComponent(p.name, cb, "")
     }
 
