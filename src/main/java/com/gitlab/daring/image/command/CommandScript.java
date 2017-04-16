@@ -19,7 +19,7 @@ public class CommandScript {
     }
 
     public String getText() {
-        return command.script;
+        return command.getScript();
     }
 
     public ScriptCommand getCommand() {
