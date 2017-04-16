@@ -18,19 +18,19 @@ object EnvCommands {
         r.register("task", ::SetTaskCommand)
     }
 
-    fun newWriteCommand(vararg ps: String): Command {
-        val c = SimpleCommand(*ps)
+    fun newWriteCommand(args: Array<String>): Command {
+        val c = SimpleCommand(args)
         val file = c.arg(0, "")
         val key = c.arg(1, "")
         return Command { env -> imwrite(env.eval(file), env.getMat(key)) }
     }
 
-    fun newGetCommand(vararg ps: String): Command {
-        return Command { env -> env.getMat(ps[0]).copyTo(env.mat) }
+    fun newGetCommand(args: Array<String>): Command {
+        return Command { env -> env.getMat(args[0]).copyTo(env.mat) }
     }
 
-    fun newPutCommand(vararg ps: String): Command {
-        return Command { env -> env.putMat(ps[0], env.mat) }
+    fun newPutCommand(args: Array<String>): Command {
+        return Command { env -> env.putMat(args[0], env.mat) }
     }
 
 }

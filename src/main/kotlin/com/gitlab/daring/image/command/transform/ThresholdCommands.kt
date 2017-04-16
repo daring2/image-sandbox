@@ -18,7 +18,7 @@ internal object ThresholdCommands {
     }
 
     fun thresholdCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val th = c.doubleParam(128.0, "0-255")
         val mv = c.doubleParam(255.0, "0-255")
         val tp = c.enumParam(ThresholdType.Bin)
@@ -27,7 +27,7 @@ internal object ThresholdCommands {
     }
 
     fun adaptiveThresholdCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val mv = c.doubleParam(255.0, "0-255")
         val method = c.enumParam(AdaptiveMethod.Mean)
         val type = c.enumParam(ThresholdType.Bin)
@@ -37,7 +37,7 @@ internal object ThresholdCommands {
     }
 
     fun inRangeCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val lb = c.intParam(0, "0-255")
         val ub = c.intParam(255, "0-255")
         return c.withFunc { m -> inRange(m, smat(lb.v), smat(ub.v), m) }

@@ -25,8 +25,8 @@ object StructureCommands {
         r.register("detectLines", ::DetectLinesCommand);
     }
 
-    fun cannyCommand(ps: Array<String>): Command {
-        val c = SimpleCommand(*ps)
+    fun cannyCommand(args: Array<String>): Command {
+        val c = SimpleCommand(args)
         val th1 = c.doubleParam(100.0, "0-500")
         val th2 = c.doubleParam(200.0, "0-500")
         val sp = c.intParam(1, "0-50")
@@ -34,8 +34,8 @@ object StructureCommands {
         return c.withFunc { m -> Canny(m, m, th1.v, th2.v, sp.v * 2 + 1, l2g.v) }
     }
 
-    fun cornerHarrisCommand(ps: Array<String>): Command {
-        val c = SimpleCommand(*ps)
+    fun cornerHarrisCommand(args: Array<String>): Command {
+        val c = SimpleCommand(args)
         val b = c.intParam(2, "0-10")
         val ksp = c.intParam(1, "0-10")
         val k = c.doubleParam(4.0, "0-100")

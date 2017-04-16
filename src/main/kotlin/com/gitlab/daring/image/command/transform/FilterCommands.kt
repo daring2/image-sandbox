@@ -21,13 +21,13 @@ internal object FilterCommands {
     }
 
     fun blurCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val kp = KernelParam(c)
         return c.withFunc { m, d -> blur(m, d, kp.size) }
     }
 
     fun gaussianBlurCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val kp = KernelParam(c)
         val sigma = c.doubleParam(0.0, "0-10")
         val n = c.intParam(1, "0-10")
@@ -35,14 +35,14 @@ internal object FilterCommands {
     }
 
     fun medianBlurCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val kp = KernelParam(c)
         val n = c.intParam(1, "0-10")
         return c.withFunc(n) { m -> medianBlur(m, m, kp.width) }
     }
 
     fun bilateralFilterCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val dp = c.intParam(5, "0-50")
         val sp1 = c.doubleParam(10.0, "0-200")
         val sp2 = c.doubleParam(10.0, "0-200")
@@ -50,7 +50,7 @@ internal object FilterCommands {
     }
 
     fun sharpenCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val n = c.intParam(1, "0-10")
         val rm = Mat()
         return c.withFunc(n) { m ->

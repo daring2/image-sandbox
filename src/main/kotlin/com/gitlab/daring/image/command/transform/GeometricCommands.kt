@@ -19,14 +19,14 @@ internal object GeometricCommands {
     }
 
     fun cropRectCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val ps = parseIntParams(*args)
         val rect = Rect(ps[0], ps[1], ps[2], ps[3])
         return c.withSetFunc { m -> m.apply(rect) }
     }
 
     fun cropCenterCommand(args: Array<String>): Command {
-        val c = SimpleCommand(*args)
+        val c = SimpleCommand(args)
         val sp = c.intParam(100, "0-100")
         return c.withSetFunc { m -> cropCenter(m, sp.pv) }
     }
