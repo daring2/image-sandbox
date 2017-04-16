@@ -5,6 +5,8 @@ import kotlin.reflect.KClass
 
 class EnumParam<T : Enum<T>>(val enumClass: KClass<T>, sv: String) : CommandParam<T>(sv, "") {
 
+    val enumValues get() = enumClass.java.enumConstants
+
     val vi get() = v.ordinal
 
     override fun parseValue(sv: String) = findEnum(enumClass.java, sv)
