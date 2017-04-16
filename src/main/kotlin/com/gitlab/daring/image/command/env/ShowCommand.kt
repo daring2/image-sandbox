@@ -3,7 +3,7 @@ package com.gitlab.daring.image.command.env
 import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.CommandScriptUtils.runCommand
 import com.gitlab.daring.image.command.KBaseCommand
-import com.gitlab.daring.image.component.BaseCanvasFrame
+import com.gitlab.daring.image.swing.BaseCanvasFrame
 import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
 internal class ShowCommand(args: Array<String>) : KBaseCommand(args) {

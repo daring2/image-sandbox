@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.util
 
-import com.gitlab.daring.image.component.BaseCanvasFrame
+import com.gitlab.daring.image.swing.BaseCanvasFrame
 import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_imgcodecs.imread
 import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
