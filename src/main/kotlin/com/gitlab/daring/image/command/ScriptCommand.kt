@@ -5,7 +5,9 @@ import com.gitlab.daring.image.command.parameter.CommandParam
 class ScriptCommand(val script: String, val commands: List<Command>) : Command {
 
     override fun execute(env: CommandEnv) {
-        commands.filter { it.isEnabled(env) }.forEach { it.execute(env) }
+        for (cmd in commands) {
+            if (cmd.isEnabled(env)) cmd.execute(env)
+        }
     }
 
     override fun getParams(): List<CommandParam<*>> {
