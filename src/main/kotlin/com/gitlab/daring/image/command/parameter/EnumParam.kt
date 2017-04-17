@@ -1,15 +1,14 @@
 package com.gitlab.daring.image.command.parameter
 
 import com.gitlab.daring.image.util.EnumUtils.findEnum
-import kotlin.reflect.KClass
 
-class EnumParam<T : Enum<T>>(val enumClass: KClass<T>, sv: String) : CommandParam<T>(sv, "") {
+class EnumParam<T : Enum<T>>(val enumClass: Class<T>, sv: String) : CommandParam<T>(sv, "") {
 
-    val enumValues get() = enumClass.java.enumConstants
+    val enumValues get() = enumClass.enumConstants
 
     val vi get() = v.ordinal
 
-    override fun parseValue(sv: String) = findEnum(enumClass.java, sv)
+    override fun parseValue(sv: String) = findEnum(enumClass, sv)
 
     override fun configValue(): Any  = "$v"
 
