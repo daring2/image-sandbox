@@ -7,6 +7,8 @@ abstract class KBaseCommand(val args: Array<String>): Command {
 
     val params = ArrayList<CommandParam<*>>()
 
+    override fun getParams(): MutableList<CommandParam<*>> = params //TODO remove
+
     fun <T : CommandParam<*>> addParam(p: T): T {
         params.add(p)
         return p
