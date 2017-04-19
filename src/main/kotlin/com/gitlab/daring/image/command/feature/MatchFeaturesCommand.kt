@@ -15,12 +15,12 @@ internal class MatchFeaturesCommand(args: Array<String>) : KBaseCommand(args) {
         val m2 = env.getMat(matKey.v)
 
         env.featureDetector ?: runCommand(env, "newFeatureDetector")
-        val fd = env.featureDetector
+        val fd = env.featureDetector!!
         val ps1 = detectAndCompute(fd, m1)
         val ps2 = detectAndCompute(fd, m2)
 
         env.descriptorMatcher ?: runCommand(env, "newBFMatcher")
-        val dm = env.descriptorMatcher
+        val dm = env.descriptorMatcher!!
         val mr = DMatchResult(ps1, ps2)
         dm.match(ps1.descriptors, ps2.descriptors, mr.matches)
         env.matchResult = mr

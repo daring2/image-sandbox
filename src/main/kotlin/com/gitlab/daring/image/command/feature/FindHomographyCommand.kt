@@ -16,7 +16,7 @@ internal class FindHomographyCommand(args: Array<String>) : KBaseCommand(args) {
     val mask = Mat()
 
     override fun execute(env: CommandEnv) {
-        val (ps1, ps2, ms) = env.matchResult
+        val (ps1, ps2, ms) = env.matchResult!!
         env.mat = findHomography(
                 buildMatchPoints(ms, ps1.points, true),
                 buildMatchPoints(ms, ps2.points, false),

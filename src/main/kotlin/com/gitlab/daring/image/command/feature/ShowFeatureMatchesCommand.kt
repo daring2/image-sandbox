@@ -20,7 +20,7 @@ internal class ShowFeatureMatchesCommand(args: Array<String>) : KBaseCommand(arg
     val rm = opencv_core.Mat()
 
     override fun execute(env: CommandEnv) {
-        val (ps1, ps2, ms) = env.matchResult
+        val (ps1, ps2, ms) = env.matchResult!!
         val matches = toJava(ms).take(maxFeatures.v).toTypedArray()
         drawMatches(
                 ps1.mat, ps1.points,

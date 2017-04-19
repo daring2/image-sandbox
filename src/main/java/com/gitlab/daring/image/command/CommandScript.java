@@ -36,9 +36,9 @@ public class CommandScript {
     }
 
     public Mat runTask(String task, Mat mat) {
-        env.mat = mat != null ? mat.clone() : new Mat();
+        env.setMat(mat != null ? mat.clone() : new Mat());
         runTask(task);
-        return env.mat.clone();
+        return env.getMat().clone();
     }
 
     public void execute() {
@@ -47,7 +47,7 @@ public class CommandScript {
 
     public Mat runCommand(String cmd, Object... args) {
         tryRun(() -> runScript(env, cmdStr(cmd, args)));
-        return env.mat;
+        return env.getMat();
     }
 
     void tryRun(VoidCallable call) {

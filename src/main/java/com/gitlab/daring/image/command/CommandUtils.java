@@ -15,7 +15,7 @@ public class CommandUtils {
     public static final Command EmptyCommand = newCommand(m -> {});
 
     public static Command newCommand(Consumer<Mat> c) {
-        return env -> c.accept(env.mat);
+        return env -> c.accept(env.getMat());
     }
 
     public static StreamEx<String> splitScript(String script) {

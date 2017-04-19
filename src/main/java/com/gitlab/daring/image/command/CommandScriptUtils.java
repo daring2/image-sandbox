@@ -20,7 +20,7 @@ public class CommandScriptUtils {
 
     public static Mat runCommand(CommandEnv env, String cmd, Object... args) {
         runScript(env, cmdStr(cmd, args));
-        return env.mat;
+        return env.getMat();
     }
 
     private CommandScriptUtils() {

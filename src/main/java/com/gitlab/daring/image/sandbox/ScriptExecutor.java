@@ -45,7 +45,7 @@ class ScriptExecutor implements AutoCloseable {
         env.setTask("");
         script.runCommand("read", file);
         script.execute();
-        env.putMat("$i", env.mat);
+        env.putMat("$i", env.getMat());
     }
 
     @Override
