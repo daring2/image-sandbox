@@ -30,7 +30,7 @@ public class CommandRegistryTest {
 		assertEquals(cmd.getCommands(), asList(cmds));
 	}
 
-    static class TestCommand1 extends BaseCommand {
+    static class TestCommand1 extends KBaseCommand {
 	    public TestCommand1(String... params) {
 		    super(params);
 	    }
@@ -38,7 +38,7 @@ public class CommandRegistryTest {
 	    public void execute(CommandEnv env) {}
     }
 
-	static class TestCommand2 extends BaseCommand {
+	static class TestCommand2 extends KBaseCommand {
 		public TestCommand2(String... params) {
 			super(params);
 		}

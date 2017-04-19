@@ -7,7 +7,7 @@ import org.bytedeco.javacpp.opencv_core.Size
 import org.bytedeco.javacpp.opencv_imgproc.CV_SHAPE_RECT
 import org.bytedeco.javacpp.opencv_imgproc.getStructuringElement
 
-class KernelParam(cmd: BaseCommand) {
+class KernelParam(cmd: KBaseCommand) {
 
     val p = cmd.intParam(1, "0-10")
 
