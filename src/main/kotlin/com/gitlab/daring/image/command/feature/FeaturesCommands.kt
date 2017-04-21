@@ -21,7 +21,7 @@ object FeaturesCommands {
         FeatureDetectorType.register(r)
     }
 
-    fun drawKeyPointsCommand(vararg ps: String): Command {
+    fun drawKeyPointsCommand(ps: Array<String>): Command {
         val color = Scalar.all(-1.0)
         return Command {
             env -> drawKeypoints(env.mat, env.keyPoints, env.mat, color, DRAW_RICH_KEYPOINTS)
