@@ -12,10 +12,8 @@ import static java.util.Arrays.stream;
 
 public class CommandUtils {
 
-    public static final Command EmptyCommand = newCommand(m -> {});
-
     public static Command newCommand(Consumer<Mat> c) {
-        return env -> c.accept(env.getMat());
+        return new SimpleCommand(new String[0]).withFunc(c);
     }
 
     public static StreamEx<String> splitScript(String script) {

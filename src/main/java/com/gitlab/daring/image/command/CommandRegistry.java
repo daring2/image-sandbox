@@ -34,7 +34,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
     }
 
     final Config cmdConfig = getConfig("commands");
-    final Map<String, Command.Factory> factories = new HashMap<>();
+    final Map<String, CommandFactory> factories = new HashMap<>();
     final Cache<String, Command> cache = buildClosableCache(config.getString("cache"));
 
     public CommandRegistry() {
@@ -49,7 +49,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
         mainContext().closeEvent.onFire(this::close);
     }
 
-    public void register(String name, Command.Factory f) {
+    public void register(String name, CommandFactory f) {
         factories.put(name, f);
     }
 
@@ -75,7 +75,7 @@ public class CommandRegistry extends BaseComponent implements AutoCloseable {
         List<String> ss = splitAndTrim(cmdStr, "()").toList();
         String name = ss.get(0);
         String[] args = parseArgs(ss.size() > 1 ? ss.get(1) : "", getDefArgs(name));
-        Command.Factory cf = factories.get(name);
+        CommandFactory cf = factories.get(name);
         if (cf == null) throwArgumentException("Invalid command " + cmdStr);
         return cf.create(args);
     }

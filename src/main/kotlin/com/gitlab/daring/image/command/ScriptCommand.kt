@@ -1,8 +1,8 @@
 package com.gitlab.daring.image.command
 
-import com.gitlab.daring.image.command.parameter.CommandParam
-
 class ScriptCommand(val script: String, val commands: List<Command>) : Command {
+
+    override val params get() = commands.flatMap(Command::params)
 
     override fun execute(env: CommandEnv) {
         for (cmd in commands) {
@@ -10,12 +10,8 @@ class ScriptCommand(val script: String, val commands: List<Command>) : Command {
         }
     }
 
-    override fun getParams(): List<CommandParam<*>> {
-        return commands.flatMap { it.params }
-    }
-
     override fun close() {
-        commands.forEach { it.close() }
+        commands.forEach(AutoCloseable::close)
     }
 
 }

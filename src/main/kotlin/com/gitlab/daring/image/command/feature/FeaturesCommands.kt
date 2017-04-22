@@ -2,6 +2,7 @@ package com.gitlab.daring.image.command.feature
 
 import com.gitlab.daring.image.command.Command
 import com.gitlab.daring.image.command.CommandRegistry
+import com.gitlab.daring.image.command.KCommandUtils.newCommand
 import org.bytedeco.javacpp.opencv_core.Scalar
 import org.bytedeco.javacpp.opencv_features2d.DrawMatchesFlags.DRAW_RICH_KEYPOINTS
 import org.bytedeco.javacpp.opencv_features2d.drawKeypoints
@@ -23,7 +24,7 @@ object FeaturesCommands {
 
     fun drawKeyPointsCommand(ps: Array<String>): Command {
         val color = Scalar.all(-1.0)
-        return Command {
+        return newCommand {
             env -> drawKeypoints(env.mat, env.keyPoints, env.mat, color, DRAW_RICH_KEYPOINTS)
         }
     }

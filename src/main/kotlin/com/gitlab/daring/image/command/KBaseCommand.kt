@@ -5,9 +5,7 @@ import java.util.*
 
 abstract class KBaseCommand(val args: Array<String>): Command {
 
-    val params = ArrayList<CommandParam<*>>()
-
-    override fun getParams(): MutableList<CommandParam<*>> = params //TODO remove
+    override val params = ArrayList<CommandParam<*>>()
 
     fun <T : CommandParam<*>> addParam(p: T): T {
         params.add(p)

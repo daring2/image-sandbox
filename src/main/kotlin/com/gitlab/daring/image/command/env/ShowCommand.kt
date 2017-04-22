@@ -16,7 +16,7 @@ internal class ShowCommand(args: Array<String>) : KBaseCommand(args) {
         if (!isCacheable) frame.defaultCloseOperation = DISPOSE_ON_CLOSE
     }
 
-    override fun isCacheable() = !title.isEmpty()
+    override val isCacheable get() = !title.isEmpty()
 
     override fun execute(env: CommandEnv) {
         val tv = env.eval(title)
