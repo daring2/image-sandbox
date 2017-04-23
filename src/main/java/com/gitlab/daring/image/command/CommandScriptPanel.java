@@ -45,7 +45,7 @@ public class CommandScriptPanel extends JPanel {
         add(new JSeparator());
         add(paramPanel);
         applyEvent.onFire(this::apply);
-        script.errorEvent.addListener(this::onError);
+        script.getErrorEvent().addListener(this::onError);
     }
 
     JTextArea createScriptField() {
@@ -73,7 +73,7 @@ public class CommandScriptPanel extends JPanel {
     public void apply() {
         script.setText(scriptField.getText());
         apply(staticParamPanel, staticParams);
-        apply(paramPanel, script.command.getParams());
+        apply(paramPanel, script.getCommand().getParams());
     }
 
     public void apply(CommandParamPanel p, List<CommandParam<?>> ps) {

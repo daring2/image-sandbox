@@ -22,7 +22,7 @@ class ScriptExecutor implements AutoCloseable {
     ScriptExecutor(ImageSandbox sb) {
         this.sb = sb;
         script = sb.mp.script;
-        env = script.env;
+        env = script.getEnv();
     }
 
     void executeAsync() {

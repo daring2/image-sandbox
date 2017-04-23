@@ -14,12 +14,12 @@ public class CommandScriptUtils {
         parseScript(script).execute(env);
     }
 
-    public static String cmdStr(String cmd, Object... args) {
+    public static String commandString(String cmd, Object... args) {
         return cmd + "(" + join(args, ", ") + ");";
     }
 
     public static Mat runCommand(CommandEnv env, String cmd, Object... args) {
-        runScript(env, cmdStr(cmd, args));
+        runScript(env, commandString(cmd, args));
         return env.getMat();
     }
 
