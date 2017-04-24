@@ -4,6 +4,7 @@ import org.bytedeco.javacpp.opencv_core.Mat
 
 object CommandScriptUtils {
 
+    @JvmStatic
     fun parseScript(script: String): ScriptCommand {
         return CommandRegistry.Instance.parseScript(script)
     }
