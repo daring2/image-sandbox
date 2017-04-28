@@ -6,7 +6,7 @@ import javax.swing.JComboBox
 import javax.swing.JTextArea
 import javax.swing.plaf.basic.BasicComboPopup
 
-private class CommandPopupMenu(val field: JTextArea) {
+internal class CommandPopupMenu(val field: JTextArea) {
 
     val commands = commandRegistry().commands.sorted()
 

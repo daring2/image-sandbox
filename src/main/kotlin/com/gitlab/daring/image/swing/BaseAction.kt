@@ -9,8 +9,6 @@ import javax.swing.KeyStroke.getKeyStroke
 
 class BaseAction(name: String, val act: () -> Unit) : AbstractAction(name) {
 
-    constructor(name: String, act: Runnable) : this(name, act::run)
-
     val name get() = getValue(NAME) as String
 
     override fun actionPerformed(e: ActionEvent) {
