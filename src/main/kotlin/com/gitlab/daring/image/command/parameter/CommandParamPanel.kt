@@ -3,7 +3,6 @@ package com.gitlab.daring.image.command.parameter
 import com.gitlab.daring.image.event.VoidEvent
 import net.miginfocom.swing.MigLayout
 import java.util.Collections.emptyList
-import java.util.function.Consumer
 import javax.swing.*
 
 class CommandParamPanel : JPanel() {
@@ -26,7 +25,7 @@ class CommandParamPanel : JPanel() {
     }
 
 
-    fun addParamChangeListener(l: Consumer<Void?>) {
+    fun addParamChangeListener(l: (Void?) -> Unit) {
         params.forEach { it.changeEvent.addListener(l) }
     }
 

@@ -10,7 +10,6 @@ import com.gitlab.daring.image.swing.NotificationUtils.showErrorDialog
 import net.miginfocom.swing.MigLayout
 import org.slf4j.LoggerFactory.getLogger
 import java.util.*
-import java.util.function.Consumer
 import javax.swing.*
 
 open class CommandScriptPanel : JPanel() {
@@ -26,7 +25,7 @@ open class CommandScriptPanel : JPanel() {
     protected val paramPanel = CommandParamPanel()
 
     val scriptField: JTextArea
-    val changeListener = Consumer<Void?> { e -> changeEvent.fire() }
+    val changeListener = { _: Void? -> changeEvent.fire() }
 
     init {
         layout = MigLayout("fill, wrap 1", "[fill]", "[center]")
@@ -38,7 +37,7 @@ open class CommandScriptPanel : JPanel() {
         add(JSeparator())
         add(paramPanel)
         applyEvent.onFire { this.apply() }
-        script.errorEvent.addListener(Consumer<Exception?> { this.onError(it) })
+        script.errorEvent.addListener { this.onError(it) }
     }
 
     fun createScriptField(): JTextArea {
