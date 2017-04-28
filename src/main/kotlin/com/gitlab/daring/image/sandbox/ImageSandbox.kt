@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.sandbox
 
-import com.gitlab.daring.image.MainContext.mainContext
+import com.gitlab.daring.image.MainContext
 import com.gitlab.daring.image.config.ConfigUtils.defaultConfig
 import com.gitlab.daring.image.swing.BaseFrame
 
@@ -35,7 +35,7 @@ class ImageSandbox : AutoCloseable {
 
     override fun close() {
         scriptExecutor.close()
-        mainContext().close()
+        MainContext.close()
     }
 
     companion object {

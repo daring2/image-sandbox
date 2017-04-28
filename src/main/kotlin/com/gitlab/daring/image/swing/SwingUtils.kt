@@ -14,9 +14,6 @@ object SwingUtils {
         if (isEdt()) r() else invokeAndWait(r)
     }
 
-    @JvmStatic
-    fun runInEdt(r: Runnable) = runInEdt { r.run() }
-
     fun newButton(label: String, act: () -> Unit): JButton {
         val b = JButton(label)
         b.addActionListener { act.invoke() }

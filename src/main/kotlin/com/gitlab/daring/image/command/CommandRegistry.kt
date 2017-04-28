@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.command
 
-import com.gitlab.daring.image.MainContext.mainContext
+import com.gitlab.daring.image.MainContext
 import com.gitlab.daring.image.command.CommandUtils.parseArgs
 import com.gitlab.daring.image.command.CommandUtils.splitScript
 import com.gitlab.daring.image.command.combine.CombineCommands
@@ -34,7 +34,7 @@ class CommandRegistry : AutoCloseable {
         StructureCommands.register(this)
         TemplateCommands.register(this)
         FeaturesCommands.register(this)
-        mainContext().closeEvent.onFire { this.close() }
+        MainContext.closeEvent.onFire { this.close() }
     }
 
     fun register(name: String, f: CommandFactory) {
