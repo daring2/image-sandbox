@@ -16,7 +16,7 @@ internal class ScriptExecutor(val sb: ImageSandbox) : AutoCloseable {
     }
 
     fun execute() {
-        files = splitAndTrim(sb.mp.filesParam.value, ",").toList()
+        files = splitAndTrim(sb.mp.filesParam.value, ",")
         if (files.isNotEmpty()) {
             for (i in 0..files.size) runScript(i)
             script.runTask("combine")

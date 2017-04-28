@@ -53,7 +53,7 @@ class CommandRegistry : AutoCloseable {
     }
 
     private fun parseCommand(cmdStr: String): Command {
-        val ss = splitAndTrim(cmdStr, "()").toList()
+        val ss = splitAndTrim(cmdStr, "()")
         val args = parseArgs(ss.getOrElse(1, {""}))
         val cf = factories[ss[0]] ?: throwArgumentException("Invalid command " + cmdStr)
         return cf(args)

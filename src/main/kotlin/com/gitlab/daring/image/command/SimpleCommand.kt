@@ -2,7 +2,6 @@ package com.gitlab.daring.image.command
 
 import com.gitlab.daring.image.command.parameter.IntParam
 import org.bytedeco.javacpp.opencv_core.Mat
-import java.util.function.Consumer
 
 class SimpleCommand(args: Array<String>) : KBaseCommand(args) {
 
@@ -12,8 +11,6 @@ class SimpleCommand(args: Array<String>) : KBaseCommand(args) {
         func = { env -> f(env.mat) }
         return this
     }
-
-    fun withFunc(c: Consumer<Mat>) = withFunc(c::accept)
 
     fun withFunc(n: IntParam, f: (Mat) -> Unit): SimpleCommand {
         func = { env -> for (i in 0..n.value) f(env.mat) }

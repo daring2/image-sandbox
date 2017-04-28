@@ -24,11 +24,11 @@ object TransformCommands {
         GeometricCommands.register(r)
     }
 
-    fun equalizeHistCommand(vararg ps: String): Command {
+    fun equalizeHistCommand(ps: Array<String>): Command {
         return newCommand { m -> equalizeHist(m, m) }
     }
 
-    fun bitwiseNotCommand(vararg ps: String): Command {
+    fun bitwiseNotCommand(ps: Array<String>): Command {
         return newCommand { m -> bitwise_not(m, m) }
     }
 

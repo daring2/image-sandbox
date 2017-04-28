@@ -20,7 +20,7 @@ internal object GeometricCommands {
 
     fun cropRectCommand(args: Array<String>): Command {
         val c = SimpleCommand(args)
-        val ps = parseIntParams(*args)
+        val ps = parseIntParams(args)
         val rect = Rect(ps[0], ps[1], ps[2], ps[3])
         return c.withSetFunc { m -> m.apply(rect) }
     }
