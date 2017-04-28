@@ -20,7 +20,7 @@ class ImageSandbox : AutoCloseable {
 
     fun showFrame() {
         val frame = BaseFrame("ImageSandbox", mp)
-        frame.addCloseListener(Runnable { this.close() })
+        frame.addCloseListener(this::close)
         frame.show(800, 600)
     }
 

@@ -14,9 +14,9 @@ class BaseFrame(title: String, content: Container) : JFrame(title) {
         isLocationByPlatform = true
     }
 
-    fun addCloseListener(l: Runnable) {
+    fun addCloseListener(l: () -> Unit) {
         this.addWindowListener(object : WindowAdapter() {
-            override fun windowClosed(e: WindowEvent) = l.run()
+            override fun windowClosed(e: WindowEvent) = l()
         })
     }
 

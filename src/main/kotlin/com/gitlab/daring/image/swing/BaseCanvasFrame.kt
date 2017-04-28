@@ -19,7 +19,7 @@ class BaseCanvasFrame(title: String) : CanvasFrame(title, 1.0) {
 
     fun showMat(m: Mat) {
         val cm = matConverter.convert(m)
-        runInEdt(Runnable{ showImage(cm) })
+        runInEdt { showImage(cm) }
     }
 
     override fun showImage(image: Image?) {

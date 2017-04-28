@@ -10,10 +10,12 @@ object SwingUtils {
 
     fun isEdt() = isEventDispatchThread()
 
-    @JvmStatic
-    fun runInEdt(r: Runnable) {
-        if (isEdt()) r.run() else invokeAndWait(r)
+    fun runInEdt(r: () -> Unit) {
+        if (isEdt()) r() else invokeAndWait(r)
     }
+
+    @JvmStatic
+    fun runInEdt(r: Runnable) = runInEdt { r.run() }
 
     fun newButton(label: String, act: () -> Unit): JButton {
         val b = JButton(label)
