@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.command
 
-import com.gitlab.daring.image.command.CommandRegistry.commandRegistry
+import com.gitlab.daring.image.command.CommandRegistry.Companion.commandRegistry
 import com.gitlab.daring.image.swing.BaseAction
 import javax.swing.JComboBox
 import javax.swing.JTextArea

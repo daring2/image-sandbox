@@ -3,11 +3,9 @@ package com.gitlab.daring.image.command;
 import one.util.streamex.StreamEx;
 import org.bytedeco.javacpp.opencv_core.Mat;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim;
-import static java.lang.Math.max;
 import static java.util.Arrays.stream;
 
 public class CommandUtils {
@@ -21,16 +19,8 @@ public class CommandUtils {
             .flatMap(l -> splitAndTrim(l, ";")).remove(c -> c.startsWith("-"));
     }
 
-    public static String[] parseArgs(String argStr, List<String> defArgs) {
-        StreamEx<String> ss = splitAndTrim(argStr, ",");
-        return buildArgs(ss.toList(), defArgs);
-    }
-
-    public static String[] buildArgs(List<String> args, List<String> defArgs) {
-        String[] ps = new String[max(args.size(), defArgs.size())];
-        for (int i = 0; i < ps.length; i++)
-            ps[i] = i < args.size() ? args.get(i) : defArgs.get(i);
-        return ps;
+    public static String[] parseArgs(String argStr) {
+        return splitAndTrim(argStr, ",").toArray(String.class);
     }
 
     public static int[] parseIntParams(String... ps) {

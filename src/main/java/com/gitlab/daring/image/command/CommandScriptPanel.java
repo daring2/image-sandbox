@@ -44,7 +44,7 @@ public class CommandScriptPanel extends JPanel {
         createButtons();
         add(new JSeparator());
         add(paramPanel);
-        applyEvent.onFire(this::apply);
+        applyEvent.onFire((Runnable) this::apply);
         script.getErrorEvent().addListener(this::onError);
     }
 

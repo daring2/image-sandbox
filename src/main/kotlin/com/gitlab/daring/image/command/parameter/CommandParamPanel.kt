@@ -84,10 +84,10 @@ class CommandParamPanel : JPanel() {
         val f = JTextField("" + p.value)
         if (editable) {
             f.addActionListener { p.stringValue = f.text }
-            applyEvent.onFire(Runnable { p.vr = p.parseValue(f.text) })
+            applyEvent.onFire { p.vr = p.parseValue(f.text) }
         } else {
             f.isEditable = false
-            p.changeEvent.onFire(Runnable { f.text = "" + p.value })
+            p.changeEvent.onFire { f.text = "" + p.value }
         }
         return f
     }
