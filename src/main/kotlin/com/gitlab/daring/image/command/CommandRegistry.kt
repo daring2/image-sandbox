@@ -10,7 +10,7 @@ import com.gitlab.daring.image.command.feature.FeaturesCommands
 import com.gitlab.daring.image.command.structure.StructureCommands
 import com.gitlab.daring.image.command.template.TemplateCommands
 import com.gitlab.daring.image.command.transform.TransformCommands
-import com.gitlab.daring.image.config.ConfigUtils
+import com.gitlab.daring.image.config.ConfigUtils.defaultConfig
 import com.gitlab.daring.image.util.CacheUtils.buildClosableCache
 import com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException
 import com.gitlab.daring.image.util.ExtStringUtils.splitAndTrim
@@ -20,7 +20,7 @@ typealias CommandFactory = (Array<String>) -> Command
 
 class CommandRegistry : AutoCloseable {
 
-    val config = ConfigUtils.defaultConfig("isb.CommandRegistry")
+    val config = defaultConfig("isb.CommandRegistry")
     val factories = HashMap<String, CommandFactory>()
     val cache = buildClosableCache<String, Command>(config.getString("cache"))
 
