@@ -6,6 +6,10 @@ class VoidEvent: ValueEvent<Void>() {
         addListener { _ -> l() }
     }
 
+    fun onFire(l: Runnable) {
+        onFire(l::run)
+    }
+
     fun fire() = fire(null)
 
 }
