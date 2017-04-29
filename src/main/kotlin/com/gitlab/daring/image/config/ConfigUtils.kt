@@ -21,30 +21,36 @@ object ConfigUtils {
         return c.withFallback(ConfigFactory.load())
     }
 
-    fun defaultConfig() = defaultConfig
-
+    @JvmStatic
     fun defaultConfig(path: String) = defaultConfig.getConfig(path)
 
+    @JvmStatic
     fun referenceConfig() = ConfigFactory.defaultReference()
 
+    @JvmStatic
     fun emptyConfig() = ConfigFactory.empty()
 
+    @JvmStatic
     fun loadConfig(path: String?): Config {
         val c = ConfigFactory.load(ConfigParseOptions.defaults())
         return if (path != null) c.getConfig(path) else c
     }
 
+    @JvmStatic
     fun configFromMap(map: Map<String, Any>): Config {
         return ConfigFactory.parseMap(map)
     }
 
+    @JvmStatic
     fun configFromString(str: String) = ConfigFactory.parseString(str)
 
+    @JvmStatic
     fun saveConfig(c: Config, file: String) {
         val str = c.root().render(concise().setFormatted(true).setJson(false))
         Files.write(str, File(file), UTF_8)
     }
 
+    @JvmStatic
     fun saveDiffConfig(c: Config, file: String) {
         val db = ConfigDiffBuilder()
         val dc = loadConfig(null)
