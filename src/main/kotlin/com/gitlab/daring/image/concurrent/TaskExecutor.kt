@@ -15,6 +15,8 @@ class TaskExecutor (
         executor.execute { if (taskIds.get() == id) task() }
     }
 
+    fun executeAsync(task: Runnable) = executeAsync { task.run() }
+
     override fun close() {
         executor.shutdownNow()
     }

@@ -41,7 +41,7 @@ abstract class BaseVideoProcessor(configPath: String): AutoCloseable {
         return f
     }
 
-    fun start() {
+    open fun start() {
         openWriter()
         while (capture.read(inputMat) && isStarted()) {
             processFrame()
