@@ -9,7 +9,6 @@ object CommonUtils {
         } catch (e: Exception) {
             // ignore
         }
-
     }
 
 }

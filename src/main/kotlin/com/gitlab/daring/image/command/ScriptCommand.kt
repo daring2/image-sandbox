@@ -1,6 +1,9 @@
 package com.gitlab.daring.image.command
 
-class ScriptCommand(val script: String, val commands: List<Command>) : Command {
+class ScriptCommand(
+        val script: String,
+        val commands: List<Command>
+) : Command {
 
     override val params get() = commands.flatMap(Command::params)
 

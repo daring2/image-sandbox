@@ -8,8 +8,7 @@ abstract class KBaseCommand(val args: Array<String>): Command {
     override val params = ArrayList<CommandParam<*>>()
 
     fun <T : CommandParam<*>> addParam(p: T): T {
-        params.add(p)
-        return p
+        return p.also { params.add(it) }
     }
 
     fun doubleParam(dv: Double, spec: String): DoubleParam {
@@ -36,7 +35,7 @@ abstract class KBaseCommand(val args: Array<String>): Command {
         return addParam(EnumParam<T>(T::class.java, nextArg(dv)))
     }
 
-    fun arg(i: Int, dv: Any?) = args.getOrElse(i, { "" + dv })
+    fun arg(i: Int, dv: Any?) = args.getOrNull(i) ?: "$dv"
 
     fun nextArg(dv: Any?) = arg(params.size, dv)
 
@@ -47,7 +46,7 @@ abstract class KBaseCommand(val args: Array<String>): Command {
         return true
     }
 
-    override fun hashCode(): Int  = Arrays.hashCode(args)
+    override fun hashCode()  = Arrays.hashCode(args)
 
     override fun toString(): String {
         return "KBaseCommand{" +

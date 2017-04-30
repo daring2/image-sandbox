@@ -17,15 +17,15 @@ class CommandScript {
         get() = command.script
         set(v) = tryRun { command = parseScript(v) }
 
-    fun runTask(task: String) {
+    fun runTask(task: String) = tryRun {
         env.task = task
-        tryRun { command.execute(env) }
+        command.execute(env)
     }
 
     fun execute() = runTask("")
 
     fun runTask(task: String, mat: Mat?): Mat {
-        env.mat = if (mat != null) mat.clone() else Mat()
+        env.mat = mat?.clone() ?: Mat()
         runTask(task)
         return env.mat.clone()
     }
