@@ -2,10 +2,9 @@ package com.gitlab.daring.image.command.drawing
 
 import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
-import com.gitlab.daring.image.opencv.size
+import com.gitlab.daring.image.opencv.rect
+import com.gitlab.daring.image.opencv.sizeDim
 import com.gitlab.daring.image.util.GeometryUtils.getCenterRect
-import com.gitlab.daring.image.util.OpencvConverters.toJava
-import com.gitlab.daring.image.util.OpencvConverters.toOpencv
 import org.bytedeco.javacpp.opencv_core.LINE_8
 import org.bytedeco.javacpp.opencv_core.Point
 import org.bytedeco.javacpp.opencv_core.Scalar.all
@@ -20,13 +19,13 @@ internal class DrawCenterCommand(args: Array<String>) : KBaseCommand(args) {
 
     override fun execute(env: CommandEnv) {
         val m = env.mat
-        val d = toJava(m.size)
+        val d = m.sizeDim
         val cr = getCenterRect(d, scale.pv)
         val c = all(color.dv)
         val th = thickness.posVal(CV_FILLED)
         val sh = shape.v
         if (sh == Shape.Rectangle) {
-            rectangle(m, toOpencv(cr), c, th, LINE_8, 0)
+            rectangle(m, cr.rect, c, th, LINE_8, 0)
         } else if (sh == Shape.Circle) {
             val cp = Point(d.width / 2, d.height / 2)
             circle(m, cp, cr.width / 2, c, th, LINE_8, 0)

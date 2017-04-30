@@ -3,7 +3,7 @@ package com.gitlab.daring.image.command.feature
 import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.CommandScriptUtils.runCommand
 import com.gitlab.daring.image.command.KBaseCommand
-import com.gitlab.daring.image.util.OpencvConverters.toJava
+import com.gitlab.daring.image.opencv.toList
 import org.bytedeco.javacpp.opencv_core
 import org.bytedeco.javacpp.opencv_core.DMatchVector
 import org.bytedeco.javacpp.opencv_features2d.DrawMatchesFlags.NOT_DRAW_SINGLE_POINTS
@@ -21,7 +21,7 @@ internal class ShowFeatureMatchesCommand(args: Array<String>) : KBaseCommand(arg
 
     override fun execute(env: CommandEnv) {
         val (ps1, ps2, ms) = env.matchResult!!
-        val matches = toJava(ms).take(maxFeatures.v).toTypedArray()
+        val matches = ms.toList().take(maxFeatures.v).toTypedArray()
         drawMatches(
                 ps1.mat, ps1.points,
                 ps2.mat, ps2.points,

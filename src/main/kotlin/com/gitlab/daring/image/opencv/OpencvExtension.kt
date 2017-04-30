@@ -30,5 +30,7 @@ val MatVector.size get() = size().toInt()
 fun MatVector.get(i: Int) = get(i.toLong())
 fun MatVector.toList() = List(size, { get(it) })
 
+fun DMatchVector.toList() = (0..size()).map { get(it) }
+
 fun Rect.toJava() = Rectangle(x(), y(), width(), height())
-fun Rectangle.toOpencv() = Rect(x, y, width, height)
+val Rectangle.rect get() = Rect(x, y, width, height)

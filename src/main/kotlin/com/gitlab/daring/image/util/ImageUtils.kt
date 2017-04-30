@@ -1,8 +1,8 @@
 package com.gitlab.daring.image.util
 
+import com.gitlab.daring.image.opencv.rect
+import com.gitlab.daring.image.opencv.sizeDim
 import com.gitlab.daring.image.util.GeometryUtils.getCenterRect
-import com.gitlab.daring.image.util.OpencvConverters.toJava
-import com.gitlab.daring.image.util.OpencvConverters.toOpencv
 import org.bytedeco.javacpp.opencv_core.Mat
 import org.bytedeco.javacpp.opencv_core.Scalar
 import java.awt.Color
@@ -11,12 +11,10 @@ import java.awt.Rectangle
 object ImageUtils {
 
     fun centerRect(m: Mat, rectSize: Double): Rectangle {
-        return getCenterRect(toJava(m.size()), rectSize)
+        return getCenterRect(m.sizeDim, rectSize)
     }
 
-    fun cropMat(m: Mat, r: Rectangle): Mat {
-        return m.apply(toOpencv(r))
-    }
+    fun cropMat(m: Mat, r: Rectangle) = m.apply(r.rect)
 
     fun cropCenter(m: Mat, rectSize: Double): Mat {
         if (rectSize == 1.0) return m

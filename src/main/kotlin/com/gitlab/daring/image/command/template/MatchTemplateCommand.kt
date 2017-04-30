@@ -3,7 +3,7 @@ package com.gitlab.daring.image.command.template
 import com.gitlab.daring.image.command.CommandEnv
 import com.gitlab.daring.image.command.KBaseCommand
 import com.gitlab.daring.image.opencv.size
-import com.gitlab.daring.image.util.OpencvConverters.newRect
+import com.gitlab.daring.image.opencv.toJava
 import org.bytedeco.javacpp.DoublePointer
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_imgproc.matchTemplate
@@ -27,7 +27,7 @@ internal class MatchTemplateCommand(args: Array<String>) : KBaseCommand(args) {
         } else {
             minMaxLoc(rm, null, valueRef, null, pointRef, mask)
         }
-        env.vars.put("matchRect", newRect(pointRef, tm.size))
+        env.vars.put("matchRect", Rect(pointRef, tm.size).toJava())
         env.vars.put("matchValue", valueRef.get())
     }
 
