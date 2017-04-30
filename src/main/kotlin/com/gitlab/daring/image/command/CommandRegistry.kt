@@ -20,7 +20,7 @@ typealias CommandFactory = (Array<String>) -> Command
 
 class CommandRegistry : AutoCloseable {
 
-    val config = defaultConfig("isb.CommandRegistry")
+    val config = defaultConfig.getConfig("isb.CommandRegistry")
     val factories = HashMap<String, CommandFactory>()
     val cache = buildClosableCache<String, Command>(config.getString("cache"))
 

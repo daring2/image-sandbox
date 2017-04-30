@@ -11,9 +11,7 @@ import java.util.*
 class CommandEnv {
 
     var task = ""
-        set(v) {
-            field = v; curTask = ""
-        }
+        set(v) { field = v; curTask = "" }
 
     var curTask = ""
 
@@ -39,9 +37,8 @@ class CommandEnv {
         return this
     }
 
-    fun <T> getVar(key: String): T {
-        return vars[key] as T
-    }
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getVar(key: String) = vars[key] as T
 
     fun putVar(key: String, value: Any): CommandEnv {
         return apply { vars.put(key, value) }

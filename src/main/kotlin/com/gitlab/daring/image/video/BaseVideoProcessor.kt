@@ -17,7 +17,7 @@ import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
 abstract class BaseVideoProcessor(configPath: String): AutoCloseable {
 
-    val config = defaultConfig(configPath)
+    val config = defaultConfig.getConfig(configPath)
     val capture = createCapture()
     val fps = getVideoFps(capture, config.getInt("fps"))
     val size = getFrameSize(capture)

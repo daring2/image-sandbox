@@ -22,9 +22,6 @@ object ConfigUtils {
     }
 
     @JvmStatic
-    fun defaultConfig(path: String) = defaultConfig.getConfig(path)
-
-    @JvmStatic
     fun referenceConfig() = ConfigFactory.defaultReference()
 
     @JvmStatic

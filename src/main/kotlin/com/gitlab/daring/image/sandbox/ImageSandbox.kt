@@ -7,7 +7,7 @@ import com.gitlab.daring.image.swing.BaseFrame
 class ImageSandbox : AutoCloseable {
 
     val ConfigPath = "isb.ImageSandbox"
-    val config = defaultConfig(ConfigPath)
+    val config = defaultConfig.getConfig(ConfigPath)
 
     internal val mp = MainPanel(this)
     internal val scriptExecutor = ScriptExecutor(this)
