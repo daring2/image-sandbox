@@ -1,12 +1,13 @@
 package com.gitlab.daring.image.command
 
+import com.gitlab.daring.image.MainContext.commandRegistry
 import org.bytedeco.javacpp.opencv_core.Mat
 
 object CommandScriptUtils {
 
     @JvmStatic
     fun parseScript(script: String): ScriptCommand {
-        return CommandRegistry.Instance.parseScript(script)
+        return commandRegistry.parseScript(script)
     }
 
     fun runScript(env: CommandEnv, script: String) {

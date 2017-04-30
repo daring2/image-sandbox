@@ -42,19 +42,18 @@ class CommandRegistry : AutoCloseable {
     }
 
     fun parseScript(script: String): ScriptCommand {
-        val cmds = splitScript(script).map { this.getCommand(it) }.toList()
+        val cmds = splitScript(script).map(this::getCommand)
         return ScriptCommand(script, cmds)
     }
 
-    private fun getCommand(cmdStr: String): Command {
-        return cache.getIfPresent(cmdStr) ?: parseCommand(cmdStr).apply {
-            if (isCacheable) cache.put(cmdStr, this)
-        }
+    private fun getCommand(exp: String): Command {
+        cache.getIfPresent(exp)?.let { return it }
+        return parseCommand(exp).apply { if (isCacheable) cache.put(exp, this) }
     }
 
     private fun parseCommand(cmdStr: String): Command {
         val ss = splitAndTrim(cmdStr, "()")
-        val args = parseArgs(ss.getOrElse(1, {""}))
+        val args = parseArgs(ss.getOrNull(1) ?: "")
         val cf = factories[ss[0]] ?: throwArgumentException("Invalid command " + cmdStr)
         return cf(args)
     }
@@ -62,15 +61,6 @@ class CommandRegistry : AutoCloseable {
     override fun close() {
         cache.invalidateAll()
         cache.cleanUp()
-    }
-
-    companion object {
-
-        val Instance = CommandRegistry() //TODO move to main context
-
-        @JvmStatic
-        fun commandRegistry() = Instance
-
     }
 
 }

@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.command
 
-import com.gitlab.daring.image.command.CommandRegistry.Companion.commandRegistry
+import com.gitlab.daring.image.MainContext.commandRegistry
 import com.gitlab.daring.image.swing.BaseAction
 import javax.swing.JComboBox
 import javax.swing.JTextArea
@@ -8,7 +8,7 @@ import javax.swing.plaf.basic.BasicComboPopup
 
 internal class CommandPopupMenu(val field: JTextArea) {
 
-    val commands = commandRegistry().commands.sorted()
+    val commands = commandRegistry.commands.sorted()
 
     val box = JComboBox<String>()
     val popup = box.ui.getAccessibleChild(null, 0) as BasicComboPopup
