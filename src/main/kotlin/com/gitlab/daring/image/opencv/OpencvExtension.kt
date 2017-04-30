@@ -26,10 +26,7 @@ fun Mat.toColored(): Mat {
     return Mat().apply { cvtColor(m, this, COLOR_GRAY2BGR) }
 }
 
-val MatVector.size get() = size().toInt()
-fun MatVector.get(i: Int) = get(i.toLong())
-fun MatVector.toList() = List(size, { get(it) })
-
+fun MatVector.toList() = (0..size()).map { get(it) }
 fun DMatchVector.toList() = (0..size()).map { get(it) }
 
 fun Rect.toJava() = Rectangle(x(), y(), width(), height())
