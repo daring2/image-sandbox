@@ -1,10 +1,8 @@
 package com.gitlab.daring.image.video
 
-import org.bytedeco.javacpp.opencv_core.Size
 import org.bytedeco.javacpp.opencv_videoio.*
-
+import java.awt.Dimension
 import java.nio.ByteBuffer
-
 import java.nio.ByteOrder.LITTLE_ENDIAN
 import java.nio.charset.StandardCharsets.US_ASCII
 
@@ -17,10 +15,10 @@ object VideoUtils {
         return if (fps > 0) fps.toInt() else defValue
     }
 
-    fun getFrameSize(c: VideoCapture): Size {
+    fun getFrameSize(c: VideoCapture): Dimension {
         val width = c.get(CAP_PROP_FRAME_WIDTH).toInt()
         val height = c.get(CAP_PROP_FRAME_HEIGHT).toInt()
-        return Size(width, height)
+        return Dimension(width, height)
     }
 
     fun getCodec(codec: String): Int {

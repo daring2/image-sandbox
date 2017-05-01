@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.video
 
 import com.gitlab.daring.image.config.ConfigUtils.defaultConfig
+import com.gitlab.daring.image.opencv.toOpencv
 import com.gitlab.daring.image.swing.SwingUtils.runInEdt
 import com.gitlab.daring.image.video.VideoUtils.getCodec
 import com.gitlab.daring.image.video.VideoUtils.getFrameSize
@@ -35,8 +36,8 @@ abstract class BaseVideoProcessor(val configPath: String): AutoCloseable {
         val title = config.getString("title")
         val gamma = config.getInt("gamma")
         val f = CanvasFrame(title, gamma.toDouble())
-        f.setCanvasSize(size.width(), size.height())
-        f.setDefaultCloseOperation(DISPOSE_ON_CLOSE)
+        f.setCanvasSize(size.width, size.height)
+        f.defaultCloseOperation = DISPOSE_ON_CLOSE
         return f
     }
 
@@ -53,16 +54,13 @@ abstract class BaseVideoProcessor(val configPath: String): AutoCloseable {
         if (file.isEmpty()) return
         deleteQuietly(File(file))
         val codec = getCodec(config.getString("outputCodec"))
-        if (!writer.open(file, codec, fps.toDouble(), size, true))
+        if (!writer.open(file, codec, fps.toDouble(), size.toOpencv(), true))
             throw RuntimeException("Cannot create VideoWriter")
     }
 
-    fun isStarted(): Boolean {
-        return frame.isVisible
-    }
+    fun isStarted() = frame.isVisible
 
     protected abstract fun processFrame()
-
 
     protected fun showImage(m: Mat) {
         runInEdt { frame.showImage(matConverter.convert(m)) }

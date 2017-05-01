@@ -31,3 +31,5 @@ fun DMatchVector.toList() = (0..size()).map { get(it) }
 
 fun Rect.toJava() = Rectangle(x(), y(), width(), height())
 val Rectangle.rect get() = Rect(x, y, width, height)
+
+fun Dimension.toOpencv() = Size(width, height)

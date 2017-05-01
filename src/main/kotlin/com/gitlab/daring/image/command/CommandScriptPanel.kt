@@ -26,13 +26,14 @@ open class CommandScriptPanel : JPanel() {
     val staticParamPanel = CommandParamPanel()
     val paramPanel = CommandParamPanel()
 
-    val scriptField = createScriptField()
+    val scriptField: JTextArea
     val changeListener = { _: Void? -> changeEvent.fire() }
 
     init {
         layout = MigLayout("fill, wrap 1", "[fill]", "[center]")
         add(staticParamPanel)
         add(JSeparator())
+        scriptField = createScriptField()
         CommandPopupMenu(scriptField)
         createButtons()
         add(JSeparator())
