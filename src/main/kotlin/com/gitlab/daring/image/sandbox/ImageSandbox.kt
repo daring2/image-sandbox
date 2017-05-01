@@ -4,13 +4,13 @@ import com.gitlab.daring.image.MainContext
 import com.gitlab.daring.image.config.ConfigUtils.defaultConfig
 import com.gitlab.daring.image.swing.BaseFrame
 
-class ImageSandbox : AutoCloseable {
+internal class ImageSandbox : AutoCloseable {
 
     val ConfigPath = "isb.ImageSandbox"
     val config = defaultConfig.getConfig(ConfigPath)
 
-    internal val mp = MainPanel(this)
-    internal val scriptExecutor = ScriptExecutor(this)
+    val mp = MainPanel(this)
+    val scriptExecutor = ScriptExecutor(this)
 
     init {
         mp.applyEvent.onFire(this::apply)

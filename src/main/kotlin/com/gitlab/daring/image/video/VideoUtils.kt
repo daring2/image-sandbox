@@ -10,17 +10,20 @@ object VideoUtils {
 
     val XVID = getCodec("XVID")
 
+    @JvmStatic
     fun getVideoFps(c: VideoCapture, defValue: Int): Int {
         val fps = c.get(CAP_PROP_FPS)
         return if (fps > 0) fps.toInt() else defValue
     }
 
+    @JvmStatic
     fun getFrameSize(c: VideoCapture): Dimension {
         val width = c.get(CAP_PROP_FRAME_WIDTH).toInt()
         val height = c.get(CAP_PROP_FRAME_HEIGHT).toInt()
         return Dimension(width, height)
     }
 
+    @JvmStatic
     fun getCodec(codec: String): Int {
         val bs = codec.toByteArray(US_ASCII)
         return ByteBuffer.wrap(bs).order(LITTLE_ENDIAN).int
