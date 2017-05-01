@@ -13,6 +13,7 @@ object ConfigUtils {
 
     val AppConfigFile = "config/application.conf"
 
+    @JvmField
     val defaultConfig = loadDefaultConfig()
 
     private fun loadDefaultConfig(): Config {
@@ -53,11 +54,6 @@ object ConfigUtils {
         val dc = loadConfig(null)
         val sc = db.build(c.withFallback(dc), referenceConfig())
         saveConfig(sc, file)
-    }
-
-    @JvmStatic
-    fun getIntOpt(c: Config, path: String, defValue: Int): Int {
-        return if (c.hasPath(path)) c.getInt(path) else defValue
     }
 
 }

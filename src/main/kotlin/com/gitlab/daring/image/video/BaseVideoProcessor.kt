@@ -1,7 +1,6 @@
 package com.gitlab.daring.image.video
 
 import com.gitlab.daring.image.config.ConfigUtils.defaultConfig
-import com.gitlab.daring.image.config.ConfigUtils.getIntOpt
 import com.gitlab.daring.image.swing.SwingUtils.runInEdt
 import com.gitlab.daring.image.video.VideoUtils.getCodec
 import com.gitlab.daring.image.video.VideoUtils.getFrameSize
@@ -15,7 +14,7 @@ import org.bytedeco.javacv.OpenCVFrameConverter
 import java.io.File
 import javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
-abstract class BaseVideoProcessor(configPath: String): AutoCloseable {
+abstract class BaseVideoProcessor(val configPath: String): AutoCloseable {
 
     val config = defaultConfig.getConfig(configPath)
     val capture = createCapture()
@@ -34,7 +33,7 @@ abstract class BaseVideoProcessor(configPath: String): AutoCloseable {
 
     protected fun createFrame(): CanvasFrame {
         val title = config.getString("title")
-        val gamma = getIntOpt(config, "gamma", 1)
+        val gamma = config.getInt("gamma")
         val f = CanvasFrame(title, gamma.toDouble())
         f.setCanvasSize(size.width(), size.height())
         f.setDefaultCloseOperation(DISPOSE_ON_CLOSE)
