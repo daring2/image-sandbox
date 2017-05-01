@@ -48,7 +48,7 @@ class CommandRegistry : AutoCloseable {
 
     private fun getCommand(exp: String): Command {
         cache.getIfPresent(exp)?.let { return it }
-        return parseCommand(exp).apply { if (isCacheable) cache.put(exp, this) }
+        return parseCommand(exp).apply { if (cacheable) cache.put(exp, this) }
     }
 
     private fun parseCommand(cmdStr: String): Command {

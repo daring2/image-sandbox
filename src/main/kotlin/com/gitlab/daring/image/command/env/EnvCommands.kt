@@ -2,7 +2,7 @@ package com.gitlab.daring.image.command.env
 
 import com.gitlab.daring.image.command.Command
 import com.gitlab.daring.image.command.CommandRegistry
-import com.gitlab.daring.image.command.KCommandUtils.newCommand
+import com.gitlab.daring.image.command.CommandUtils.newEnvCommand
 import com.gitlab.daring.image.command.SimpleCommand
 
 import org.bytedeco.javacpp.opencv_imgcodecs.imwrite
@@ -28,11 +28,11 @@ object EnvCommands {
     }
 
     fun newGetCommand(args: Array<String>): Command {
-        return newCommand { env -> env.getMat(args[0]).copyTo(env.mat) }
+        return newEnvCommand { env -> env.getMat(args[0]).copyTo(env.mat) }
     }
 
     fun newPutCommand(args: Array<String>): Command {
-        return newCommand { env -> env.putMat(args[0], env.mat) }
+        return newEnvCommand { env -> env.putMat(args[0], env.mat) }
     }
 
 }

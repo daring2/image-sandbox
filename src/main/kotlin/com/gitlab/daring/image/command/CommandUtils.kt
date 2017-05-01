@@ -5,6 +5,10 @@ import org.bytedeco.javacpp.opencv_core.Mat
 
 object CommandUtils {
 
+    fun newEnvCommand(f: (CommandEnv) -> Unit): Command {
+        return SimpleCommand(emptyArray()).apply { func = f }
+    }
+
     fun newCommand(c: (Mat) -> Unit): Command {
         return SimpleCommand(emptyArray()).withFunc(c)
     }

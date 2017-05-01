@@ -1,7 +1,6 @@
 package com.gitlab.daring.image.command
 
 import com.gitlab.daring.image.MainContext.commandRegistry
-import org.bytedeco.javacpp.opencv_core.Mat
 
 object CommandScriptUtils {
 
@@ -18,9 +17,8 @@ object CommandScriptUtils {
         return "$cmd(${args.joinToString("," )});"
     }
 
-    fun runCommand(env: CommandEnv, cmd: String, vararg args: Any): Mat {
+    fun runCommand(env: CommandEnv, cmd: String, vararg args: Any) {
         runScript(env, commandString(cmd, *args))
-        return env.mat
     }
 
 }

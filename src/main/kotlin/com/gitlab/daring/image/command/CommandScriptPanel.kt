@@ -23,22 +23,21 @@ open class CommandScriptPanel : JPanel() {
     val script = CommandScript()
     val staticParams = ArrayList<CommandParam<*>>()
 
-    protected val staticParamPanel = CommandParamPanel()
-    protected val paramPanel = CommandParamPanel()
+    val staticParamPanel = CommandParamPanel()
+    val paramPanel = CommandParamPanel()
 
-    val scriptField: JTextArea
+    val scriptField = createScriptField()
     val changeListener = { _: Void? -> changeEvent.fire() }
 
     init {
         layout = MigLayout("fill, wrap 1", "[fill]", "[center]")
         add(staticParamPanel)
         add(JSeparator())
-        scriptField = createScriptField()
         CommandPopupMenu(scriptField)
         createButtons()
         add(JSeparator())
         add(paramPanel)
-        applyEvent.onFire { this.apply() }
+        applyEvent.onFire(this::apply)
         script.errorEvent.addListener { this.onError(it) }
     }
 
@@ -50,7 +49,7 @@ open class CommandScriptPanel : JPanel() {
     }
 
     fun createButtons() {
-        val act = BaseAction("Применить", { applyEvent.fire() })
+        val act = BaseAction("Применить", applyEvent::fire)
         act.register(this, "control S", true)
         add(JButton(act), "left, grow 0")
     }
@@ -76,7 +75,7 @@ open class CommandScriptPanel : JPanel() {
         p.addParamChangeListener(changeListener)
     }
 
-    internal fun onError(e: Exception?) {
+    fun onError(e: Exception?) {
         logger.error("Script error", e)
         showErrorDialog(this, "Ошибка выполнения:\n" + e)
     }

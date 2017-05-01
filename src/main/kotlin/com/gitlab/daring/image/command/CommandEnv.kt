@@ -2,10 +2,9 @@ package com.gitlab.daring.image.command
 
 import com.gitlab.daring.image.command.structure.Contour
 import com.gitlab.daring.image.features.DMatchResult
-import org.bytedeco.javacpp.opencv_core.KeyPointVector
-import org.bytedeco.javacpp.opencv_core.Mat
-import org.bytedeco.javacpp.opencv_features2d.DescriptorMatcher
-import org.bytedeco.javacpp.opencv_features2d.Feature2D
+import org.bytedeco.javacpp.opencv_core.*
+import org.bytedeco.javacpp.opencv_features2d.*
+import org.bytedeco.javacpp.opencv_xfeatures2d.SURF
 import java.util.*
 
 class CommandEnv {
@@ -20,9 +19,9 @@ class CommandEnv {
     var vars = HashMap<String, Any>()
     var contours = emptyList<Contour>()
 
-    var featureDetector: Feature2D? = null
+    var featureDetector: Feature2D = SURF.create()
     var keyPoints = KeyPointVector()
-    var descriptorMatcher: DescriptorMatcher? = null
+    var descriptorMatcher: DescriptorMatcher = BFMatcher(NORM_L2, true)
     var matchResult: DMatchResult? = null
 
     fun getMat(key: String): Mat {

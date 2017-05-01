@@ -7,7 +7,6 @@ import javax.swing.*
 
 class CommandParamPanel : JPanel() {
 
-    @JvmField
     val applyEvent = VoidEvent()
 
     var params = emptyList<CommandParam<*>>()

@@ -13,7 +13,7 @@ class KernelParam(cmd: KBaseCommand) {
 
     @Volatile var v = Mat()
 
-    val size: Size get() = v.size
+    val size get() = v.size
     val width get() = v.width
 
     init {

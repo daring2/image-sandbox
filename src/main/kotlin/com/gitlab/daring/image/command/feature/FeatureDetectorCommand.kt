@@ -11,7 +11,6 @@ internal class FeatureDetectorCommand(args: Array<String>) : KBaseCommand(args) 
     override fun execute(env: CommandEnv) {
         val dt = detectorType.v
         env.featureDetector = dt.create()
-        env.descriptorMatcher = null
     }
 
 }

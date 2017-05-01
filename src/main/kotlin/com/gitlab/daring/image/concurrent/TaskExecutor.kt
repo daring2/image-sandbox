@@ -8,7 +8,7 @@ class TaskExecutor (
         val executor: ExecutorService = newSingleThreadExecutor()
 ) : AutoCloseable {
 
-    internal val taskIds = AtomicLong()
+    private val taskIds = AtomicLong()
 
     fun executeAsync(task: () -> Unit) {
         val id = taskIds.incrementAndGet()
