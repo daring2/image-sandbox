@@ -17,7 +17,6 @@ internal class MatchFeaturesCommand(args: Array<String>) : KBaseCommand(args) {
         val ps1 = detectAndCompute(fd, m1)
         val ps2 = detectAndCompute(fd, m2)
 
-        env.descriptorMatcher
         val dm = env.descriptorMatcher
         val mr = DMatchResult(ps1, ps2)
         dm.match(ps1.descriptors, ps2.descriptors, mr.matches)
