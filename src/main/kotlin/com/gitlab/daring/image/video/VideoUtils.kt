@@ -11,6 +11,14 @@ object VideoUtils {
     val XVID = getCodec("XVID")
 
     @JvmStatic
+    fun newVideoCapture(input: String): VideoCapture {
+        return when {
+            input.contains(".") -> VideoCapture(input)
+            else -> VideoCapture(input.toInt())
+        }
+    }
+
+    @JvmStatic
     fun getVideoFps(c: VideoCapture, defValue: Int): Int {
         val fps = c.get(CAP_PROP_FPS)
         return if (fps > 0) fps.toInt() else defValue

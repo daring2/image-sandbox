@@ -1,6 +1,7 @@
 package com.gitlab.daring.image.command
 
 import com.gitlab.daring.image.command.structure.Contour
+import com.gitlab.daring.image.event.ValueEvent
 import com.gitlab.daring.image.features.DMatchResult
 import org.bytedeco.javacpp.opencv_core.*
 import org.bytedeco.javacpp.opencv_features2d.*
@@ -8,6 +9,9 @@ import org.bytedeco.javacpp.opencv_xfeatures2d.SURF
 import java.util.*
 
 class CommandEnv {
+
+    val startEvent = ValueEvent<CommandEnv>()
+    val finishEvent = ValueEvent<CommandEnv>()
 
     var task = ""
         set(v) { field = v; curTask = "" }

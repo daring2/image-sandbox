@@ -17,9 +17,18 @@ class CommandScript {
         get() = command.script
         set(v) = tryRun { command = parseScript(v) }
 
+    init {
+        env.startEvent.addListener { startScript() }
+    }
+
+    private fun startScript() {
+        command.execute(env)
+        env.finishEvent.fire(env)
+    }
+
     fun runTask(task: String) = tryRun {
         env.task = task
-        command.execute(env)
+        env.startEvent.fire(env)
     }
 
     fun execute() = runTask("")
