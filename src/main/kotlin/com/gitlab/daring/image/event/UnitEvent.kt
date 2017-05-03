@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.event
 
-class VoidEvent: ValueEvent<Void>() {
+class UnitEvent: ValueEvent<Void>() {
 
     fun onFire(l: () -> Unit) {
         addListener { _ -> l() }

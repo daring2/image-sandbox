@@ -1,6 +1,6 @@
 package com.gitlab.daring.image.command.parameter
 
-import com.gitlab.daring.image.event.VoidEvent
+import com.gitlab.daring.image.event.UnitEvent
 import com.typesafe.config.Config
 
 abstract class CommandParam<T: Any>(sv: String, sp: String) {
@@ -28,7 +28,7 @@ abstract class CommandParam<T: Any>(sv: String, sp: String) {
     val v get() = value
 
     @JvmField
-    val changeEvent = VoidEvent()
+    val changeEvent = UnitEvent()
 
     fun arg(i: Int, dv: String = "") = args.getOrNull(i) ?: dv
 

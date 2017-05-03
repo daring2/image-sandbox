@@ -6,7 +6,7 @@ import com.gitlab.daring.image.command.parameter.CommandParamUtils.buildParamCon
 import com.gitlab.daring.image.config.ConfigUtils.AppConfigFile
 import com.gitlab.daring.image.config.ConfigUtils.configFromMap
 import com.gitlab.daring.image.config.ConfigUtils.saveDiffConfig
-import com.gitlab.daring.image.event.VoidEvent
+import com.gitlab.daring.image.event.UnitEvent
 import com.gitlab.daring.image.swing.BaseAction
 import com.gitlab.daring.image.swing.NotificationUtils.showErrorDialog
 import net.miginfocom.swing.MigLayout
@@ -18,8 +18,8 @@ open class CommandScriptPanel : JPanel() {
 
     protected var logger = getLogger(javaClass)
 
-    val applyEvent = VoidEvent()
-    val changeEvent = VoidEvent()
+    val applyEvent = UnitEvent()
+    val changeEvent = UnitEvent()
     val script = CommandScript()
     val staticParams = ArrayList<CommandParam<*>>()
 

@@ -1,13 +1,13 @@
 package com.gitlab.daring.image.command.parameter
 
-import com.gitlab.daring.image.event.VoidEvent
+import com.gitlab.daring.image.event.UnitEvent
 import net.miginfocom.swing.MigLayout
 import java.util.Collections.emptyList
 import javax.swing.*
 
 class CommandParamPanel : JPanel() {
 
-    val applyEvent = VoidEvent()
+    val applyEvent = UnitEvent()
 
     var params = emptyList<CommandParam<*>>()
         set(ps) {
