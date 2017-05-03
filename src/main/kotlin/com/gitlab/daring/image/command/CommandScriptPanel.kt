@@ -39,7 +39,7 @@ open class CommandScriptPanel : JPanel() {
         add(JSeparator())
         add(paramPanel)
         applyEvent.onFire(this::apply)
-        script.errorEvent.addListener { this.onError(it) }
+        script.errorEvent.addListener(this::onError)
     }
 
     fun createScriptField(): JTextArea {
