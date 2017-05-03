@@ -27,7 +27,7 @@ open class CommandScriptPanel : JPanel() {
     val paramPanel = CommandParamPanel()
 
     val scriptField: JTextArea
-    val changeListener = { _: Void? -> changeEvent.fire() }
+    val changeListener = { changeEvent.fire() }
 
     init {
         layout = MigLayout("fill, wrap 1", "[fill]", "[center]")

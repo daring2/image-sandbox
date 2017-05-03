@@ -10,6 +10,7 @@ import com.gitlab.daring.image.command.feature.FeaturesCommands
 import com.gitlab.daring.image.command.structure.StructureCommands
 import com.gitlab.daring.image.command.template.TemplateCommands
 import com.gitlab.daring.image.command.transform.TransformCommands
+import com.gitlab.daring.image.command.video.VideoCommands
 import com.gitlab.daring.image.config.ConfigUtils.defaultConfig
 import com.gitlab.daring.image.util.CacheUtils.buildClosableCache
 import com.gitlab.daring.image.util.ExceptionUtils.throwArgumentException
@@ -27,6 +28,11 @@ class CommandRegistry : AutoCloseable {
     val commands get() = factories.keys
 
     init {
+        registerStandardCommands()
+        MainContext.closeEvent.onFire(this::close)
+    }
+
+    fun registerStandardCommands() {
         EnvCommands.register(this)
         TransformCommands.register(this)
         CombineCommands.register(this)
@@ -34,7 +40,7 @@ class CommandRegistry : AutoCloseable {
         StructureCommands.register(this)
         TemplateCommands.register(this)
         FeaturesCommands.register(this)
-        MainContext.closeEvent.onFire { this.close() }
+        VideoCommands.register(this)
     }
 
     fun register(name: String, f: CommandFactory) {

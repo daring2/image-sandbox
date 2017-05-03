@@ -24,7 +24,7 @@ class CommandParamPanel : JPanel() {
     }
 
 
-    fun addParamChangeListener(l: (Void?) -> Unit) {
+    fun addParamChangeListener(l: () -> Unit) {
         params.forEach { it.changeEvent.addListener(l) }
     }
 

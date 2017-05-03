@@ -2,20 +2,18 @@ package com.gitlab.daring.image.event
 
 import java.util.concurrent.CopyOnWriteArrayList
 
-typealias Listener<T> = (T) -> Unit
-
 open class ValueEvent<T> {
 
     var enabled = true
 
-    private val listeners = CopyOnWriteArrayList<Listener<T?>>()
+    private val listeners = CopyOnWriteArrayList<Listener<T>>()
 
-    fun addListener(l: Listener<T?>) {
+    fun addListener(l: Listener<T>) {
         if (!listeners.contains(l))
             listeners.add(l)
     }
 
-    fun removeListener(l: Listener<T?>) {
+    fun removeListener(l: Listener<T>) {
         listeners.remove(l)
     }
 
@@ -29,3 +27,5 @@ open class ValueEvent<T> {
     }
 
 }
+
+typealias Listener<T> = (T?) -> Unit
