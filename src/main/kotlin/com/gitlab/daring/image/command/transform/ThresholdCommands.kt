@@ -10,7 +10,6 @@ import org.bytedeco.javacpp.opencv_imgproc.threshold
 
 internal object ThresholdCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("threshold", this::thresholdCommand)
         r.register("adaptiveThreshold", this::adaptiveThresholdCommand)

@@ -9,7 +9,6 @@ import org.bytedeco.javacpp.opencv_features2d.drawKeypoints
 
 object FeaturesCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("drawKeyPoints", this::drawKeyPointsCommand)
         r.register("detectFeatures", ::DetectFeaturesCommand)

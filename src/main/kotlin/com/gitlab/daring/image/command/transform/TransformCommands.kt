@@ -9,7 +9,6 @@ import org.bytedeco.javacpp.opencv_imgproc.equalizeHist
 
 object TransformCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("equalizeHist", this::equalizeHistCommand)
         r.register("bitwiseNot", this::bitwiseNotCommand)

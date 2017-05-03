@@ -4,7 +4,6 @@ import com.gitlab.daring.image.command.CommandRegistry
 
 object CombineCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("combine", ::CombineCommand);
         r.register("addWeighted", ::AddWeightedCommand);

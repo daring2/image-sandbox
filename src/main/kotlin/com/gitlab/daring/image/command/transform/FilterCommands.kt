@@ -9,7 +9,6 @@ import org.bytedeco.javacpp.opencv_imgproc.*
 
 internal object FilterCommands {
     
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("blur", this::blurCommand)
         r.register("gaussianBlur", this::gaussianBlurCommand)

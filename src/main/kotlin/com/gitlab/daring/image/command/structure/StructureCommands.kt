@@ -8,7 +8,6 @@ import org.bytedeco.javacpp.opencv_imgproc.cornerHarris
 
 object StructureCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry): Unit {
         r.register("canny", this::cannyCommand);
         r.register("cornerHarris", this::cornerHarrisCommand);

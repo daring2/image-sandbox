@@ -9,7 +9,6 @@ import org.bytedeco.javacpp.opencv_imgcodecs.imwrite
 
 object EnvCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("write", this::newWriteCommand)
         r.register("get", this::newGetCommand)

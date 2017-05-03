@@ -9,7 +9,6 @@ import org.bytedeco.javacpp.opencv_core.Rect
 
 internal object GeometricCommands {
 
-    @JvmStatic
     fun register(r: CommandRegistry) {
         r.register("cropRect", this::cropRectCommand)
         r.register("cropCenter", this::cropCenterCommand)
