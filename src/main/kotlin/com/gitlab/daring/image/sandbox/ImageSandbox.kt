@@ -15,7 +15,6 @@ internal class ImageSandbox : AutoCloseable {
     init {
         mp.applyEvent.onFire(this::apply)
         mp.changeEvent.onFire(this::executeScript)
-        executeScript()
     }
 
     fun showFrame() {
@@ -44,6 +43,7 @@ internal class ImageSandbox : AutoCloseable {
         fun main(args: Array<String>) {
             ImageSandbox().showFrame()
         }
+
     }
 
 }
