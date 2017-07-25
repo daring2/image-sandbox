@@ -54,7 +54,8 @@ allprojects {
     }
 
     task buildDistrib(type: Zip, dependsOn: copyDeps) {
-        from 'distrib'
+        from('distrib/image-sandbox') { fileMode = 0755 }
+        from('distrib') { duplicatesStrategy 'exclude' }
         into 'image-sandbox'
     }
 
