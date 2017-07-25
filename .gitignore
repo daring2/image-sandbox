@@ -6,5 +6,6 @@ target/
 /build/
 /config/
 /data/
+/distrib/lib/*.jar
 /log/
 /tmp/

@@ -50,7 +50,12 @@ allprojects {
 
     task copyDeps(type: Sync, dependsOn: build) {
         from(configurations.compile, jar)
-        into "$buildDir/dependency"
+        into "distrib/lib"
+    }
+
+    task buildDistrib(type: Zip, dependsOn: copyDeps) {
+        from 'distrib'
+        into 'image-sandbox'
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -65,7 +70,7 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.5'
+    gradleVersion = '4.0.1'
 }
 
 apply from: 'private.gradle'
