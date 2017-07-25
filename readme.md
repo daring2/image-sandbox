@@ -2,8 +2,9 @@ Image-Sandbox allows to try and test functions and algorithms implemented in [Op
 It is implemented in Kotlin language and uses [JavaCV](https://github.com/bytedeco/javacv) to work with OpenCV.
 
 Main features:
-TODO
+* extensible command set
+* transformation pipeline support
+* sandbox UI with configurable command parameters and autocompletion
 
 Examples:
 TODO
-
